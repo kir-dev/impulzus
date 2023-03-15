@@ -1,0 +1,43 @@
+@startuml impulzus
+
+class User {
+    id: string
+    fullName: string
+    authSchId: string
+    email: string
+    isAdmin: boolean
+}
+class Post {
+    id: string
+    title: string
+    previewContent: string
+    content: string
+    type: POST_TYPE[] / stirng[]
+    tag: string[]
+    date: Date
+}
+
+class Comment {
+    id: string
+    content: string
+}
+
+User "1" -- "0..*" Post: Author
+User "1" -- "0..*" Comment
+Post "1" -- "0..*" Comment
+
+class Idea {
+    id: string
+    description: string
+}
+
+class Impulzus_újság {
+    id: string
+    title: string
+    contents: string[]
+    coverImage: ?
+    ISSUU_Link: string
+    pdf ?
+}
+
+@enduml
