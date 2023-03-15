@@ -1,8 +1,12 @@
 type Props = {
-    text: string
-    onClick?: () => {}
+  text: string
+  onClick?: () => void
 }
 
-export default function Button({text, onClick}: Props) {
-    return <button onClick={onClick} className="text-white bg-sky-400 rounded hover:bg-sky-500 skew-x-6 p-2">{text}</button>;
+export const Button = ({ text, onClick }: Props) => {
+  return (
+    <button onClick={onClick} className="text-white bg-sky-400 rounded hover:bg-sky-500 skew-x-6 p-2">
+      {text}
+    </button>
+  )
 }

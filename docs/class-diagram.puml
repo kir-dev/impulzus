@@ -12,7 +12,7 @@ class Post {
     title: string
     previewContent: string
     content: string
-    type: POST_TYPE[] / stirng[]
+    type: stirng[]
     tag: string[]
     date: Date
 }

@@ -1,6 +1,3 @@
-export default function Navbar() {
-    return <h1 className=" align-middle">
-        
-        Navbar
-    </h1>;
-  }
+export const Navbar = () => {
+  return <h1 className=" align-middle">Navbar</h1>
+}
