@@ -11,7 +11,8 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
 
-export default function App({ Component, pageProps }: AppPropsWithLayout) { //navbar, footer, authcontext stb
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  //navbar, footer, authcontext stb
   const getLayout = Component.getLayout ?? ((page) => page)
   return getLayout(<Component {...pageProps} />)
 }
