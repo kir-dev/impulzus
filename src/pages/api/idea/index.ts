@@ -1,10 +1,7 @@
 import prisma from '@/lib/prisma'
+import { PrismaClientValidationError } from '@prisma/client/runtime/library'
 import { NextApiRequest, NextApiResponse } from 'next'
-
-export type IdeaData = {
-  id: number
-  description: string
-}
+import { IdeaEntity } from './dto/IdeaEntity.dto'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
@@ -19,12 +16,20 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   }
 }
 
-const handleGET = async (res: NextApiResponse<IdeaData[]>) => {
+const handleGET = async (res: NextApiResponse<IdeaEntity[]>) => {
   const ideas = await prisma.idea.findMany()
   res.status(200).json(ideas)
 }
 
-const handlePOST = async (req: NextApiRequest, res: NextApiResponse<IdeaData>) => {
-  const idea = await prisma.idea.create({ data: { id: req.body.id, description: req.body.description } })
-  res.status(200).json(idea)
+const handlePOST = async (req: NextApiRequest, res: NextApiResponse<IdeaEntity | unknown>) => {
+  try {
+    const idea = await prisma.idea.create({ data: { description: req.body.description } })
+    res.status(200).json(idea)
+  } catch (e) {
+    if (e instanceof PrismaClientValidationError) {
+      res.status(400).send(e.message)
+    } else {
+      res.status(500).send(e)
+    }
+  }
 }

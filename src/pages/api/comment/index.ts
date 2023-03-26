@@ -1,9 +1,6 @@
 import prisma from '@/lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
-
-export type CommentData = {
-  id: number
-}
+import { CommentEntity } from './dto/CommentEntity.dto'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
@@ -18,12 +15,12 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   }
 }
 
-const handleGET = async (res: NextApiResponse<CommentData[]>) => {
+const handleGET = async (res: NextApiResponse<CommentEntity[]>) => {
   const comments = await prisma.comment.findMany()
   res.status(200).json(comments)
 }
 
-const handlePOST = async (req: NextApiRequest, res: NextApiResponse<CommentData>) => {
+const handlePOST = async (req: NextApiRequest, res: NextApiResponse<CommentEntity>) => {
   /*const comment = await prisma.comment.create({ data: {} })
   res.status(200).json(comment)*/
 }

@@ -1,9 +1,7 @@
 import prisma from '@/lib/prisma'
+import { PrismaClientValidationError } from '@prisma/client/runtime/library'
 import { NextApiRequest, NextApiResponse } from 'next'
-
-export type UserData = {
-  id: number
-}
+import { UserEntity } from './dto/UserEntity.dto'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
@@ -18,12 +16,24 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   }
 }
 
-const handleGET = async (res: NextApiResponse<UserData[]>) => {
+const handleGET = async (res: NextApiResponse<UserEntity[]>) => {
   const users = await prisma.user.findMany()
   res.status(200).json(users)
 }
 
-const handlePOST = async (req: NextApiRequest, res: NextApiResponse<UserData>) => {
-  /*const user = await prisma.user.create({ data: { id: req.body.id } })
-  res.status(200).json(user)*/
+const handlePOST = async (req: NextApiRequest, res: NextApiResponse<UserEntity | unknown>) => {
+  try {
+    const newspaper = await prisma.user.create({
+      data: {
+        ...req.body
+      }
+    })
+    res.status(200).json(newspaper)
+  } catch (e) {
+    if (e instanceof PrismaClientValidationError) {
+      return res.status(400).send(e.message)
+    } else {
+      return res.status(500).send(e)
+    }
+  }
 }

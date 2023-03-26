@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { PostData } from '.'
+import { PostEntity } from './dto/PostEntity.dto'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const postId = req.query.id
@@ -17,15 +17,17 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   }
 }
 
-const handleGET = async (postId: unknown, res: NextApiResponse<PostData | null>) => {
+const handleGET = async (postId: unknown, res: NextApiResponse<PostEntity | string>) => {
   const post = await prisma.post.findUnique({
     where: { id: Number(postId) }
   })
+  if (post === null) {
+    return res.status(404).json('A poszt nem található!')
+  }
   return res.status(200).json(post)
 }
 
-// DELETE /api/idea/:id
-const handleDELETE = async (postId: unknown, res: NextApiResponse<PostData>) => {
+const handleDELETE = async (postId: unknown, res: NextApiResponse<PostEntity>) => {
   const post = await prisma.post.delete({
     where: { id: Number(postId) }
   })

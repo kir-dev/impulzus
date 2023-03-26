@@ -1,9 +1,7 @@
 import prisma from '@/lib/prisma'
+import { PrismaClientValidationError } from '@prisma/client/runtime/library'
 import { NextApiRequest, NextApiResponse } from 'next'
-
-export type NewspaperData = {
-  id: number
-}
+import { NewspaperEntity } from './dto/NewspaperEntity.dto'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
@@ -18,12 +16,26 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   }
 }
 
-const handleGET = async (res: NextApiResponse<NewspaperData[]>) => {
+const handleGET = async (res: NextApiResponse<NewspaperEntity[]>) => {
   const newspapers = await prisma.newspaper.findMany()
   res.status(200).json(newspapers)
 }
 
-const handlePOST = async (req: NextApiRequest, res: NextApiResponse<NewspaperData>) => {
-  /*const newspaper = await prisma.newspaper.create({ data: { id: req.body.id } })
-  res.status(200).json(newspaper)*/
+const handlePOST = async (req: NextApiRequest, res: NextApiResponse<NewspaperEntity | unknown>) => {
+  try {
+    const newspaper = await prisma.newspaper.create({
+      data: {
+        title: req.body.title,
+        contents: req.body.contents,
+        ISSUU_Link: req.body.ISSUU_Link
+      }
+    })
+    res.status(200).json(newspaper)
+  } catch (e) {
+    if (e instanceof PrismaClientValidationError) {
+      return res.status(400).send(e.message)
+    } else {
+      return res.status(500).send(e)
+    }
+  }
 }

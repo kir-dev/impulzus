@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { CommentData } from '.'
+import { CommentEntity } from './dto/CommentEntity.dto'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const commentId = req.query.id
@@ -17,14 +17,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   }
 }
 
-const handleGET = async (commentId: unknown, res: NextApiResponse<CommentData | null>) => {
+async function handleGET(commentId: unknown, res: NextApiResponse<CommentEntity | null>): Promise<void> {
   const comment = await prisma.comment.findUnique({
     where: { id: Number(commentId) }
   })
   return res.status(200).json(comment)
 }
 
-const handleDELETE = async (commentId: unknown, res: NextApiResponse<CommentData>) => {
+const handleDELETE = async (commentId: unknown, res: NextApiResponse<CommentEntity>) => {
   const comment = await prisma.comment.delete({
     where: { id: Number(commentId) }
   })
