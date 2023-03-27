@@ -9,6 +9,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     case 'GET':
       return handleGET(postId, res)
 
+    case 'PATCH':
+      return handlePATCH(postId, req, res)
+
     case 'DELETE':
       return handleDELETE(postId, res)
 
@@ -24,6 +27,14 @@ const handleGET = async (postId: unknown, res: NextApiResponse<PostEntity | stri
   if (post === null) {
     return res.status(404).json('A poszt nem található!')
   }
+  return res.status(200).json(post)
+}
+
+const handlePATCH = async (postId: unknown, req: NextApiRequest, res: NextApiResponse<PostEntity>) => {
+  const post = await prisma.post.update({
+    where: { id: Number(postId) },
+    data: req.body
+  })
   return res.status(200).json(post)
 }
 

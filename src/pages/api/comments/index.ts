@@ -22,11 +22,7 @@ const handleGET = async (res: NextApiResponse<CommentEntity[]>) => {
 
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse<CommentEntity>) => {
   const comment = await prisma.comment.create({
-    data: {
-      content: req.body.content,
-      userId: req.body.userId,
-      postId: req.body.postId
-    }
+    data: req.body
   })
   res.status(200).json(comment)
 }

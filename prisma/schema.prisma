@@ -27,7 +27,7 @@ model Post {
   content        String
   type           String[]
   tag            String[]
-  date           DateTime
+  createdAt      DateTime  @default(now())
   user           User      @relation(fields: [userId], references: [id])
   userId         Int
   comments       Comment[]

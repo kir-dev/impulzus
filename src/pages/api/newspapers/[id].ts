@@ -9,6 +9,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     case 'GET':
       return handleGET(newspaperId, res)
 
+    case 'PATCH':
+      handlePATCH(newspaperId, req, res)
+
     case 'DELETE':
       return handleDELETE(newspaperId, res)
 
@@ -24,6 +27,14 @@ const handleGET = async (newspaperId: unknown, res: NextApiResponse<NewspaperEnt
   if (newspaper === null) {
     return res.status(404).send('Az újság nem található!')
   }
+  return res.status(200).json(newspaper)
+}
+
+const handlePATCH = async (newspaperId: unknown, req: NextApiRequest, res: NextApiResponse<NewspaperEntity | string>) => {
+  const newspaper = await prisma.newspaper.update({
+    where: { id: Number(newspaperId) },
+    data: req.body
+  })
   return res.status(200).json(newspaper)
 }
 

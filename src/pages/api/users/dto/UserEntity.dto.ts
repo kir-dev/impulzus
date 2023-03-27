@@ -17,8 +17,4 @@ export class UserEntity {
   @IsBoolean()
   @IsOptional()
   isAdmin: boolean
-
-  //posts: PostEntity[]
-
-  //comments: CommentEntity[]
 }
