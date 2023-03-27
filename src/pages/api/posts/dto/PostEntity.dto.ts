@@ -1,6 +1,4 @@
 import { IsDateString, IsInt, IsNotEmpty, Min } from 'class-validator'
-import { CommentEntity } from '../../comment/dto/CommentEntity.dto'
-import { UserEntity } from '../../user/dto/UserEntity.dto'
 
 export class PostEntity {
   @IsInt()
@@ -23,7 +21,5 @@ export class PostEntity {
   @IsDateString()
   date: Date
 
-  user: UserEntity
-
-  comments: CommentEntity[]
+  userId: number
 }

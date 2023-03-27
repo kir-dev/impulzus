@@ -1,6 +1,4 @@
 import { IsInt, IsNotEmpty, Min } from 'class-validator'
-import { PostEntity } from '../../post/dto/PostEntity.dto'
-import { UserEntity } from '../../user/dto/UserEntity.dto'
 
 export class CommentEntity {
   @IsInt()
@@ -10,7 +8,11 @@ export class CommentEntity {
   @IsNotEmpty()
   content: String
 
-  user: UserEntity
+  @IsInt()
+  @Min(1)
+  userId: number
 
-  post: PostEntity
+  @IsInt()
+  @Min(1)
+  postId: number
 }

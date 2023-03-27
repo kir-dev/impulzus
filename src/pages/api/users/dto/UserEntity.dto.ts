@@ -1,6 +1,4 @@
 import { IsBoolean, IsEmail, IsInt, IsNotEmpty, IsOptional, IsUUID, Min } from 'class-validator'
-import { CommentEntity } from '../../comment/dto/CommentEntity.dto'
-import { PostEntity } from '../../post/dto/PostEntity.dto'
 
 export class UserEntity {
   @IsInt()
@@ -20,7 +18,7 @@ export class UserEntity {
   @IsOptional()
   isAdmin: boolean
 
-  posts: PostEntity[]
+  //posts: PostEntity[]
 
-  comments: CommentEntity[]
+  //comments: CommentEntity[]
 }

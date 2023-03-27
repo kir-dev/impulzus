@@ -21,6 +21,8 @@ const handleGET = async (res: NextApiResponse<PostEntity[]>) => {
 }
 
 const handlePOST = async (req: NextApiRequest, res: NextApiResponse<PostEntity>) => {
-  /*const post = await prisma.post.create({ data: { id: req.body.id } })
-  res.status(200).json(post)*/
+  const post = await prisma.post.create({
+    data: req.body
+  })
+  res.status(200).json(post)
 }
