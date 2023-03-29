@@ -1,11 +1,8 @@
 import { Button } from '@/components/Button'
-import Layout from '@/components/layout'
-import { Inter } from 'next/font/google'
-import { ReactElement } from 'react'
 import { NextPageWithLayout } from './_app'
-
-const inter = Inter({ subsets: ['latin'] })
 /*
+const inter = Inter({ subsets: ['latin'] })
+
 export default function Home() {
   return (
     <>
@@ -134,10 +131,6 @@ const Page: NextPageWithLayout = () => {
       <Button text="EZ ITT EGY GOMB" />
     </>
   )
-}
-
-Page.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
 }
 
 export default Page
