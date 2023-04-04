@@ -1,16 +1,18 @@
-import { Box } from '@chakra-ui/react'
+import { Box, VStack } from '@chakra-ui/react'
 import { PropsWithChildren } from 'react'
 import { Footer } from './footer'
 import { Navbar } from './navbar/navbar'
 
 export default function Layout({ children }: PropsWithChildren) {
   return (
-    <>
-      <Navbar />
-      <main>
-        <Box p={4}>{children}</Box>
-      </main>
+    <VStack height="100%" minHeight="100vh" justify="space-between">
+      <Box width="100%">
+        <Navbar />
+        <main>
+          <Box p={4}>{children}</Box>
+        </main>
+      </Box>
       <Footer />
-    </>
+    </VStack>
   )
 }

@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma'
+import { Divider, Flex, Heading, Image, Text, VStack, Wrap, WrapItem } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { NewspaperEntity } from '../api/newspapers/dto/NewspaperEntity.dto'
@@ -20,12 +21,30 @@ export default function Archive({ newspapers }: Props) {
   console.log(newspapers)
   return (
     <>
-      <h1>Archívum</h1>
-      {newspapers.map((n) => (
-        <div key={n.id}>
-          <Link href={`/archive/${n.id}`}>{n.id + ' ' + n.title}</Link>
-        </div>
-      ))}
+      <Heading>Archívum</Heading>
+      <Divider my={3} borderWidth={2} borderColor="black" />
+      <Wrap mb={5} justify="center">
+        {newspapers.map((n) => (
+          <WrapItem key={n.id} border="2px" borderRadius="md">
+            <Link href={`/archive/${n.id}`}>
+              <Flex align="center">
+                <Image
+                  src="https://bit.ly/dan-abramov"
+                  h="15rem"
+                  //fallbackSrc={useColorModeValue('/img/kirdev.svg', '/img/kirdev-white-alt.svg')}
+                />
+                <VStack p={3} align="flex-start">
+                  <Text fontSize="2xl">{n.title}</Text>
+                  <Text>Tartalomjegyzék:</Text>
+                  {n.contents.map((c) => (
+                    <Text key={c}>{c}</Text>
+                  ))}
+                </VStack>
+              </Flex>
+            </Link>
+          </WrapItem>
+        ))}
+      </Wrap>
     </>
   )
 }

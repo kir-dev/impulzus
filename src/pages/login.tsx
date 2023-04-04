@@ -1,5 +1,9 @@
-import { Button } from '@/components/Button'
+import { Button } from '@chakra-ui/react'
 
 export default function LoginPage() {
-  return <Button text="AuthSCH bejelentkezés" />
+  return (
+    <Button transform="auto" skewX={5}>
+      AuthSCH bejelentkezés
+    </Button>
+  )
 }
