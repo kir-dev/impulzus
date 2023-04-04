@@ -4,9 +4,5 @@ type Props = {
 }
 
 export const Button = ({ text, onClick }: Props) => {
-  return (
-    <button onClick={onClick} className="text-white bg-sky-400 rounded hover:bg-sky-500 skew-x-6 p-2">
-      {text}
-    </button>
-  )
+  return <button onClick={onClick}>{text}</button>
 }

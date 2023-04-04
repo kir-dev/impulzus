@@ -1,3 +1,9 @@
+import { Box } from '@chakra-ui/react'
+
 export const Footer = () => {
-  return <h1 className="text-red-700">Footer</h1>
+  return (
+    <Box bg="red">
+      <h1>Footer</h1>
+    </Box>
+  )
 }
