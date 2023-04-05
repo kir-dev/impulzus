@@ -1,4 +1,4 @@
-import { createContext } from 'react'
+import { ReactNode, createContext } from 'react'
 import { UserEntity } from '../users/dto/UserEntity.dto'
 
 export type AuthContextType = {
@@ -22,10 +22,18 @@ export const AuthContext = createContext<AuthContextType>({
   onLogout: () => {},
   refetchUser: async () => {}
 })
-/*
-export const AuthProvider: FC<HasChildren> = ({ children }) => {
+
+enum CookieKeys {
+  IMPULZUS_JWT_TOKEN = 'IMPULZUS_JWT_TOKEN'
+}
+
+type Props = {
+  children: ReactNode
+}
+
+/*export const AuthProvider = ({ children }: Props) => {
   const navigate = useNavigate()
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(typeof Cookies.get(CookieKeys.KONZI_JWT_TOKEN) !== 'undefined')
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(typeof Cookies.get(CookieKeys.IMPULZUS_JWT_TOKEN) !== 'undefined')
   const {
     isLoading,
     data: user,
@@ -35,23 +43,23 @@ export const AuthProvider: FC<HasChildren> = ({ children }) => {
     retry: false,
     onSuccess: (data) => {
       if (data.jwt) {
-        Cookies.set(CookieKeys.KONZI_JWT_TOKEN, data.jwt, { expires: 2 })
+        Cookies.set(CookieKeys.IMPULZUS_JWT_TOKEN, data.jwt, { expires: 2 })
       }
     }
   })
 
   const onLoginSuccess = (jwt: string) => {
-    Cookies.set(CookieKeys.KONZI_JWT_TOKEN, jwt, { expires: 2 })
+    Cookies.set(CookieKeys.IMPULZUS_JWT_TOKEN, jwt, { expires: 2 })
     setIsLoggedIn(true)
     queryClient.invalidateQueries('currentUser')
   }
 
   const onLoginStarted = () => {
-    window.location.href = `${API_HOST}/auth/login`
+    window.location.href = `${HOST}/auth/login`
   }
 
   const onLogout = (path: string = PATHS.INDEX) => {
-    Cookies.remove(CookieKeys.KONZI_JWT_TOKEN)
+    Cookies.remove(CookieKeys.IMPULZUS_JWT_TOKEN)
     setIsLoggedIn(false)
     queryClient.invalidateQueries('currentUser')
     navigate(path, { replace: true })
@@ -77,5 +85,4 @@ export const AuthProvider: FC<HasChildren> = ({ children }) => {
       {children}
     </AuthContext.Provider>
   )
-}
-*/
+}*/
