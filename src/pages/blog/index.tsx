@@ -1,5 +1,5 @@
+import { PageHeading } from '@/components/common/PageHeading'
 import prisma from '@/lib/prisma'
-import { Divider, Heading } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { PostEntity } from '../api/posts/dto/PostEntity.dto'
 
@@ -20,8 +20,7 @@ export default function Blog({ posts }: Props) {
   console.log(posts)
   return (
     <>
-      <Heading>Blog</Heading>
-      <Divider my={3} borderWidth={2} borderColor="black" />
+      <PageHeading text="Blog" />
       {posts.map((p) => (
         <p key={p.id}>{p.id + ' ' + p.title}</p>
       ))}

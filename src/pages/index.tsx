@@ -1,4 +1,5 @@
-import { Button } from '@/components/Button'
+import { Button, Text } from '@chakra-ui/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import { NextPageWithLayout } from './_app'
 /*
 const inter = Inter({ subsets: ['latin'] })
@@ -125,12 +126,29 @@ export default function Home() {
 }*/
 
 const Page: NextPageWithLayout = () => {
+  const { data: session, status, update } = useSession()
+
+  console.log(session)
   return (
+    <>
+      {status === 'authenticated' ? (
+        <Button transform="auto" skewX={5} onClick={() => signOut()}>
+          Kijelentkezés
+        </Button>
+      ) : (
+        <Button transform="auto" skewX={5} onClick={() => signIn()}>
+          Bejelentkezés
+        </Button>
+      )}
+      <Text>{session?.user?.name}</Text>
+    </>
+  )
+  /*return (
     <>
       <p>hello world</p>
       <Button text="EZ ITT EGY GOMB" />
     </>
-  )
+  )*/
 }
 
 export default Page

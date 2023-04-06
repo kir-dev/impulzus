@@ -1,5 +1,6 @@
+import { PageHeading } from '@/components/common/PageHeading'
 import prisma from '@/lib/prisma'
-import { Divider, Flex, Heading, Image, Text, VStack, Wrap, WrapItem } from '@chakra-ui/react'
+import { Flex, Image, Text, VStack, Wrap, WrapItem } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { NewspaperEntity } from '../api/newspapers/dto/NewspaperEntity.dto'
@@ -21,8 +22,7 @@ export default function Archive({ newspapers }: Props) {
   console.log(newspapers)
   return (
     <>
-      <Heading>Archívum</Heading>
-      <Divider my={3} borderWidth={2} borderColor="black" />
+      <PageHeading text="Archívum" />
       <Wrap mb={5} justify="center">
         {newspapers.map((n) => (
           <WrapItem key={n.id} border="2px" borderRadius="md">
