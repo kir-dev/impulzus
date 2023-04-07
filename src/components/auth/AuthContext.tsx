@@ -1,5 +1,5 @@
+import { UserEntity } from '@/pages/api/users/dto/UserEntity.dto'
 import { ReactNode, createContext } from 'react'
-import { UserEntity } from '../users/dto/UserEntity.dto'
 
 export type AuthContextType = {
   isLoggedIn: boolean

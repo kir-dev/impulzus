@@ -6,7 +6,7 @@ type Props = {
 }
 
 export const UserCard = ({ user }: Props) => {
-  const tags = ['Író', 'Korrektor', 'Korrektor', 'Korrekto', 'Korrekto']
+  const tags = ['Író', 'Korrektor', 'Korrektor2', 'Korrekto', 'Korrekto2']
 
   return (
     <HStack p={1}>
@@ -16,7 +16,9 @@ export const UserCard = ({ user }: Props) => {
         <Text>{user.email}</Text>
         <Wrap>
           {tags.map((t) => (
-            <Tag m={0.5}>{t}</Tag>
+            <Tag key={t} m={0.5}>
+              {t}
+            </Tag>
           ))}
         </Wrap>
       </VStack>

@@ -25,13 +25,13 @@ export default function Editorship({ users }: Props) {
       <PageHeading text="Vezetőség" />
       <Grid>
         {users.map((u) => (
-          <UserCard user={u} />
+          <UserCard key={u.id} user={u} />
         ))}
       </Grid>
       <PageHeading text="Szerkesztőség" />
       <Grid>
         {users.map((u) => (
-          <UserCard user={u} />
+          <UserCard key={u.id} user={u} />
         ))}
       </Grid>
     </>

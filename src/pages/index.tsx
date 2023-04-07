@@ -140,7 +140,7 @@ const Page: NextPageWithLayout = () => {
           Bejelentkezés
         </Button>
       )}
-      <Text>{session?.user?.name}</Text>
+      <Text>{session?.user?.email}</Text>
     </>
   )
   /*return (
