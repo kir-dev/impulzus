@@ -1,4 +1,4 @@
-import { Button, Text } from '@chakra-ui/react'
+import { Button, Heading, Text } from '@chakra-ui/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { NextPageWithLayout } from './_app'
 /*
@@ -131,6 +131,7 @@ const Page: NextPageWithLayout = () => {
   console.log(session)
   return (
     <>
+      <Heading>Üdvözlünk az Impulzus oldalán!</Heading>
       {status === 'authenticated' ? (
         <Button transform="auto" skewX={5} onClick={() => signOut()}>
           Kijelentkezés
@@ -143,12 +144,6 @@ const Page: NextPageWithLayout = () => {
       <Text>{session?.user?.email}</Text>
     </>
   )
-  /*return (
-    <>
-      <p>hello world</p>
-      <Button text="EZ ITT EGY GOMB" />
-    </>
-  )*/
 }
 
 export default Page

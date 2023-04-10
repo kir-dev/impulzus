@@ -1,5 +1,6 @@
 import { PageHeading } from '@/components/common/PageHeading'
 import prisma from '@/lib/prisma'
+import { PATHS } from '@/util/paths'
 import { Flex, Image, Text, VStack, Wrap, WrapItem } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
@@ -26,7 +27,7 @@ export default function Archive({ newspapers }: Props) {
       <Wrap mb={5} justify="center">
         {newspapers.map((n) => (
           <WrapItem key={n.id} border="2px" borderRadius="md">
-            <Link href={`/archive/${n.id}`}>
+            <Link href={`${PATHS.ARCHIVE}/${n.id}`}>
               <Flex align="center">
                 <Image
                   src="https://bit.ly/dan-abramov"

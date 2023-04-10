@@ -1,8 +1,10 @@
 import { PageHeading } from '@/components/common/PageHeading'
 import { UserCard } from '@/components/editorship/UserCard'
 import prisma from '@/lib/prisma'
+import { PATHS } from '@/util/paths'
 import { Grid } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
+import Link from 'next/link'
 import { UserEntity } from '../api/users/dto/UserEntity.dto'
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -25,7 +27,9 @@ export default function Editorship({ users }: Props) {
       <PageHeading text="Vezetőség" />
       <Grid>
         {users.map((u) => (
-          <UserCard key={u.id} user={u} />
+          <Link key={u.id} href={PATHS.EDITORSHIP + '/' + u.id}>
+            <UserCard user={u} />
+          </Link>
         ))}
       </Grid>
       <PageHeading text="Szerkesztőség" />

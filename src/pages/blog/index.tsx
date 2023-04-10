@@ -1,6 +1,8 @@
 import { PageHeading } from '@/components/common/PageHeading'
 import prisma from '@/lib/prisma'
+import { PATHS } from '@/util/paths'
 import { GetStaticProps } from 'next'
+import Link from 'next/link'
 import { PostEntity } from '../api/posts/dto/PostEntity.dto'
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -22,7 +24,9 @@ export default function Blog({ posts }: Props) {
     <>
       <PageHeading text="Blog" />
       {posts.map((p) => (
-        <p key={p.id}>{p.id + ' ' + p.title}</p>
+        <Link href={PATHS.BLOG + '/' + p.id} key={p.id}>
+          {p.id + ' ' + p.title}
+        </Link>
       ))}
     </>
   )
