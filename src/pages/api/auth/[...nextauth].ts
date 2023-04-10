@@ -16,32 +16,31 @@ export const authOptions: NextAuthOptions = {
       authorization: {
         url: 'https://auth.sch.bme.hu/site/login',
         params: {
-          scope: 'basic givenName displayName mail'
+          scope: 'basic givenName displayName mail eduPersonEntitlement'
         }
       },
       token: {
         url: 'https://auth.sch.bme.hu/oauth2/token'
       },
-      //accessTokenUrl: 'https://auth.sch.bme.hu/oauth2/token',
       userinfo: {
         url: 'https://auth.sch.bme.hu/api/profile',
         async request(context) {
-          console.log(context)
           return await getUserInfo(context.tokens.access_token!!)
         }
       },
-
       clientId: process.env.AUTHSCH_CLIENT_ID,
       clientSecret: process.env.AUTHSCH_CLIENT_SECRET,
       profile(profile) {
+        console.log(profile.eduPersonEntitlement)
         return {
           id: profile.internal_id,
           email: profile.mail,
-          fullName: profile.displayName
+          name: profile.displayName
         }
       }
     }
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   events: {
     async signIn(message) {
       //console.log('Message: ' + message)
