@@ -1,9 +1,11 @@
 import { PageHeading } from '@/components/common/PageHeading'
+import { Title } from '@/components/common/Title'
 import { Text } from '@chakra-ui/react'
 
 export default function About() {
   return (
     <>
+      <Title text="Rólunk" />
       <PageHeading text="Magunkról" />
       <Text>
         Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC,

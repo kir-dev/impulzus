@@ -1,4 +1,5 @@
 import { PageHeading } from '@/components/common/PageHeading'
+import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
 import { Flex, Image, Text, VStack, Wrap, WrapItem } from '@chakra-ui/react'
@@ -23,6 +24,7 @@ export default function Archive({ newspapers }: Props) {
   console.log(newspapers)
   return (
     <>
+      <Title text="Archívum" />
       <PageHeading text="Archívum" />
       <Wrap mb={5} justify="center">
         {newspapers.map((n) => (

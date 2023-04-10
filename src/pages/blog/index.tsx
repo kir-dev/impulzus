@@ -1,4 +1,5 @@
 import { PageHeading } from '@/components/common/PageHeading'
+import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
 import { GetStaticProps } from 'next'
@@ -22,6 +23,7 @@ export default function Blog({ posts }: Props) {
   console.log(posts)
   return (
     <>
+      <Title text="Blog" />
       <PageHeading text="Blog" />
       {posts.map((p) => (
         <Link href={PATHS.BLOG + '/' + p.id} key={p.id}>

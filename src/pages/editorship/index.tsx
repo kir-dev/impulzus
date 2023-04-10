@@ -1,4 +1,5 @@
 import { PageHeading } from '@/components/common/PageHeading'
+import { Title } from '@/components/common/Title'
 import { UserCard } from '@/components/editorship/UserCard'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
@@ -24,6 +25,7 @@ export default function Editorship({ users }: Props) {
   console.log(users)
   return (
     <>
+      <Title text="Szerkesztőség" />
       <PageHeading text="Vezetőség" />
       <Grid>
         {users.map((u) => (

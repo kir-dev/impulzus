@@ -1,3 +1,4 @@
+import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { GetServerSideProps } from 'next'
 import { PostEntity } from '../api/posts/dto/PostEntity.dto'
@@ -22,6 +23,7 @@ export default function Blog({ post }: Props) {
   console.log(post)
   return (
     <>
+      <Title text={post.title} />
       <h1>EZ EGY POSZT</h1>
       <p>{post?.title + ' ' + post?.content}</p>
     </>

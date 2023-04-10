@@ -1,3 +1,4 @@
+import { Title } from '@/components/common/Title'
 import { Button, Heading, Text } from '@chakra-ui/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { NextPageWithLayout } from './_app'
@@ -131,6 +132,7 @@ const Page: NextPageWithLayout = () => {
   console.log(session)
   return (
     <>
+      <Title />
       <Heading>Üdvözlünk az Impulzus oldalán!</Heading>
       {status === 'authenticated' ? (
         <Button transform="auto" skewX={5} onClick={() => signOut()}>

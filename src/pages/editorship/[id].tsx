@@ -1,3 +1,4 @@
+import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { Text } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
@@ -23,6 +24,7 @@ export default function Editorship({ user }: Props) {
   console.log(user)
   return (
     <>
+      <Title text={user.fullName} />
       <Text>{user.fullName}</Text>
       <Text>{user.email}</Text>
     </>

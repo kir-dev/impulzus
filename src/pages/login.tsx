@@ -1,4 +1,5 @@
 import { PageHeading } from '@/components/common/PageHeading'
+import { Title } from '@/components/common/Title'
 import { Button, Text } from '@chakra-ui/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 
@@ -8,6 +9,7 @@ export default function LoginPage() {
   console.log(session)
   return (
     <>
+      <Title text="Bejelentkezés" />
       <PageHeading text="Belépés" />
       {status === 'authenticated' ? (
         <Button transform="auto" skewX={5} onClick={() => signOut()}>

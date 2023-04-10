@@ -1,4 +1,5 @@
 import Book from '@/components/archive/book'
+import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { GetServerSideProps } from 'next'
 import { NewspaperEntity } from '../api/newspapers/dto/NewspaperEntity.dto'
@@ -28,6 +29,7 @@ export default function NewsPaperPage({ newspaper }: Props) {
 
   return (
     <>
+      <Title text={newspaper.title} />
       <h1>EZ EGY ÚJSÁG</h1>
       <p>{newspaper.id + ' ' + newspaper.title + ' ' + newspaper.contents + ' ' + newspaper.ISSUU_Link}</p>
       <Book />
