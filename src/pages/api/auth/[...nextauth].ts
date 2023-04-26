@@ -1,14 +1,12 @@
 import { getUserInfo } from '@/components/auth/getUserInfo'
+import prisma from '@/lib/prisma'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import NextAuth, { NextAuthOptions } from 'next-auth'
-import GithubProvider from 'next-auth/providers/github'
 
 export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
+  adapter: PrismaAdapter(prisma),
   providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID || 'ASD',
-      clientSecret: process.env.GITHUB_SECRET || 'ASD'
-    }),
     {
       id: 'authsch',
       name: 'AuthSch',
@@ -31,11 +29,15 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.AUTHSCH_CLIENT_ID,
       clientSecret: process.env.AUTHSCH_CLIENT_SECRET,
       profile(profile) {
-        console.log(profile.eduPersonEntitlement)
+        //TODO
+        const impulzusTitles = profile.eduPersonEntitlement.map((e: any) => e.name === 'Impulzus')[0].title
         return {
-          id: profile.internal_id,
+          id: '1',
+          authSchId: profile.internal_id,
           email: profile.mail,
-          name: profile.displayName
+          fullName: profile.displayName,
+          emailVerified: profile.emailVerified,
+          titles: profile.eduPersonEntitlement[0].title
         }
       }
     }

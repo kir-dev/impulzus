@@ -4,12 +4,13 @@ import { FaEnvelope, FaFacebook, FaGithub, FaGlobe, FaHeart, FaInstagram } from 
 
 export const Footer = () => {
   const kirdevLogo = useColorModeValue('/img/kirdev.svg', '/img/kirdev-white.svg')
+  const impulzusLogo = useColorModeValue('/img/impulzus_logo_light.png', '/img/impulzus_logo_dark.png')
 
   return (
     <Stack align="center" direction={['column', 'row']} p={2} width="100%" justify="space-between">
       <Flex align="center">
         <NextLink href="/">
-          <Image alt="impulzus logo" src="/img/impulzus.png" width={100} height={100} />
+          <Image alt="impulzus logo" src={impulzusLogo} width={100} height={100} />
         </NextLink>
         <VStack ml={1}>
           <Text>Elérhetőségek</Text>

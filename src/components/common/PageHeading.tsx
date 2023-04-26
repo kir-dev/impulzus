@@ -9,7 +9,7 @@ export const PageHeading = ({ text }: Props) => {
 
   return (
     <>
-      <Heading>{text}</Heading>
+      <Heading color="#2fa2cd">{text}</Heading>
       <Divider my={3} borderWidth={2} borderColor={dividerColor} />
     </>
   )

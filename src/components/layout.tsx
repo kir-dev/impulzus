@@ -9,7 +9,9 @@ export default function Layout({ children }: PropsWithChildren) {
       <Box width="100%">
         <Navbar />
         <main>
-          <Box p={4}>{children}</Box>
+          <Box p={4} mx={{ base: '0.2rem', m: '5rem', xl: '10rem' }}>
+            {children}
+          </Box>
         </main>
       </Box>
       <Footer />

@@ -22,14 +22,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
 const handleGET = async (userId: unknown, res: NextApiResponse<UserEntity | null>) => {
   const user = await prisma.user.findUnique({
-    where: { id: Number(userId) }
+    where: { id: userId?.toString() }
   })
   return res.status(200).json(user)
 }
 
 const handlePATCH = async (userId: unknown, req: NextApiRequest, res: NextApiResponse<UserEntity>) => {
   const user = await prisma.user.update({
-    where: { id: Number(userId) },
+    where: { id: userId?.toString() },
     data: req.body
   })
   return res.status(200).json(user)
@@ -37,7 +37,7 @@ const handlePATCH = async (userId: unknown, req: NextApiRequest, res: NextApiRes
 
 const handleDELETE = async (userId: unknown, res: NextApiResponse<UserEntity>) => {
   const user = await prisma.user.delete({
-    where: { id: Number(userId) }
+    where: { id: userId?.toString() }
   })
   return res.status(200).json(user)
 }

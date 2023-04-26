@@ -1,9 +1,7 @@
-import { IsBoolean, IsEmail, IsInt, IsNotEmpty, IsOptional, IsUUID, Min } from 'class-validator'
+import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsUUID } from 'class-validator'
 
 export class UserEntity {
-  @IsInt()
-  @Min(1)
-  id: number
+  id: string
 
   @IsUUID('all')
   authSchId: string
@@ -17,4 +15,9 @@ export class UserEntity {
   @IsBoolean()
   @IsOptional()
   isAdmin: boolean
+
+  @IsOptional()
+  picture?: string
+
+  titles?: string[]
 }

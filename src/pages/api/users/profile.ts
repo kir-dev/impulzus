@@ -14,7 +14,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
 const handleGET = async (res: NextApiResponse<UserEntity | null>) => {
   const user = await prisma.user.findUnique({
-    where: { id: 1 /*oldUser.id*/ }
+    where: { id: '1' /*oldUser.id*/ }
   })
   /*return {
     ...user,
