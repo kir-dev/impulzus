@@ -12,7 +12,7 @@ export class NewspaperEntity {
   contents: string[]
 
   @IsNotEmpty()
-  ISSUU_Link: string
+  ISSUU_Link?: string
 
   coverImage?: string
 

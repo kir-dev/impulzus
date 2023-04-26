@@ -27,7 +27,7 @@ model Newspaper {
   id         Int      @id @default(autoincrement())
   title      String
   contents   String[]
-  ISSUU_Link String
+  ISSUU_Link String?
   coverImage String?
   grade      Int
   //pdf String

@@ -1,8 +1,21 @@
+import { NewspaperModalButton } from '@/components/archive/NewspaperModalButton'
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
-import { GridItem, HStack, IconButton, Input, InputGroup, ListItem, SimpleGrid, Text, UnorderedList, VStack } from '@chakra-ui/react'
+import {
+  Button,
+  GridItem,
+  HStack,
+  IconButton,
+  Input,
+  InputGroup,
+  ListItem,
+  SimpleGrid,
+  Text,
+  UnorderedList,
+  VStack
+} from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -36,13 +49,16 @@ export default function Archive({ newspapers }: Props) {
     <>
       <Title text="Archívum" />
       <PageHeading text="Archívum" />
-      <HStack>
-        <Text>Évfolyam: </Text>
-        <IconButton aria-label="" children={<FaArrowLeft />} onClick={() => grade > 1 && setGrade(grade - 1)} />
-        <InputGroup width="5rem">
-          <Input value={grade} type="number" min={1} max={latestGraade} onChange={(e) => setGrade(Number(e.target.value))} />
-        </InputGroup>
-        <IconButton aria-label="" children={<FaArrowRight />} onClick={() => grade < latestGraade && setGrade(grade + 1)} />
+      <HStack justify="space-between">
+        <HStack>
+          <Text>Évfolyam: </Text>
+          <IconButton aria-label="" children={<FaArrowLeft />} onClick={() => grade > 1 && setGrade(grade - 1)} />
+          <InputGroup width="5rem">
+            <Input value={grade} type="number" min={1} max={latestGraade} onChange={(e) => setGrade(Number(e.target.value))} />
+          </InputGroup>
+          <IconButton aria-label="" children={<FaArrowRight />} onClick={() => grade < latestGraade && setGrade(grade + 1)} />
+        </HStack>
+        <NewspaperModalButton />
       </HStack>
       {filteredNewspapers.length < 1 ? (
         <Text mt={5}>Nem található semmi</Text>
@@ -63,7 +79,10 @@ export default function Archive({ newspapers }: Props) {
                         </ListItem>
                       ))}
                     </UnorderedList>
-                    <Link href={n.ISSUU_Link}>Olvasd el ISSUU-n</Link>
+                  </VStack>
+                  <VStack>
+                    <Button>Edit</Button>
+                    <Button>Delete</Button>
                   </VStack>
                 </HStack>
               </Link>
