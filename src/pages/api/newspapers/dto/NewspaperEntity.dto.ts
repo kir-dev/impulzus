@@ -14,6 +14,8 @@ export class NewspaperEntity {
   @IsNotEmpty()
   ISSUU_Link: string
 
-  //coverImage Image
+  coverImage?: string
+
+  grade: number
   //pdf String
 }

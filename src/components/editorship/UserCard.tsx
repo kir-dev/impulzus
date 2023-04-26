@@ -9,12 +9,12 @@ type Props = {
 export const UserCard = ({ user }: Props) => {
   return (
     <HStack p={1}>
-      <Image height={100} width={100} alt="profile_pic" src={user.picture ?? '/img/impulzus_logo_light.png'} />
+      <Image height={150} width={150} alt="profile_pic" src={user.picture ?? '/img/impulzus_logo_light.png'} />
       <VStack align="flex-start">
         <Text>{user.fullName}</Text>
         <Text>{user.email}</Text>
         <Wrap>
-          {user.titles.map((t) => (
+          {user.titles?.map((t) => (
             <Tag key={t} m={0.5}>
               {t}
             </Tag>

@@ -29,6 +29,7 @@ model Newspaper {
   contents   String[]
   ISSUU_Link String
   coverImage String?
+  grade      Int
   //pdf String
 }
 

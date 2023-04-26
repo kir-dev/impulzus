@@ -22,7 +22,7 @@ type Props = {
 }
 
 export default function Editorship({ users }: Props) {
-  const leadership = users.map((u) => u.titles.some((t) => t === ''))
+  const leadership = users.map((u) => u.titles?.some((t) => t === ''))
   return (
     <>
       <Title text="Szerkesztőség" />
