@@ -17,7 +17,7 @@ export class UserEntity {
   isAdmin: boolean
 
   @IsOptional()
-  picture?: string
+  picture: string | null
 
   titles?: string[]
 }

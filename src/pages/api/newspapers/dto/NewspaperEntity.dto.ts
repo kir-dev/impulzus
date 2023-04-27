@@ -12,9 +12,9 @@ export class NewspaperEntity {
   contents: string[]
 
   @IsNotEmpty()
-  ISSUU_Link?: string
+  ISSUU_Link: string | null
 
-  coverImage?: string
+  coverImage: string | null
 
   grade: number
   //pdf String

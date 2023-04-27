@@ -19,7 +19,7 @@ export class PostEntity {
   tag: string[]
 
   @IsDateString()
-  date: Date
+  createdAt: Date
 
-  userId: number
+  userId: string
 }

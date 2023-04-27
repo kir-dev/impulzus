@@ -3,24 +3,13 @@ import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
-import {
-  Button,
-  GridItem,
-  HStack,
-  IconButton,
-  Input,
-  InputGroup,
-  ListItem,
-  SimpleGrid,
-  Text,
-  UnorderedList,
-  VStack
-} from '@chakra-ui/react'
+import { GridItem, HStack, IconButton, Input, InputGroup, ListItem, SimpleGrid, Text, UnorderedList, VStack } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import Router from 'next/router'
 import { useEffect, useState } from 'react'
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
+import { FaArrowLeft, FaArrowRight, FaPencilAlt, FaTrash } from 'react-icons/fa'
 import { NewspaperEntity } from '../api/newspapers/dto/NewspaperEntity.dto'
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -45,6 +34,19 @@ export default function Archive({ newspapers }: Props) {
     setFilteredNewspapers(newspapers.filter((n) => n.grade === grade))
   }, [grade])
 
+  const deleteData = async (e: React.SyntheticEvent, id: number) => {
+    e.preventDefault()
+    try {
+      await fetch('/api/newspapers/' + id, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      Router.reload()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <>
       <Title text="Archívum" />
@@ -52,11 +54,11 @@ export default function Archive({ newspapers }: Props) {
       <HStack justify="space-between">
         <HStack>
           <Text>Évfolyam: </Text>
-          <IconButton aria-label="" children={<FaArrowLeft />} onClick={() => grade > 1 && setGrade(grade - 1)} />
+          <IconButton aria-label="next grade" children={<FaArrowLeft />} onClick={() => grade > 1 && setGrade(grade - 1)} />
           <InputGroup width="5rem">
             <Input value={grade} type="number" min={1} max={latestGraade} onChange={(e) => setGrade(Number(e.target.value))} />
           </InputGroup>
-          <IconButton aria-label="" children={<FaArrowRight />} onClick={() => grade < latestGraade && setGrade(grade + 1)} />
+          <IconButton aria-label="prev grade" children={<FaArrowRight />} onClick={() => grade < latestGraade && setGrade(grade + 1)} />
         </HStack>
         <NewspaperModalButton />
       </HStack>
@@ -66,26 +68,28 @@ export default function Archive({ newspapers }: Props) {
         <SimpleGrid my={5} columns={{ base: 1, xl: 2 }} spacing={10}>
           {filteredNewspapers.map((n) => (
             <GridItem key={n.id}>
-              <Link href={`${PATHS.ARCHIVE}/${n.id}`}>
-                <HStack align="flex-start">
-                  <Image src={n.coverImage ?? '/img/impulzus_logo_light.png'} height={100} width={200} alt="cover_image" />
-                  <VStack p={3} align="flex-start">
-                    <Text fontSize="2xl">{n.title}</Text>
-                    <Text>Tartalomjegyzék:</Text>
-                    <UnorderedList>
-                      {n.contents.map((c) => (
-                        <ListItem ml={5} key={c}>
-                          {c}
-                        </ListItem>
-                      ))}
-                    </UnorderedList>
-                  </VStack>
-                  <VStack>
-                    <Button>Edit</Button>
-                    <Button>Delete</Button>
-                  </VStack>
-                </HStack>
-              </Link>
+              <HStack align="flex-start">
+                <Link href={`${PATHS.ARCHIVE}/${n.id}`}>
+                  <HStack align="flex-start">
+                    <Image src={n.coverImage ?? '/img/impulzus_logo_light.png'} height={100} width={200} alt="cover_image" />
+                    <VStack p={3} align="flex-start">
+                      <Text fontSize="2xl">{n.title}</Text>
+                      <Text>Tartalomjegyzék:</Text>
+                      <UnorderedList>
+                        {n.contents.map((c) => (
+                          <ListItem ml={5} key={c}>
+                            {c}
+                          </ListItem>
+                        ))}
+                      </UnorderedList>
+                    </VStack>
+                  </HStack>
+                </Link>
+                <VStack>
+                  <IconButton bg="blue.100" aria-label="edit" children={<FaPencilAlt />} onClick={() => {}} />
+                  <IconButton bg="red.400" aria-label="delete" children={<FaTrash />} onClick={(e) => deleteData(e, n.id)} />
+                </VStack>
+              </HStack>
             </GridItem>
           ))}
         </SimpleGrid>

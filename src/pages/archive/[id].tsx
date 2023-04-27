@@ -1,10 +1,8 @@
-import Book from '@/components/archive/book'
+import PdfRenderer from '@/components/archive/PdfReader'
 import { Title } from '@/components/common/Title'
-import prisma from '@/lib/prisma'
-import { GetServerSideProps } from 'next'
-import { NewspaperEntity } from '../api/newspapers/dto/NewspaperEntity.dto'
+import { Box } from '@chakra-ui/react'
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+/*export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const newspaper = await prisma.newspaper.findUnique({
     where: {
       id: Number(params?.id)
@@ -22,17 +20,17 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 type Props = {
   newspaper: NewspaperEntity
-}
+}*/
 
-export default function NewsPaperPage({ newspaper }: Props) {
-  console.log(newspaper)
+export default function NewsPaperPage(/*{ newspaper }: Props*/) {
+  //console.log(newspaper)
 
   return (
     <>
-      <Title text={newspaper.title} />
-      <h1>EZ EGY ÚJSÁG</h1>
-      <p>{newspaper.id + ' ' + newspaper.title + ' ' + newspaper.contents + ' ' + newspaper.ISSUU_Link}</p>
-      <Book />
+      <Title text="{newspaper.title}" />
+      <Box width="100%">
+        <PdfRenderer />
+      </Box>
     </>
   )
 }

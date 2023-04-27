@@ -6,11 +6,11 @@ export class CommentEntity {
   id: number
 
   @IsNotEmpty()
-  content: String
+  content: string
 
   @IsInt()
   @Min(1)
-  userId: number
+  userId: string
 
   @IsInt()
   @Min(1)
