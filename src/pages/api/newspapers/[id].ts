@@ -3,14 +3,14 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { NewspaperEntity } from './dto/NewspaperEntity.dto'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  const newspaperId = req.query.id
+  const newspaperId = Number(req.query.id)
 
   switch (req.method) {
     case 'GET':
       return handleGET(newspaperId, res)
 
     case 'PATCH':
-      handlePATCH(newspaperId, req, res)
+      return handlePATCH(newspaperId, req, res)
 
     case 'DELETE':
       return handleDELETE(newspaperId, res)
@@ -20,9 +20,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   }
 }
 
-const handleGET = async (newspaperId: unknown, res: NextApiResponse<NewspaperEntity | string>) => {
+const handleGET = async (newspaperId: number, res: NextApiResponse<NewspaperEntity | string>) => {
   const newspaper = await prisma.newspaper.findUnique({
-    where: { id: Number(newspaperId) }
+    where: { id: newspaperId }
   })
   if (newspaper === null) {
     return res.status(404).send('Az újság nem található!')
@@ -30,18 +30,18 @@ const handleGET = async (newspaperId: unknown, res: NextApiResponse<NewspaperEnt
   return res.status(200).json(newspaper)
 }
 
-const handlePATCH = async (newspaperId: unknown, req: NextApiRequest, res: NextApiResponse<NewspaperEntity | string>) => {
+const handlePATCH = async (newspaperId: number, req: NextApiRequest, res: NextApiResponse<NewspaperEntity | string>) => {
   const newspaper = await prisma.newspaper.update({
-    where: { id: Number(newspaperId) },
+    where: { id: newspaperId },
     data: req.body
   })
   return res.status(200).json(newspaper)
 }
 
-const handleDELETE = async (newspaperId: unknown, res: NextApiResponse<NewspaperEntity | string>) => {
+const handleDELETE = async (newspaperId: number, res: NextApiResponse<NewspaperEntity | string>) => {
   try {
     const newspaper = await prisma.newspaper.delete({
-      where: { id: Number(newspaperId) }
+      where: { id: newspaperId }
     })
     return res.status(200).json(newspaper)
   } catch {

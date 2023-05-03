@@ -1,4 +1,5 @@
 import { NewspaperModalButton } from '@/components/archive/NewspaperModalButton'
+import { ConfirmDialogButton } from '@/components/common/ConfirmDialogButton'
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
@@ -9,7 +10,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Router from 'next/router'
 import { useEffect, useState } from 'react'
-import { FaArrowLeft, FaArrowRight, FaPencilAlt, FaTrash } from 'react-icons/fa'
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 import { NewspaperEntity } from '../api/newspapers/dto/NewspaperEntity.dto'
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -34,8 +35,7 @@ export default function Archive({ newspapers }: Props) {
     setFilteredNewspapers(newspapers.filter((n) => n.grade === grade))
   }, [grade])
 
-  const deleteData = async (e: React.SyntheticEvent, id: number) => {
-    e.preventDefault()
+  const deleteData = async (id: number) => {
     try {
       await fetch('/api/newspapers/' + id, {
         method: 'DELETE',
@@ -86,8 +86,19 @@ export default function Archive({ newspapers }: Props) {
                   </HStack>
                 </Link>
                 <VStack>
-                  <IconButton bg="blue.100" aria-label="edit" children={<FaPencilAlt />} onClick={() => {}} />
-                  <IconButton bg="red.400" aria-label="delete" children={<FaTrash />} onClick={(e) => deleteData(e, n.id)} />
+                  <NewspaperModalButton
+                    _coverImage={n.coverImage ?? undefined}
+                    _id={n.id}
+                    _grade={n.grade}
+                    _titile={n.title}
+                    _contents={n.contents}
+                  />
+                  <ConfirmDialogButton
+                    bodyText="Biztosan törlöd az újságot?"
+                    confirmAction={() => deleteData(n.id)}
+                    headerText="Újság törlése"
+                    confirmButtonText="Törlés"
+                  />
                 </VStack>
               </HStack>
             </GridItem>
