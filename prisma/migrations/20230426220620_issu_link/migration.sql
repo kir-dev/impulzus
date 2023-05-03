@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Newspaper" ALTER COLUMN "ISSUU_Link" DROP NOT NULL;
