@@ -1,4 +1,6 @@
+import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
+import Markdown from '@/components/common/editor/Markdown'
 import prisma from '@/lib/prisma'
 import { GetServerSideProps } from 'next'
 import { PostEntity } from '../api/posts/dto/PostEntity.dto'
@@ -24,8 +26,8 @@ export default function Blog({ post }: Props) {
   return (
     <>
       <Title text={post.title} />
-      <h1>EZ EGY POSZT</h1>
-      <p>{post?.title + ' ' + post?.content}</p>
+      <PageHeading text={post.title} />
+      <Markdown markdown={post.content} />
     </>
   )
 }

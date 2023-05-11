@@ -4,7 +4,7 @@ export class UserEntity {
   id: string
 
   @IsUUID('all')
-  authSchId: string
+  authSchId: string | null
 
   @IsNotEmpty()
   fullName: string

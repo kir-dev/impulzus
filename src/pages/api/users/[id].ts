@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { NotFoundException } from 'next-api-decorators'
 import { UserEntity } from './dto/UserEntity.dto'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
@@ -13,7 +14,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       return handleDELETE(userId, res)
 
     case 'PATCH':
-      handlePATCH(userId, req, res)
+      return handlePATCH(userId, req, res)
 
     default:
       throw new Error(`The HTTP ${req.method} method is not supported at this route.`)
@@ -24,6 +25,9 @@ const handleGET = async (userId: unknown, res: NextApiResponse<UserEntity | null
   const user = await prisma.user.findUnique({
     where: { id: userId?.toString() }
   })
+  if (!user) {
+    throw new NotFoundException()
+  }
   return res.status(200).json(user)
 }
 
