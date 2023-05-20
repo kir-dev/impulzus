@@ -2,7 +2,7 @@ import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
-import { Button, GridItem, SimpleGrid, Text, VStack } from '@chakra-ui/react'
+import { Button, GridItem, SimpleGrid, Tag, Text, VStack } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { PostEntity } from '../api/posts/dto/PostEntity.dto'
@@ -26,7 +26,6 @@ type Props = {
 }
 
 export default function Blog({ posts }: Props) {
-  console.log(posts)
   return (
     <>
       <Title text="Blog" />
@@ -44,6 +43,9 @@ export default function Blog({ posts }: Props) {
                   {p.user.fullName} - {new Date(p.createdAt).toLocaleDateString()}
                 </Text>
                 <Text>"{p.previewContent}"</Text>
+                {p.type.map((t) => (
+                  <Tag>{t}</Tag>
+                ))}
               </VStack>
             </Link>
           </GridItem>

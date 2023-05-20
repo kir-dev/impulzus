@@ -22,7 +22,6 @@ type Props = {
 }
 
 export default function Editorship({ user }: Props) {
-  console.log(user)
   return (
     <>
       <Title text={user.fullName} />

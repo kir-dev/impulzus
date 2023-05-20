@@ -1,9 +1,7 @@
-import { PageHeading } from '@/components/common/PageHeading'
-import { Title } from '@/components/common/Title'
-import Markdown from '@/components/common/editor/Markdown'
+import { EditPost } from '@/components/blog/EditPost'
 import prisma from '@/lib/prisma'
+import { PostEntity } from '@/pages/api/posts/dto/PostEntity.dto'
 import { GetServerSideProps } from 'next'
-import { PostEntity } from '../api/posts/dto/PostEntity.dto'
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
@@ -22,12 +20,9 @@ type Props = {
 }
 
 export default function Blog({ post }: Props) {
-  console.log(post)
   return (
     <>
-      <Title text={post.title} />
-      <PageHeading text={post.title} />
-      <Markdown markdown={post.content} />
+      <EditPost post={post} />
     </>
   )
 }

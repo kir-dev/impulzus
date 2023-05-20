@@ -13,7 +13,6 @@ import {
   Tabs,
   Textarea
 } from '@chakra-ui/react'
-import { FC } from 'react'
 import { useFormContext } from 'react-hook-form'
 import Markdown from './Markdown'
 import { getStatusString } from './editorUtils'
@@ -30,7 +29,7 @@ type Props = {
   previewHeight?: string | number
 }
 
-export const MarkdownEditor: FC<Props> = ({ textAreaHeight = '22rem', previewHeight = '26rem', defaultValue, formDetails }) => {
+export const MarkdownEditor = ({ textAreaHeight = '22rem', previewHeight = '26rem', defaultValue, formDetails }: Props) => {
   const {
     register,
     watch,
