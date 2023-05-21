@@ -44,7 +44,7 @@ export default function Blog({ posts }: Props) {
                 </Text>
                 <Text>"{p.previewContent}"</Text>
                 {p.type.map((t) => (
-                  <Tag>{t}</Tag>
+                  <Tag key={t}>{t}</Tag>
                 ))}
               </VStack>
             </Link>

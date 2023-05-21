@@ -1,7 +1,8 @@
 import { PostEntity } from '@/pages/api/posts/dto/PostEntity.dto'
-import { Button, FormControl, FormErrorMessage, FormLabel, Input, Select, VStack } from '@chakra-ui/react'
+import { Button, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react'
 import Router from 'next/router'
-import { FormProvider, useForm } from 'react-hook-form'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
+import ReactSelect from 'react-select'
 import { PageHeading } from '../common/PageHeading'
 import { Title } from '../common/Title'
 import { MarkdownEditor } from '../common/editor/MarkdownEditor'
@@ -11,6 +12,12 @@ import { POST_CATEGORIS } from './postCategories'
 type Props = {
   post?: PostEntity
 }
+
+const options = [
+  { value: 'chocolate', label: 'chocolate' },
+  { value: 'strawberry', label: 'strawberry' },
+  { value: 'vanilla', label: 'vanilla' }
+]
 
 export const EditPost = ({ post }: Props) => {
   const submitData = async (body: any) => {
@@ -31,7 +38,7 @@ export const EditPost = ({ post }: Props) => {
       title: post?.title,
       previewContent: post?.previewContent,
       content: post?.content,
-      category: post?.type
+      category: post?.type.map((t) => ({ label: t, value: t }))
     },
 
     mode: 'all'
@@ -41,15 +48,17 @@ export const EditPost = ({ post }: Props) => {
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors }
   } = form
 
   const onSubmit = handleSubmit((data) => {
+    console.log(data)
     const formData = {
       title: data.title,
       previewContent: data.previewContent,
       content: data.content,
-      type: data.category,
+      type: data.category?.map((c) => c.value),
       userId: 'clh7uh41t0006i0jca5y1ymt6' //TODO
     }
     submitData(formData)
@@ -91,22 +100,43 @@ export const EditPost = ({ post }: Props) => {
           {errors.previewContent && <FormErrorMessage>{errors.previewContent.message?.toString()}</FormErrorMessage>}
         </FormControl>
 
-        <FormControl isInvalid={!!errors.previewContent} isRequired>
+        <FormControl isInvalid={!!errors.category} isRequired>
           <FormLabel>Kategória</FormLabel>
-          <Select
-            placeholder="Válassz kategóriát..."
-            {...register('category', {
-              required: 'Válassz kategóriát!'
-
-              //required: { value: true, message: 'Válassz kategóriát!' },
-            })}
-          >
-            {POST_CATEGORIS.map((c) => (
-              <option value={c}>{c}</option>
-            ))}
-          </Select>
-          {errors.category && <FormErrorMessage>{errors.category.message?.toString()}</FormErrorMessage>}
+          <Controller
+            control={control}
+            name="category"
+            render={({ field: { onChange, onBlur, value, name, ref } }) => (
+              <ReactSelect
+                options={POST_CATEGORIS.map((c) => ({ label: c, value: c }))}
+                onChange={onChange}
+                isMulti={true}
+                onBlur={onBlur}
+                value={value}
+                name={name}
+                ref={ref}
+              />
+            )}
+          />
         </FormControl>
+
+        {/*
+          <FormControl isInvalid={!!errors.previewContent} isRequired>
+            <FormLabel>Kategória</FormLabel>
+            <Select
+              placeholder="Válassz kategóriát..."
+              {...register('category', {
+                required: 'Válassz kategóriát!'
+
+                //required: { value: true, message: 'Válassz kategóriát!' },
+              })}
+            >
+              {POST_CATEGORIS.map((c) => (
+                <option value={c}>{c}</option>
+              ))}
+            </Select>
+            {errors.category && <FormErrorMessage>{errors.category.message?.toString()}</FormErrorMessage>}
+          </FormControl>
+              */}
 
         <FormProvider {...form}>
           <FormControl isRequired>

@@ -38,6 +38,7 @@
     "react-pageflip": "^2.0.3",
     "react-pdf": "^6.2.2",
     "react-reader": "^1.2.1",
+    "react-select": "^5.7.3",
     "reflect-metadata": "^0.1.13",
     "remark-gemoji": "^7.0.1",
     "remark-gfm": "^3.0.1",
