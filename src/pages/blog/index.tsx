@@ -2,7 +2,7 @@ import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
-import { Button, GridItem, SimpleGrid, Tag, Text, VStack } from '@chakra-ui/react'
+import { Button, GridItem, HStack, SimpleGrid, Tag, Text, VStack } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { PostEntity } from '../api/posts/dto/PostEntity.dto'
@@ -35,17 +35,21 @@ export default function Blog({ posts }: Props) {
       </Link>
       <SimpleGrid my={5} columns={{ base: 1, xl: 2 }} spacing={10}>
         {posts.map((p) => (
-          <GridItem key={p.id}>
+          <GridItem key={p.id} borderWidth={1} borderRadius={5} p={2}>
             <Link href={PATHS.BLOG + '/' + p.id} key={p.id}>
               <VStack align="flex-start">
-                <Text as="b">{p.title}</Text>
+                <Text fontSize="2xl" as="b">
+                  {p.title}
+                </Text>
                 <Text as="i">
-                  {p.user.fullName} - {new Date(p.createdAt).toLocaleDateString()}
+                  {p.user.name} - {new Date(p.createdAt).toLocaleDateString()}
                 </Text>
                 <Text>"{p.previewContent}"</Text>
-                {p.type.map((t) => (
-                  <Tag key={t}>{t}</Tag>
-                ))}
+                <HStack>
+                  {p.categories.map((t) => (
+                    <Tag key={t}>{t}</Tag>
+                  ))}
+                </HStack>
               </VStack>
             </Link>
           </GridItem>

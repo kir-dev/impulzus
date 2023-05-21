@@ -15,7 +15,7 @@ model Post {
   title          String
   previewContent String
   content        String
-  type           String[]
+  categories     String[]
   tag            String[]
   createdAt      DateTime  @default(now())
   user           User      @relation(fields: [userId], references: [id])
@@ -30,7 +30,7 @@ model Newspaper {
   ISSUU_Link String?
   coverImage String?
   grade      Int
-  //pdf String
+  pdf        String?
 }
 
 model Idea {
@@ -50,9 +50,10 @@ model Comment {
 model User {
   id            String    @id @default(cuid())
   authSchId     String?   @unique
-  fullName      String
+  name          String
   email         String    @unique
   isAdmin       Boolean   @default(false)
+  isBoardMember Boolean   @default(false)
   emailVerified DateTime?
   titles        String[]
   picture       String?

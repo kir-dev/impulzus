@@ -1,6 +1,7 @@
+import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
-import { Button, Heading, Text } from '@chakra-ui/react'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { Heading } from '@chakra-ui/react'
+import { useSession } from 'next-auth/react'
 import { NextPageWithLayout } from './_app'
 /*
 const inter = Inter({ subsets: ['latin'] })
@@ -133,17 +134,8 @@ const Page: NextPageWithLayout = () => {
   return (
     <>
       <Title />
+      <PageHeading text="Üdvözlünk az Impulzus oldalán!" />
       <Heading>Üdvözlünk az Impulzus oldalán!</Heading>
-      {status === 'authenticated' ? (
-        <Button transform="auto" skewX={5} onClick={() => signOut()}>
-          Kijelentkezés
-        </Button>
-      ) : (
-        <Button transform="auto" skewX={5} onClick={() => signIn()}>
-          Bejelentkezés
-        </Button>
-      )}
-      <Text>{session?.user?.email}</Text>
     </>
   )
 }

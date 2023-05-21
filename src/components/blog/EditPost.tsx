@@ -13,12 +13,6 @@ type Props = {
   post?: PostEntity
 }
 
-const options = [
-  { value: 'chocolate', label: 'chocolate' },
-  { value: 'strawberry', label: 'strawberry' },
-  { value: 'vanilla', label: 'vanilla' }
-]
-
 export const EditPost = ({ post }: Props) => {
   const submitData = async (body: any) => {
     try {
@@ -38,7 +32,7 @@ export const EditPost = ({ post }: Props) => {
       title: post?.title,
       previewContent: post?.previewContent,
       content: post?.content,
-      category: post?.type.map((t) => ({ label: t, value: t }))
+      category: post?.categories.map((t) => ({ label: t, value: t }))
     },
 
     mode: 'all'

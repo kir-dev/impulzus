@@ -11,11 +11,13 @@ export class NewspaperEntity {
   @IsNotEmpty()
   contents: string[]
 
-  @IsNotEmpty()
   ISSUU_Link: string | null
 
   coverImage: string | null
 
+  @IsInt()
+  @Min(1)
   grade: number
-  //pdf String
+
+  pdf: string
 }

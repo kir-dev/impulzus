@@ -24,9 +24,9 @@ type Props = {
 export default function Editorship({ user }: Props) {
   return (
     <>
-      <Title text={user.fullName} />
+      <Title text={user.name} />
       <Image height={100} width={100} alt="profile_pic" src={user.picture ? user.picture : '/img/impulzus_logo_light.png'} />
-      <Text>{user.fullName}</Text>
+      <Text>{user.name}</Text>
       <Text>{user.email}</Text>
       {user.titles?.map((t) => (
         <Tag transform="auto" skewX={3} key={t} m={0.5}>

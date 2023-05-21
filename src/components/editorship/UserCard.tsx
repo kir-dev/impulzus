@@ -33,7 +33,7 @@ export const UserCard = ({ user }: Props) => {
         <HStack p={1}>
           <Image height={150} width={150} alt="profile_pic" src={user.picture ?? '/img/impulzus_logo_light.png'} />
           <VStack align="flex-start">
-            <Text>{user.fullName}</Text>
+            <Text>{user.name}</Text>
             <Text>{user.email}</Text>
             <Wrap>
               {user.titles?.map((t) => (
@@ -47,7 +47,7 @@ export const UserCard = ({ user }: Props) => {
       </Link>
       <EditorshipModalButton
         _id={user.id}
-        _name={user.fullName}
+        _name={user.name}
         _email={user.email}
         _titles={user.titles}
         _picture={user.picture ?? undefined}

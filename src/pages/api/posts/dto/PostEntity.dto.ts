@@ -14,7 +14,7 @@ export class PostEntity {
   @IsNotEmpty()
   content: string
 
-  type: string[]
+  categories: string[]
 
   tag: string[]
 

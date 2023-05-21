@@ -1,13 +1,14 @@
 import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsUUID } from 'class-validator'
 
 export class UserEntity {
+  @IsUUID('all')
   id: string
 
   @IsUUID('all')
   authSchId: string | null
 
   @IsNotEmpty()
-  fullName: string
+  name: string
 
   @IsEmail()
   email: string
@@ -15,6 +16,10 @@ export class UserEntity {
   @IsBoolean()
   @IsOptional()
   isAdmin: boolean
+
+  @IsBoolean()
+  @IsOptional()
+  isBoardMember: boolean
 
   @IsOptional()
   picture: string | null
