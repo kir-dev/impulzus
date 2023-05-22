@@ -3,9 +3,10 @@ import { Document, Page as ReactPdfPage, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import 'react-pdf/dist/esm/Page/TextLayer.css'
 
-import { Button } from '@chakra-ui/react'
+import { Box, Flex, IconButton } from '@chakra-ui/react'
 import { PDFDocumentProxy } from 'pdfjs-dist'
 import React from 'react'
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 
 const options = {
   cMapUrl: 'cmaps/',
@@ -22,8 +23,12 @@ const Page = React.forwardRef(({ pageNumber }: any, ref: any) => {
   )
 })
 
-export default function PdfRenderer() {
-  const [file, setFile] = useState<PDFFile>('/files/impulzus_cikk.pdf')
+type Props = {
+  path: string
+}
+
+export default function PdfRenderer({ path }: Props) {
+  const [file, setFile] = useState<PDFFile>(`/files/${path}.pdf`)
   const [numPages, setNumPages] = useState<number>(1)
   const [page, setPage] = useState<number>(1)
 
@@ -34,12 +39,19 @@ export default function PdfRenderer() {
   pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
 
   return (
-    <div className="Example__container__document">
-      <Button onClick={() => page > 1 && setPage(page - 1)}>Előző</Button>
-      <Button onClick={() => page < numPages && setPage(page + 1)}>Következő</Button>
+    <Box className="Example__container__document">
+      <Flex mb={2} justify={page <= 1 ? 'flex-end' : 'space-between'}>
+        <IconButton children={<FaArrowLeft />} hidden={page <= 1} onClick={() => page > 1 && setPage(page - 1)} aria-label={'Előző'} />
+        <IconButton
+          children={<FaArrowRight />}
+          hidden={page >= numPages}
+          onClick={() => page < numPages && setPage(page + 1)}
+          aria-label={'Következő'}
+        />
+      </Flex>
       <Document file={file} onLoadSuccess={onDocumentLoadSuccess} options={options}>
         <Page pageNumber={page} />
       </Document>
-    </div>
+    </Box>
   )
 }

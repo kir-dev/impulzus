@@ -41,7 +41,7 @@ export const ConfirmDialogButton = ({
 
   return (
     <>
-      <IconButton bg="red.400" aria-label="delete" children={<FaTrash />} onClick={onOpen} width={buttonWidth} />
+      <IconButton colorScheme="red" aria-label="delete" children={<FaTrash />} onClick={onOpen} width={buttonWidth} />
       <AlertDialog
         preserveScrollBarGap={true}
         motionPreset="slideInBottom"

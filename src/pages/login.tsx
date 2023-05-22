@@ -9,8 +9,8 @@ export default function LoginPage() {
   console.log(session)
   return (
     <>
-      <Title text="Bejelentkezés" />
-      <PageHeading text="Belépés" />
+      <Title text={status === 'authenticated' ? 'Kijelentkezés' : 'Bejelentkezés'} />
+      <PageHeading text={status === 'authenticated' ? 'Kilépés' : 'Belépés'} />
       {status === 'authenticated' ? (
         <Button transform="auto" skewX={5} onClick={() => signOut()}>
           AuthSCH kijelentkezés

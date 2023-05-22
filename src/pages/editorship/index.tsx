@@ -3,7 +3,7 @@ import { Title } from '@/components/common/Title'
 import { EditorshipModalButton } from '@/components/editorship/EditorshipModalButton'
 import { UserCard } from '@/components/editorship/UserCard'
 import prisma from '@/lib/prisma'
-import { SimpleGrid } from '@chakra-ui/react'
+import { Flex, GridItem, SimpleGrid } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { UserEntity } from '../api/users/dto/UserEntity.dto'
 
@@ -27,17 +27,27 @@ export default function Editorship({ users }: Props) {
     <>
       <Title text="Szerkesztőség" />
       <PageHeading text="Vezetőség" />
-      <EditorshipModalButton />
-      <SimpleGrid columns={[1, null, 2]} mb={8}>
-        {users.map((u) => (
-          <UserCard user={u} />
-        ))}
+      <Flex mb={4} justify="flex-end">
+        <EditorshipModalButton />
+      </Flex>
+      <SimpleGrid spacing={10} columns={{ base: 1, xl: 2 }} mb={8}>
+        {users
+          .filter((u) => u.isBoardMember)
+          .map((u) => (
+            <GridItem borderWidth={1} borderRadius={5} p={2} key={u.id}>
+              <UserCard user={u} />
+            </GridItem>
+          ))}
       </SimpleGrid>
       <PageHeading text="Szerkesztőség" />
-      <SimpleGrid columns={[1, null, 2]}>
-        {users.map((u) => (
-          <UserCard key={u.id} user={u} />
-        ))}
+      <SimpleGrid spacing={10} columns={[1, 1, 2]}>
+        {users
+          .filter((u) => !u.isBoardMember)
+          .map((u) => (
+            <GridItem borderWidth={1} borderRadius={5} p={2} key={u.id}>
+              <UserCard key={u.id} user={u} />
+            </GridItem>
+          ))}
       </SimpleGrid>
     </>
   )

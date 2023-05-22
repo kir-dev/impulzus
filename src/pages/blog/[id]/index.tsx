@@ -4,7 +4,7 @@ import { Title } from '@/components/common/Title'
 import Markdown from '@/components/common/editor/Markdown'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
-import { Button } from '@chakra-ui/react'
+import { Button, Flex } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import Router from 'next/router'
@@ -43,15 +43,19 @@ export default function Blog({ post }: Props) {
     <>
       <Title text={post.title} />
       <PageHeading text={post.title} />
-      <Link href={PATHS.BLOG + `/${post.id}/edit`}>
-        <Button>Szerkesztés</Button>
-      </Link>
-      <ConfirmDialogButton
-        bodyText="Biztosan törlöd a posztot?"
-        confirmAction={() => deleteData(post.id.toString())}
-        headerText="Poszt törlése"
-        confirmButtonText="Törlés"
-      />
+      <Flex justify="flex-end">
+        <Link href={PATHS.BLOG + `/${post.id}/edit`}>
+          <Button mr={2} mb={2}>
+            Szerkesztés
+          </Button>
+        </Link>
+        <ConfirmDialogButton
+          bodyText="Biztosan törlöd a posztot?"
+          confirmAction={() => deleteData(post.id.toString())}
+          headerText="Poszt törlése"
+          confirmButtonText="Törlés"
+        />
+      </Flex>
 
       <Markdown markdown={post.content} />
     </>

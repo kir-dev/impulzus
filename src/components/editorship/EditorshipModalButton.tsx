@@ -1,7 +1,11 @@
+import { UserEntity } from '@/pages/api/users/dto/UserEntity.dto'
 import {
   Button,
+  Checkbox,
   FormControl,
+  FormErrorMessage,
   FormLabel,
+  HStack,
   IconButton,
   Input,
   Modal,
@@ -11,43 +15,55 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
   useDisclosure
 } from '@chakra-ui/react'
 import Router from 'next/router'
-import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { FaPencilAlt } from 'react-icons/fa'
+import { getStatusString } from '../common/editor/editorUtils'
 
 type Props = {
-  _id?: string
-  _name?: string
-  _email?: string
-  _titles?: string[]
-  _picture?: string
+  user?: UserEntity
 }
 
-export const EditorshipModalButton = ({ _id, _name, _email, _titles, _picture }: Props) => {
+export const EditorshipModalButton = ({ user }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [fullName, setName] = useState<string>()
-  const [email, setEmail] = useState<string>()
-  const [picture, setPicture] = useState<string>()
-  const [titles, setTitles] = useState<string>()
-  const titleList = titles?.split(',')
 
-  useEffect(() => {
-    setName(_name)
-    setEmail(_email)
-    setTitles(_titles?.toString())
-    setPicture(_picture)
-  }, [])
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      name: user?.name,
+      email: user?.email,
+      titles: user?.titles?.toString(),
+      picture: user?.picture ?? '',
+      isBoardMember: user?.isBoardMember
+    },
+    mode: 'all'
+  })
 
-  const submitData = async (e: React.SyntheticEvent) => {
-    e.preventDefault()
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+    const formData = {
+      name: data.name,
+      email: data.email,
+      titles: data.titles?.split(','),
+      picture: data.picture == '' ? undefined : data.picture,
+      isBoardMember: data.isBoardMember
+    }
+    user ? updateData(formData) : submitData(formData)
+  })
+
+  const submitData = async (formData: Partial<UserEntity>) => {
     try {
-      const body = { fullName, email, picture, titles: titleList }
       await fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(formData)
       })
       onClose()
       Router.reload()
@@ -56,14 +72,12 @@ export const EditorshipModalButton = ({ _id, _name, _email, _titles, _picture }:
     }
   }
 
-  const updateData = async (e: React.SyntheticEvent) => {
-    e.preventDefault()
+  const updateData = async (formData: Partial<UserEntity>) => {
     try {
-      const body = { fullName, email, picture, titles: titleList }
-      await fetch('/api/users/' + _id, {
+      await fetch('/api/users/' + user?.id, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(formData)
       })
       onClose()
       Router.reload()
@@ -74,8 +88,8 @@ export const EditorshipModalButton = ({ _id, _name, _email, _titles, _picture }:
 
   return (
     <>
-      {_id ? (
-        <IconButton bg="blue.100" aria-label="edit" children={<FaPencilAlt />} onClick={() => onOpen()} />
+      {user ? (
+        <IconButton colorScheme="yellow" aria-label="edit" children={<FaPencilAlt />} onClick={() => onOpen()} />
       ) : (
         <Button onClick={() => onOpen()}>Új tag</Button>
       )}
@@ -84,18 +98,82 @@ export const EditorshipModalButton = ({ _id, _name, _email, _titles, _picture }:
         <ModalOverlay />
         <ModalContent>
           <form>
-            <ModalHeader>{_name ? _name + ' módosítása' : 'Új tag'}</ModalHeader>
+            <ModalHeader>{user ? user.name + ' módosítása' : 'Új tag'}</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <FormControl>
+              <FormControl isInvalid={!!errors.name} isRequired>
                 <FormLabel>Név</FormLabel>
-                <Input autoFocus placeholder="Teszt Elek" value={fullName} onChange={(e) => setName(e.target.value)} />
+                <Input
+                  type="text"
+                  {...register('name', {
+                    required: { value: true, message: 'A név nem lehet üres!' },
+                    maxLength: {
+                      value: 200,
+                      message: 'Név túl hosszú! ' + getStatusString(watch('name'), 200)
+                    }
+                  })}
+                  placeholder="Teszt Elek"
+                />
+                {errors.name && <FormErrorMessage>{errors.name.message?.toString()}</FormErrorMessage>}
+              </FormControl>
+
+              <FormControl mt={2} isInvalid={!!errors.email} isRequired>
                 <FormLabel>Email</FormLabel>
-                <Input type="string" placeholder="valami@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <Input
+                  type="email"
+                  {...register('email', {
+                    required: { value: true, message: 'Az email nem lehet üres!' },
+                    pattern: {
+                      value: /\S+@\S+\.\S+/,
+                      message: 'Rossz email forma'
+                    },
+                    maxLength: {
+                      value: 200,
+                      message: 'Email túl hosszú! ' + getStatusString(watch('email'), 200)
+                    }
+                  })}
+                  placeholder="elek@gmail.com"
+                />
+                {errors.email && <FormErrorMessage>{errors.email.message?.toString()}</FormErrorMessage>}
+              </FormControl>
+
+              <FormControl mt={2} isInvalid={!!errors.titles} isRequired>
                 <FormLabel>Posztok</FormLabel>
-                <Input type="string" placeholder="Író, grafikus" value={titles} onChange={(e) => setTitles(e.target.value)} />
+                <Input
+                  type="text"
+                  {...register('titles', {
+                    required: { value: true, message: 'Legalább 1 poszt kell!' },
+                    maxLength: {
+                      value: 200,
+                      message: 'Posztok túl hosszú! ' + getStatusString(watch('titles'), 200)
+                    }
+                  })}
+                  placeholder="Író, grafikus"
+                />
+                {errors.titles && <FormErrorMessage>{errors.titles.message?.toString()}</FormErrorMessage>}
+              </FormControl>
+
+              <FormControl mt={2} isInvalid={!!errors.picture}>
                 <FormLabel>Profilkép</FormLabel>
-                <Input type="string" placeholder="https://image" value={picture} onChange={(e) => setPicture(e.target.value)} />
+                <Input
+                  type="text"
+                  {...register('picture', {
+                    maxLength: {
+                      value: 200,
+                      message: 'Kép link túl hosszú! ' + getStatusString(watch('picture'), 200)
+                    }
+                  })}
+                  placeholder="https://image"
+                />
+                {errors.picture && <FormErrorMessage>{errors.picture.message?.toString()}</FormErrorMessage>}
+              </FormControl>
+
+              <FormControl isInvalid={!!errors.picture}>
+                <HStack mt={4}>
+                  <Checkbox {...register('isBoardMember')}>
+                    <Text fontWeight="semibold">Vezetőségi tag</Text>
+                  </Checkbox>
+                </HStack>
               </FormControl>
             </ModalBody>
 
@@ -103,7 +181,7 @@ export const EditorshipModalButton = ({ _id, _name, _email, _titles, _picture }:
               <Button onClick={onClose} mr={3}>
                 Mégse
               </Button>
-              <Button type="submit" onClick={(e) => (_id ? updateData(e) : submitData(e))}>
+              <Button colorScheme="blue" type="submit" onClick={() => onSubmit()}>
                 Mentés
               </Button>
             </ModalFooter>

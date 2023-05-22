@@ -76,7 +76,7 @@ export const NewspaperModalButton = ({ _id, _titile, _grade, _contents, _coverIm
   return (
     <>
       {_id ? (
-        <IconButton bg="blue.100" aria-label="edit" children={<FaPencilAlt />} onClick={() => onOpen()} />
+        <IconButton colorScheme="yellow" aria-label="edit" children={<FaPencilAlt />} onClick={() => onOpen()} />
       ) : (
         <Button onClick={() => onOpen()}>Új cikk</Button>
       )}
@@ -104,7 +104,7 @@ export const NewspaperModalButton = ({ _id, _titile, _grade, _contents, _coverIm
               <Button onClick={onClose} mr={3}>
                 Mégse
               </Button>
-              <Button type="submit" onClick={(e) => (_id ? updateData(e) : submitData(e))}>
+              <Button colorScheme="blue" type="submit" onClick={(e) => (_id ? updateData(e) : submitData(e))}>
                 Mentés
               </Button>
             </ModalFooter>

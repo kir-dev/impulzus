@@ -32,7 +32,7 @@ export const EditPost = ({ post }: Props) => {
       title: post?.title,
       previewContent: post?.previewContent,
       content: post?.content,
-      category: post?.categories.map((t) => ({ label: t, value: t }))
+      categories: post?.categories.map((t) => ({ label: t, value: t }))
     },
 
     mode: 'all'
@@ -52,8 +52,8 @@ export const EditPost = ({ post }: Props) => {
       title: data.title,
       previewContent: data.previewContent,
       content: data.content,
-      type: data.category?.map((c) => c.value),
-      userId: 'clh7uh41t0006i0jca5y1ymt6' //TODO
+      categories: data.categories?.map((c) => c.value),
+      userId: 'clhxrc2lo0000i0o8bdkrdyyg' //TODO
     }
     submitData(formData)
   })
@@ -70,7 +70,7 @@ export const EditPost = ({ post }: Props) => {
               required: { value: true, message: 'A cím nem lehet üres!' },
               maxLength: {
                 value: 200,
-                message: 'Név túl hosszú! ' + getStatusString(watch('title'), 200)
+                message: 'Cím túl hosszú! ' + getStatusString(watch('title'), 200)
               }
             })}
             placeholder="Post cím"
@@ -86,7 +86,7 @@ export const EditPost = ({ post }: Props) => {
               required: { value: true, message: 'A leírás nem lehet üres!' },
               maxLength: {
                 value: 200,
-                message: 'Leírás túl hosszú! ' + getStatusString(watch('previewContent'), 200)
+                message: 'Leírás túl hosszú! ' + getStatusString(watch('previewContent'), 1000)
               }
             })}
             placeholder="Poszt a dínókról"
@@ -94,11 +94,11 @@ export const EditPost = ({ post }: Props) => {
           {errors.previewContent && <FormErrorMessage>{errors.previewContent.message?.toString()}</FormErrorMessage>}
         </FormControl>
 
-        <FormControl isInvalid={!!errors.category} isRequired>
+        <FormControl isInvalid={!!errors.categories} isRequired>
           <FormLabel>Kategória</FormLabel>
           <Controller
             control={control}
-            name="category"
+            name="categories"
             render={({ field: { onChange, onBlur, value, name, ref } }) => (
               <ReactSelect
                 options={POST_CATEGORIS.map((c) => ({ label: c, value: c }))}
@@ -140,7 +140,7 @@ export const EditPost = ({ post }: Props) => {
                 id: 'content',
                 promptText: '',
                 minChar: 5,
-                maxChar: 2000 //MAX_DESCRIPTION_LENGTH
+                maxChar: 20000 //MAX_DESCRIPTION_LENGTH
               }}
               textAreaHeight="30rem"
               previewHeight="30rem"

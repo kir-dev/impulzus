@@ -35,7 +35,7 @@ export const authOptions: NextAuthOptions = {
           id: '1',
           authSchId: profile.internal_id,
           email: profile.mail,
-          fullName: profile.displayName,
+          name: profile.displayName,
           emailVerified: profile.emailVerified,
           titles: profile.eduPersonEntitlement[0].title
         }

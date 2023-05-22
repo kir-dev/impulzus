@@ -4,7 +4,7 @@ import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
-import { GridItem, HStack, IconButton, Input, InputGroup, ListItem, SimpleGrid, Text, UnorderedList, VStack } from '@chakra-ui/react'
+import { Flex, GridItem, HStack, IconButton, Input, InputGroup, ListItem, SimpleGrid, Text, UnorderedList, VStack } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -67,12 +67,12 @@ export default function Archive({ newspapers }: Props) {
       ) : (
         <SimpleGrid my={5} columns={{ base: 1, xl: 2 }} spacing={10}>
           {filteredNewspapers.map((n) => (
-            <GridItem key={n.id}>
-              <HStack align="flex-start">
+            <GridItem key={n.id} borderWidth={1} borderRadius={5} p={2}>
+              <Flex justify="space-between">
                 <Link href={`${PATHS.ARCHIVE}/${n.id}`}>
                   <HStack align="flex-start">
                     <Image src={n.coverImage ?? '/img/impulzus_logo_light.png'} height={100} width={200} alt="cover_image" />
-                    <VStack p={3} align="flex-start">
+                    <VStack p={3} pt={0} align="flex-start">
                       <Text fontSize="2xl">{n.title}</Text>
                       <Text>Tartalomjegyzék:</Text>
                       <UnorderedList>
@@ -85,7 +85,7 @@ export default function Archive({ newspapers }: Props) {
                     </VStack>
                   </HStack>
                 </Link>
-                <VStack>
+                <VStack justifySelf="flex-start">
                   <NewspaperModalButton
                     _coverImage={n.coverImage ?? undefined}
                     _id={n.id}
@@ -100,7 +100,7 @@ export default function Archive({ newspapers }: Props) {
                     confirmButtonText="Törlés"
                   />
                 </VStack>
-              </HStack>
+              </Flex>
             </GridItem>
           ))}
         </SimpleGrid>
