@@ -3,9 +3,8 @@ import { Document, Page as ReactPdfPage, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import 'react-pdf/dist/esm/Page/TextLayer.css'
 
-import { Box, Flex, IconButton } from '@chakra-ui/react'
+import { Box, Flex, IconButton, useMediaQuery } from '@chakra-ui/react'
 import { PDFDocumentProxy } from 'pdfjs-dist'
-import React from 'react'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 
 const options = {
@@ -13,24 +12,14 @@ const options = {
   standardFontDataUrl: 'standard_fonts/'
 }
 
-type PDFFile = string | File | null
-
-const Page = React.forwardRef(({ pageNumber }: any, ref: any) => {
-  return (
-    <div ref={ref}>
-      <ReactPdfPage pageNumber={pageNumber} height={750} />
-    </div>
-  )
-})
-
 type Props = {
   path: string
 }
 
 export default function PdfRenderer({ path }: Props) {
-  const [file, setFile] = useState<PDFFile>(`/files/${path}.pdf`)
   const [numPages, setNumPages] = useState<number>(1)
   const [page, setPage] = useState<number>(1)
+  const bigScreen = useMediaQuery('(min-width: 1300px)')
 
   function onDocumentLoadSuccess({ numPages: nextNumPages }: PDFDocumentProxy) {
     setNumPages(nextNumPages)
@@ -49,9 +38,11 @@ export default function PdfRenderer({ path }: Props) {
           aria-label={'Következő'}
         />
       </Flex>
-      <Document file={file} onLoadSuccess={onDocumentLoadSuccess} options={options}>
-        <Page pageNumber={page} />
-      </Document>
+      <Box maxH={50}>
+        <Document file={`/files/${path}.pdf`} onLoadSuccess={onDocumentLoadSuccess} options={options}>
+          <ReactPdfPage pageNumber={page} height={bigScreen[0] ? 750 : 250} />
+        </Document>
+      </Box>
     </Box>
   )
 }
