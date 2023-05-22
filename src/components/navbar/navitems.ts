@@ -5,5 +5,6 @@ export const NAV_ITEMS = [
   { text: 'Blog', href: PATHS.BLOG },
   { text: 'Archívum', href: PATHS.ARCHIVE },
   { text: 'Szerkesztőség', href: PATHS.EDITORSHIP },
+  { text: 'Ötletdoboz', href: PATHS.IDEA },
   { text: 'Belépés', href: PATHS.LOGIN }
 ]

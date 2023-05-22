@@ -19,5 +19,5 @@ export class NewspaperEntity {
   @Min(1)
   grade: number
 
-  pdf: string
+  pdf: string | null
 }

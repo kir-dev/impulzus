@@ -33,7 +33,7 @@ export default function NewsPaperPage({ newspaper }: Props) {
       <PageHeading text={newspaper.title} />
       <Box width="100%">
         <Flex justify="center">
-          <PdfRenderer path={newspaper.pdf} />
+          <PdfRenderer path={newspaper.pdf ?? '' /* TODO */} />
         </Flex>
       </Box>
     </>
