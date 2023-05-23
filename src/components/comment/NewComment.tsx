@@ -11,7 +11,7 @@ export const NewComment = ({ postId }: Props) => {
 
   const submitData = async () => {
     try {
-      const body = { content: value, postId, userId: 'clhxrc2lo0000i0o8bdkrdyyg' }
+      const body = { content: value, postId, userId: 'clhxrc2lo0000i0o8bdkrdyyg' } //TODO
       await fetch('/api/comments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

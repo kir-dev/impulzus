@@ -37,19 +37,22 @@ export const authOptions: NextAuthOptions = {
           email: profile.mail,
           name: profile.displayName,
           emailVerified: profile.emailVerified,
-          titles: profile.eduPersonEntitlement[0].title
+          titles: profile.eduPersonEntitlement[0].title,
+          isAdmin: false,
+          isBoardMember: false,
+          picture: ''
         }
       }
     }
   ],
   secret: process.env.NEXTAUTH_SECRET,
-  events: {
+  /*events: {
     async signIn(message) {
       //console.log('Message: ' + message)
       // on successful sign in
     }
   },
-  logger: {
+ logger: {
     error(code, metadata) {
       console.error(code, metadata)
     },
@@ -59,19 +62,51 @@ export const authOptions: NextAuthOptions = {
     debug(code, metadata) {
       //console.debug(code, metadata)
     }
-  },
-  debug: true
+  },*/
+  debug: true,
+
+  callbacks: {
+    async session({ session, token, user }) {
+      // Send properties to the client, like an access_token from a provider.
+      session.user = user
+
+      let userDetails = await prisma.user.findUnique({
+        where: {
+          id: user.id
+        }
+      })
+
+      session.user = userDetails || undefined
+
+      return session
+    }
+  }
+
+  /*callbacks: {
+    async jwt({ token, user }) {
+      // Step 1: update the token based on the user object
+      if (user) {
+        token.isAdmin = user.isAdmin
+        token.isBoardMember = user.isBoardMember
+        console.log(token)
+      }
+      return token
+    },
+    async session({ session, user, token }) {
+      // Step 2: update the session.user based on the token object
+      if (token && session.user) {
+        session.user.isAdmin = token.isAdmin
+        session.user.isBoardMember = token.isBoardMember
+      }
+      return session
+    }
+  }*/
+
   /*session: {
     strategy: 'jwt'
-  }*
-  /*,
-  callbacks: {
-    async signIn({ profile }) {
-      return true
-    }
-  },
+  }*/
 
-  theme: {
+  /*theme: {
     colorScheme: 'auto', // "auto" | "dark" | "light"
     brandColor: '', // Hex color code
     logo: '', // Absolute URL to image

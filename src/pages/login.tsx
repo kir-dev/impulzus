@@ -4,14 +4,14 @@ import { Button, Heading } from '@chakra-ui/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 
 export default function LoginPage() {
-  const { data: session, status, update } = useSession()
+  const { data, status, update } = useSession()
 
-  console.log(session)
+  console.log(data)
   return (
     <>
       <Title text={status === 'authenticated' ? 'Profil' : 'Bejelentkezés'} />
       <PageHeading text={status === 'authenticated' ? 'Profil' : 'Belépés'} />
-      <Heading mb={4}>{session?.user?.name}</Heading>
+      <Heading mb={4}>{data?.user?.isAdmin ? 'admin' : 'nem admin'}</Heading>
       {status === 'authenticated' ? (
         <Button transform="auto" skewX={5} onClick={() => signOut()}>
           AuthSCH kijelentkezés
