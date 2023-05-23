@@ -2,7 +2,7 @@ import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
-import { Button, GridItem, SimpleGrid, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
+import { Button, Flex, GridItem, SimpleGrid, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import { PostEntity } from '../api/posts/dto/PostEntity.dto'
@@ -30,9 +30,11 @@ export default function Blog({ posts }: Props) {
     <>
       <Title text="Blog" />
       <PageHeading text="Blog" />
-      <Link href={PATHS.BLOG + '/new'}>
-        <Button>Új poszt</Button>
-      </Link>
+      <Flex justify="flex-end">
+        <Link href={PATHS.BLOG + '/new'}>
+          <Button>Új poszt</Button>
+        </Link>
+      </Flex>
       <SimpleGrid my={5} columns={{ base: 1, xl: 2 }} spacing={10}>
         {posts.map((p) => (
           <GridItem key={p.id} borderWidth={1} borderRadius={5} p={2}>

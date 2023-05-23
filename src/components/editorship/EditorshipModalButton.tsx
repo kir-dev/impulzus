@@ -34,6 +34,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors }
   } = useForm({
     defaultValues: {
@@ -178,7 +179,13 @@ export const EditorshipModalButton = ({ user }: Props) => {
             </ModalBody>
 
             <ModalFooter>
-              <Button onClick={onClose} mr={3}>
+              <Button
+                onClick={() => {
+                  onClose()
+                  reset()
+                }}
+                mr={3}
+              >
                 Mégse
               </Button>
               <Button colorScheme="blue" type="submit" onClick={() => onSubmit()}>

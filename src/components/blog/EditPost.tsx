@@ -1,8 +1,9 @@
 import { PostEntity } from '@/pages/api/posts/dto/PostEntity.dto'
-import { Button, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react'
+import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react'
 import Router from 'next/router'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import ReactSelect from 'react-select'
+import { BackButton } from '../common/BackButton'
 import { PageHeading } from '../common/PageHeading'
 import { Title } from '../common/Title'
 import { MarkdownEditor } from '../common/editor/MarkdownEditor'
@@ -113,25 +114,6 @@ export const EditPost = ({ post }: Props) => {
           />
         </FormControl>
 
-        {/*
-          <FormControl isInvalid={!!errors.previewContent} isRequired>
-            <FormLabel>Kategória</FormLabel>
-            <Select
-              placeholder="Válassz kategóriát..."
-              {...register('category', {
-                required: 'Válassz kategóriát!'
-
-                //required: { value: true, message: 'Válassz kategóriát!' },
-              })}
-            >
-              {POST_CATEGORIS.map((c) => (
-                <option value={c}>{c}</option>
-              ))}
-            </Select>
-            {errors.category && <FormErrorMessage>{errors.category.message?.toString()}</FormErrorMessage>}
-          </FormControl>
-              */}
-
         <FormProvider {...form}>
           <FormControl isRequired>
             <FormLabel>Leírás</FormLabel>
@@ -148,7 +130,10 @@ export const EditPost = ({ post }: Props) => {
           </FormControl>
         </FormProvider>
       </VStack>
-      <Button onClick={onSubmit}>{post ? 'Mentés' : 'Létrehozás'}</Button>
+      <Flex justify="space-between">
+        <BackButton />
+        <Button onClick={onSubmit}>{post ? 'Mentés' : 'Létrehozás'}</Button>
+      </Flex>
     </>
   )
 }

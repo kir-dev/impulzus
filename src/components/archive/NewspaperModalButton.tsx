@@ -1,6 +1,8 @@
+import { NewspaperEntity } from '@/pages/api/newspapers/dto/NewspaperEntity.dto'
 import {
   Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   IconButton,
   Input,
@@ -14,41 +16,52 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import Router from 'next/router'
-import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { FaPencilAlt } from 'react-icons/fa'
+import { getStatusString } from '../common/editor/editorUtils'
 
 type Props = {
-  _id?: number
-  _titile?: string
-  _grade?: number
-  _contents?: string[]
-  _coverImage?: string
+  newspaper?: NewspaperEntity
 }
 
-export const NewspaperModalButton = ({ _id, _titile, _grade, _contents, _coverImage }: Props) => {
+export const NewspaperModalButton = ({ newspaper }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [title, setTitle] = useState<string>()
-  const [grade, setGrade] = useState<number>()
-  const [coverImage, setCoverImage] = useState<string>()
-  const [contents, setContents] = useState<string>()
-  const contentsList = contents?.split(',')
 
-  useEffect(() => {
-    setTitle(_titile)
-    setGrade(_grade)
-    setCoverImage(_coverImage)
-    setContents(_contents?.toString())
-  }, [])
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors }
+  } = useForm({
+    defaultValues: {
+      title: newspaper?.title,
+      grade: newspaper?.grade,
+      coverImage: newspaper?.coverImage,
+      contents: newspaper?.contents?.toString(),
+      pdf: newspaper?.pdf
+    },
+    mode: 'all'
+  })
 
-  const submitData = async (e: React.SyntheticEvent) => {
-    e.preventDefault()
-    console.log(contentsList)
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+    const formData = {
+      title: data.title,
+      grade: Number(data.grade),
+      coverImage: data.coverImage,
+      contents: data.contents?.split(','),
+      pdf: data.pdf
+    }
+    newspaper ? updateData(formData) : submitData(formData)
+  })
+
+  const submitData = async (formData: Partial<NewspaperEntity>) => {
     try {
-      const body = { title, grade, coverImage, ISSUU_Link: ' ', contents: contentsList }
       await fetch('/api/newspapers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(formData)
       })
       onClose()
       Router.reload()
@@ -57,14 +70,12 @@ export const NewspaperModalButton = ({ _id, _titile, _grade, _contents, _coverIm
     }
   }
 
-  const updateData = async (e: React.SyntheticEvent) => {
-    e.preventDefault()
+  const updateData = async (formData: Partial<NewspaperEntity>) => {
     try {
-      const body = { title, grade, coverImage, ISSUU_Link: ' ', contents: contentsList }
-      await fetch('/api/newspapers/' + _id, {
+      await fetch('/api/newspapers/' + newspaper?.id, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(formData)
       })
       onClose()
       Router.reload()
@@ -75,7 +86,7 @@ export const NewspaperModalButton = ({ _id, _titile, _grade, _contents, _coverIm
 
   return (
     <>
-      {_id ? (
+      {newspaper ? (
         <IconButton colorScheme="yellow" aria-label="edit" children={<FaPencilAlt />} onClick={() => onOpen()} />
       ) : (
         <Button onClick={() => onOpen()}>Új cikk</Button>
@@ -85,26 +96,103 @@ export const NewspaperModalButton = ({ _id, _titile, _grade, _contents, _coverIm
         <ModalOverlay />
         <ModalContent>
           <form>
-            <ModalHeader>{_titile ? _titile + ' módosítása' : 'Új cikk'}</ModalHeader>
+            <ModalHeader>{newspaper ? newspaper.title + ' módosítása' : 'Új cikk'}</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <FormControl>
+              <FormControl isInvalid={!!errors.title} isRequired>
                 <FormLabel>Cikk címe</FormLabel>
-                <Input autoFocus placeholder="XLIX. évfolyam, 3. szám" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <Input
+                  autoFocus
+                  type="text"
+                  {...register('title', {
+                    required: { value: true, message: 'A cím nem lehet üres!' },
+                    maxLength: {
+                      value: 200,
+                      message: 'Cím túl hosszú! ' + getStatusString(watch('title'), 200)
+                    }
+                  })}
+                  placeholder="XLIX. évfolyam, 3. szám"
+                />
+                {errors.title && <FormErrorMessage>{errors.title.message?.toString()}</FormErrorMessage>}
+              </FormControl>
+
+              <FormControl mt={2} isInvalid={!!errors.grade} isRequired>
                 <FormLabel>Évfolyam</FormLabel>
-                <Input type="number" placeholder="15" value={grade} onChange={(e) => setGrade(Number(e.target.value))} />
-                <FormLabel>Tartalom jegyzék</FormLabel>
-                <Input type="string" placeholder="tartalom, tartalom2" value={contents} onChange={(e) => setContents(e.target.value)} />
-                <FormLabel>Borítókép</FormLabel>
-                <Input type="string" placeholder="https://image" value={coverImage} onChange={(e) => setCoverImage(e.target.value)} />
+                <Input
+                  type="number"
+                  {...register('grade', {
+                    required: { value: true, message: 'Az évfolyam nem lehet üres!' },
+                    min: { value: 1, message: 'Az évfolyam legalább 1!' },
+                    maxLength: {
+                      value: 200,
+                      message: 'Cím túl hosszú! ' + getStatusString(watch('grade')?.toString(), 200)
+                    }
+                  })}
+                  placeholder="50"
+                />
+                {errors.grade && <FormErrorMessage>{errors.grade.message?.toString()}</FormErrorMessage>}
+              </FormControl>
+
+              <FormControl mt={2} isInvalid={!!errors.contents}>
+                <FormLabel>Tartalom</FormLabel>
+                <Input
+                  type="text"
+                  {...register('contents', {
+                    maxLength: {
+                      value: 200,
+                      message: 'Tartalom túl hosszú! ' + getStatusString(watch('contents'), 200)
+                    }
+                  })}
+                  placeholder="Tartalom, tartalom2..."
+                />
+                {errors.contents && <FormErrorMessage>{errors.contents.message?.toString()}</FormErrorMessage>}
+              </FormControl>
+
+              <FormControl mt={2} isInvalid={!!errors.coverImage}>
+                <FormLabel>Borítókép url</FormLabel>
+                <Input
+                  type="text"
+                  {...register('coverImage', {
+                    pattern: {
+                      value: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
+                      message: 'Rossz url'
+                    },
+                    maxLength: {
+                      value: 200,
+                      message: 'Url túl hosszú! ' + getStatusString(watch('coverImage') ?? '', 200)
+                    }
+                  })}
+                  placeholder="https://image"
+                />
+                {errors.coverImage && <FormErrorMessage>{errors.coverImage.message?.toString()}</FormErrorMessage>}
+              </FormControl>
+
+              <FormControl mt={2} isInvalid={!!errors.pdf}>
+                <FormLabel>Pdf név</FormLabel>
+                <Input
+                  type="text"
+                  {...register('pdf', {
+                    maxLength: {
+                      value: 200,
+                      message: 'Url túl hosszú! ' + getStatusString(watch('pdf') ?? '', 200)
+                    }
+                  })}
+                  placeholder="L-2"
+                />
+                {errors.pdf && <FormErrorMessage>{errors.pdf.message?.toString()}</FormErrorMessage>}
               </FormControl>
             </ModalBody>
-
             <ModalFooter>
-              <Button onClick={onClose} mr={3}>
+              <Button
+                onClick={() => {
+                  onClose()
+                  reset()
+                }}
+                mr={3}
+              >
                 Mégse
               </Button>
-              <Button colorScheme="blue" type="submit" onClick={(e) => (_id ? updateData(e) : submitData(e))}>
+              <Button colorScheme="blue" type="submit" onClick={() => onSubmit()}>
                 Mentés
               </Button>
             </ModalFooter>

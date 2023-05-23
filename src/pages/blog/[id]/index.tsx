@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/common/BackButton'
 import { ConfirmDialogButton } from '@/components/common/ConfirmDialogButton'
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
@@ -43,18 +44,21 @@ export default function Blog({ post }: Props) {
     <>
       <Title text={post.title} />
       <PageHeading text={post.title} />
-      <Flex justify="flex-end">
-        <Link href={PATHS.BLOG + `/${post.id}/edit`}>
-          <Button mr={2} mb={2}>
-            Szerkesztés
-          </Button>
-        </Link>
-        <ConfirmDialogButton
-          bodyText="Biztosan törlöd a posztot?"
-          confirmAction={() => deleteData(post.id.toString())}
-          headerText="Poszt törlése"
-          confirmButtonText="Törlés"
-        />
+      <Flex justify="space-between">
+        <BackButton />
+        <Flex>
+          <Link href={PATHS.BLOG + `/${post.id}/edit`}>
+            <Button mr={2} mb={2}>
+              Szerkesztés
+            </Button>
+          </Link>
+          <ConfirmDialogButton
+            bodyText="Biztosan törlöd a posztot?"
+            confirmAction={() => deleteData(post.id.toString())}
+            headerText="Poszt törlése"
+            confirmButtonText="Törlés"
+          />
+        </Flex>
       </Flex>
 
       <Markdown markdown={post.content} />

@@ -38,11 +38,10 @@ export default function PdfRenderer({ path }: Props) {
           aria-label={'Következő'}
         />
       </Flex>
-      <Box maxH={50}>
-        <Document file={`/files/${path}.pdf`} onLoadSuccess={onDocumentLoadSuccess} options={options}>
-          <ReactPdfPage pageNumber={page} height={bigScreen[0] ? 750 : 250} />
-        </Document>
-      </Box>
+
+      <Document file={`/files/${path}.pdf`} onLoadSuccess={onDocumentLoadSuccess} options={options}>
+        <ReactPdfPage pageNumber={page} height={bigScreen[0] ? 750 : 250} />
+      </Document>
     </Box>
   )
 }

@@ -4,7 +4,20 @@ import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
-import { Flex, GridItem, HStack, IconButton, Input, InputGroup, ListItem, SimpleGrid, Text, UnorderedList, VStack } from '@chakra-ui/react'
+import {
+  Flex,
+  GridItem,
+  HStack,
+  IconButton,
+  Input,
+  InputGroup,
+  ListItem,
+  SimpleGrid,
+  Stack,
+  Text,
+  UnorderedList,
+  VStack
+} from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -65,34 +78,38 @@ export default function Archive({ newspapers }: Props) {
       {filteredNewspapers.length < 1 ? (
         <Text mt={5}>Nem található semmi</Text>
       ) : (
-        <SimpleGrid my={5} columns={{ base: 1, xl: 2 }} spacing={10}>
+        <SimpleGrid my={5} columns={{ base: 1, '2xl': 2 }} spacing={10}>
           {filteredNewspapers.map((n) => (
             <GridItem key={n.id} borderWidth={1} borderRadius={5} p={2}>
               <Flex justify="space-between">
                 <Link href={`${PATHS.ARCHIVE}/${n.id}`}>
-                  <HStack align="flex-start">
-                    <Image src={n.coverImage ?? '/img/impulzus_logo_light.png'} height={100} width={200} alt="cover_image" />
+                  <Stack align={{ base: 'center', md: 'flex-start' }} direction={{ base: 'column', md: 'row' }}>
+                    <Image
+                      src={!n.coverImage || n.coverImage == '' ? '/img/impulzus_logo_light.png' : n.coverImage}
+                      height={100}
+                      width={200}
+                      alt="Borítókép"
+                    />
+
                     <VStack p={3} pt={0} align="flex-start">
                       <Text fontSize="2xl">{n.title}</Text>
-                      <Text>Tartalomjegyzék:</Text>
-                      <UnorderedList>
-                        {n.contents.map((c) => (
-                          <ListItem ml={5} key={c}>
-                            {c}
-                          </ListItem>
-                        ))}
-                      </UnorderedList>
+                      {n.contents.length > 0 && n.contents[0] != '' && (
+                        <>
+                          <Text>Tartalomjegyzék:</Text>
+                          <UnorderedList>
+                            {n.contents.map((c) => (
+                              <ListItem ml={5} key={c}>
+                                {c}
+                              </ListItem>
+                            ))}
+                          </UnorderedList>
+                        </>
+                      )}
                     </VStack>
-                  </HStack>
+                  </Stack>
                 </Link>
                 <VStack justifySelf="flex-start">
-                  <NewspaperModalButton
-                    _coverImage={n.coverImage ?? undefined}
-                    _id={n.id}
-                    _grade={n.grade}
-                    _titile={n.title}
-                    _contents={n.contents}
-                  />
+                  <NewspaperModalButton newspaper={n} />
                   <ConfirmDialogButton
                     bodyText="Biztosan törlöd az újságot?"
                     confirmAction={() => deleteData(n.id)}

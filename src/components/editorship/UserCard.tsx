@@ -1,6 +1,6 @@
 import { UserEntity } from '@/pages/api/users/dto/UserEntity.dto'
 import { PATHS } from '@/util/paths'
-import { Flex, HStack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
+import { Flex, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -30,7 +30,7 @@ export const UserCard = ({ user }: Props) => {
   return (
     <Flex justify="space-between">
       <Link key={user.id} href={PATHS.EDITORSHIP + '/' + user.id}>
-        <HStack p={1}>
+        <Stack p={1} direction={{ base: 'column', md: 'row' }}>
           <Image height={150} width={150} alt="profile_pic" src={user.picture ?? '/img/impulzus_logo_light.png'} />
           <VStack align="flex-start">
             <Text fontSize="3xl">{user.name}</Text>
@@ -45,7 +45,7 @@ export const UserCard = ({ user }: Props) => {
                 ))}
             </Wrap>
           </VStack>
-        </HStack>
+        </Stack>
       </Link>
       <VStack>
         <EditorshipModalButton user={user} />

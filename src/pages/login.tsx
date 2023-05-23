@@ -1,6 +1,6 @@
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
-import { Button, Text } from '@chakra-ui/react'
+import { Button, Heading } from '@chakra-ui/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 
 export default function LoginPage() {
@@ -9,8 +9,9 @@ export default function LoginPage() {
   console.log(session)
   return (
     <>
-      <Title text={status === 'authenticated' ? 'Kijelentkezés' : 'Bejelentkezés'} />
-      <PageHeading text={status === 'authenticated' ? 'Kilépés' : 'Belépés'} />
+      <Title text={status === 'authenticated' ? 'Profil' : 'Bejelentkezés'} />
+      <PageHeading text={status === 'authenticated' ? 'Profil' : 'Belépés'} />
+      <Heading mb={4}>{session?.user?.name}</Heading>
       {status === 'authenticated' ? (
         <Button transform="auto" skewX={5} onClick={() => signOut()}>
           AuthSCH kijelentkezés
@@ -20,7 +21,6 @@ export default function LoginPage() {
           AuthSCH bejelentkezés
         </Button>
       )}
-      <Text>{session?.user?.name}</Text>
     </>
   )
 }

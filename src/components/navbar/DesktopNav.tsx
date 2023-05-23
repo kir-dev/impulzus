@@ -10,7 +10,7 @@ export const DesktopNav = () => {
     <HStack spacing={8}>
       {NAV_ITEMS.map((item) => (
         <Link key={item.text + item.href} href={item.href}>
-          {item.text == 'Belépés' && status === 'authenticated' ? 'Kilépés' : item.text}
+          {item.text == 'Belépés' && status === 'authenticated' ? 'Profil' : item.text}
         </Link>
       ))}
     </HStack>
