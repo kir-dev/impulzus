@@ -85,7 +85,7 @@ export default function Archive({ newspapers }: Props) {
                 <Link href={`${PATHS.ARCHIVE}/${n.id}`}>
                   <Stack align={{ base: 'center', md: 'flex-start' }} direction={{ base: 'column', md: 'row' }}>
                     <Image
-                      src={!n.coverImage || n.coverImage == '' ? '/img/impulzus_logo_light.png' : n.coverImage}
+                      src={!n.coverImage || n.coverImage === '' ? '/img/impulzus_logo_light.png' : n.coverImage}
                       height={100}
                       width={200}
                       alt="Borítókép"

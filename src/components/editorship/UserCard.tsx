@@ -1,10 +1,11 @@
 import { UserEntity } from '@/pages/api/users/dto/UserEntity.dto'
 import { PATHS } from '@/util/paths'
-import { Flex, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
+import { Flex, HStack, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Router from 'next/router'
+import { FaRegEnvelope } from 'react-icons/fa'
 import { ConfirmDialogButton } from '../common/ConfirmDialogButton'
 import { EditorshipModalButton } from './EditorshipModalButton'
 
@@ -34,7 +35,10 @@ export const UserCard = ({ user }: Props) => {
           <Image height={150} width={150} alt="profile_pic" src={user.picture ?? '/img/impulzus_logo_light.png'} />
           <VStack align="flex-start">
             <Text fontSize="3xl">{user.name}</Text>
-            <Text>{user.email}</Text>
+            <HStack>
+              <FaRegEnvelope />
+              <Text>{user.email}</Text>
+            </HStack>
             <Wrap>
               {user.titles &&
                 user.titles[0] != '' &&

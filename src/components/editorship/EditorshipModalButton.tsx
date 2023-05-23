@@ -53,7 +53,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
       name: data.name,
       email: data.email,
       titles: data.titles?.split(','),
-      picture: data.picture == '' ? undefined : data.picture,
+      picture: data.picture === '' ? undefined : data.picture,
       isBoardMember: data.isBoardMember
     }
     user ? updateData(formData) : submitData(formData)

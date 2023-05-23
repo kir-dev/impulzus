@@ -1,9 +1,13 @@
+import { CommentList } from '@/components/comment/CommentList'
+import { NewComment } from '@/components/comment/NewComment'
 import { BackButton } from '@/components/common/BackButton'
 import { ConfirmDialogButton } from '@/components/common/ConfirmDialogButton'
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import Markdown from '@/components/common/editor/Markdown'
 import prisma from '@/lib/prisma'
+import { CommentEntity } from '@/pages/api/comments/dto/CommentEntity.dto'
+import { UserEntity } from '@/pages/api/users/dto/UserEntity.dto'
 import { PATHS } from '@/util/paths'
 import { Button, Flex } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
@@ -18,16 +22,33 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     }
   })
 
+  if (!post) {
+    return {
+      notFound: true
+    }
+  }
+
+  const comments = await prisma.comment.findMany({
+    where: {
+      postId: post.id
+    },
+    include: {
+      user: true
+    }
+  })
+
   return {
-    props: { post: JSON.parse(JSON.stringify(post)) }
+    props: { post: JSON.parse(JSON.stringify(post)), comments }
   }
 }
 
 type Props = {
   post: PostEntity
+  comments: (CommentEntity & { user: UserEntity })[]
 }
 
-export default function Blog({ post }: Props) {
+export default function Blog({ post, comments }: Props) {
+  console.log(comments)
   const deleteData = async (id: string) => {
     try {
       await fetch('/api/posts/' + id, {
@@ -62,6 +83,8 @@ export default function Blog({ post }: Props) {
       </Flex>
 
       <Markdown markdown={post.content} />
+      <NewComment postId={post.id} />
+      <CommentList comments={comments} />
     </>
   )
 }

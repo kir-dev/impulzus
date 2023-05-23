@@ -14,7 +14,7 @@ export const MobileNav = ({ onNavigate }: Props) => {
     <VStack display={{ base: 'flex', lg: 'none' }} ml="1.5rem" mb="1rem" alignItems="flex-start">
       {NAV_ITEMS.map((item) => (
         <Link onClick={onNavigate} key={item.text + item.href} href={item.href}>
-          {item.text == 'Belépés' && status === 'authenticated' ? 'Profil' : item.text}
+          {item.text === 'Belépés' && status === 'authenticated' ? 'Profil' : item.text}
         </Link>
       ))}
     </VStack>
