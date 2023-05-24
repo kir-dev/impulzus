@@ -28,9 +28,9 @@ interface ConfirmDialogButtonProps {
 export const ConfirmDialogButton = ({
   headerText,
   bodyText,
-  buttonText = '',
+  /*buttonText = '',
   buttonColorSchene,
-  buttonVariant,
+  buttonVariant,*/
   buttonWidth,
   confirmButtonText = 'Igen',
   refuseButtonText = 'Mégse',
@@ -41,7 +41,9 @@ export const ConfirmDialogButton = ({
 
   return (
     <>
-      <IconButton colorScheme="red" aria-label="delete" children={<FaTrash />} onClick={onOpen} width={buttonWidth} />
+      <IconButton colorScheme="red" aria-label="delete" onClick={onOpen} width={buttonWidth}>
+        <FaTrash />
+      </IconButton>
       <AlertDialog
         preserveScrollBarGap={true}
         motionPreset="slideInBottom"

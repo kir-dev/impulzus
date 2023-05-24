@@ -24,9 +24,9 @@ export const EditPost = ({ post }: Props) => {
     if (!userId) {
       Router.push('/login')
     }
-  }, [])
+  }, [userId])
 
-  const submitData = async (body: any) => {
+  const submitData = async (body: Partial<PostEntity>) => {
     try {
       await fetch(post ? `/api/posts/${post.id}` : '/api/posts', {
         method: post ? 'PATCH' : 'POST',

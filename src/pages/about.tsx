@@ -52,8 +52,9 @@ export default function About() {
         Impulzus jellegzetes I betűje is, amelyet mind a mai napig megtartott a logójában az újság.
       </Paragraph>
       <Paragraph>
-        A '75-ös évfolyam után az egész újságot ofszet papírra nyomják. Eltűnnek a fotók is, és az oldalszám 16-ra csökken, valószínűleg
-        ezek a változtatások a példányszám növelése, vagy az újság megjelenési költségének lecsökkenése miatt voltak szükségesek.
+        A &apos;75-ös évfolyam után az egész újságot ofszet papírra nyomják. Eltűnnek a fotók is, és az oldalszám 16-ra csökken,
+        valószínűleg ezek a változtatások a példányszám növelése, vagy az újság megjelenési költségének lecsökkenése miatt voltak
+        szükségesek.
       </Paragraph>
       <Paragraph>
         1976-tól kéthetente jelenik meg az újság, 16 oldalon, Kunert Zoltán első felelős szerkesztőt Gönci János váltja. Ebben az

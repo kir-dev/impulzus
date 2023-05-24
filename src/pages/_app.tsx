@@ -8,6 +8,7 @@ import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import { ReactElement, ReactNode } from 'react'
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
@@ -18,7 +19,7 @@ type AppPropsWithLayout = AppProps & {
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) {
   //navbar, footer, authcontext stb
-  const getLayout = Component.getLayout ?? ((page: any) => page)
+  const getLayout = Component.getLayout ?? ((page: unknown) => page)
   return getLayout(
     <ThemeProvider attribute="class">
       <SessionProvider session={session}>

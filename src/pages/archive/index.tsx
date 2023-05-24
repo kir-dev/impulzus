@@ -41,7 +41,7 @@ type Props = {
 }
 
 export default function Archive({ newspapers }: Props) {
-  let latestGraade = Math.max(...newspapers.map((n) => n.grade))
+  const latestGraade = Math.max(...newspapers.map((n) => n.grade))
   const [grade, setGrade] = useState<number>(latestGraade)
   const [filteredNewspapers, setFilteredNewspapers] = useState<NewspaperEntity[]>(newspapers)
 
@@ -50,7 +50,7 @@ export default function Archive({ newspapers }: Props) {
 
   useEffect(() => {
     setFilteredNewspapers(newspapers.filter((n) => n.grade === grade))
-  }, [grade])
+  }, [grade, newspapers])
 
   const deleteData = async (id: number) => {
     try {
@@ -71,11 +71,15 @@ export default function Archive({ newspapers }: Props) {
       <HStack justify="space-between">
         <HStack>
           <Text>Évfolyam: </Text>
-          <IconButton aria-label="next grade" children={<FaArrowLeft />} onClick={() => grade > 1 && setGrade(grade - 1)} />
+          <IconButton aria-label="next grade" onClick={() => grade > 1 && setGrade(grade - 1)}>
+            <FaArrowLeft />
+          </IconButton>
           <InputGroup width="5rem">
             <Input value={grade} type="number" min={1} max={latestGraade} onChange={(e) => setGrade(Number(e.target.value))} />
           </InputGroup>
-          <IconButton aria-label="prev grade" children={<FaArrowRight />} onClick={() => grade < latestGraade && setGrade(grade + 1)} />
+          <IconButton aria-label="prev grade" onClick={() => grade < latestGraade && setGrade(grade + 1)}>
+            <FaArrowRight />
+          </IconButton>
         </HStack>
         {isAdmin && <NewspaperModalButton />}
       </HStack>

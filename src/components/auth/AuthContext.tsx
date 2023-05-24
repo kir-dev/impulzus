@@ -1,5 +1,4 @@
 import { UserEntity } from '@/pages/api/users/dto/UserEntity.dto'
-import { ReactNode, createContext } from 'react'
 
 export type AuthContextType = {
   isLoggedIn: boolean
@@ -12,7 +11,7 @@ export type AuthContextType = {
   refetchUser: () => Promise<void>
 }
 
-export const AuthContext = createContext<AuthContextType>({
+/*export const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   loggedInUser: undefined,
   loggedInUserLoading: false,

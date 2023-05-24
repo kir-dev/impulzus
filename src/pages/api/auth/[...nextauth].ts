@@ -23,14 +23,15 @@ export const authOptions: NextAuthOptions = {
       userinfo: {
         url: 'https://auth.sch.bme.hu/api/profile',
         async request(context) {
-          return await getUserInfo(context.tokens.access_token!!)
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          return await getUserInfo(context.tokens.access_token!)
         }
       },
       clientId: process.env.AUTHSCH_CLIENT_ID,
       clientSecret: process.env.AUTHSCH_CLIENT_SECRET,
       profile(profile) {
         //TODO
-        const impulzusTitles = profile.eduPersonEntitlement.map((e: any) => e.name === 'Impulzus')[0].title
+        //const impulzusTitles = profile.eduPersonEntitlement.map((e: any) => e.name === 'Impulzus')[0].title
         return {
           id: '1',
           authSchId: profile.internal_id,
@@ -66,11 +67,11 @@ export const authOptions: NextAuthOptions = {
   debug: true,
 
   callbacks: {
-    async session({ session, token, user }) {
+    async session({ session, user }) {
       // Send properties to the client, like an access_token from a provider.
       session.user = user
 
-      let userDetails = await prisma.user.findUnique({
+      const userDetails = await prisma.user.findUnique({
         where: {
           id: user.id
         }

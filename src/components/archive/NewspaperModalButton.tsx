@@ -87,7 +87,9 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
   return (
     <>
       {newspaper ? (
-        <IconButton colorScheme="yellow" aria-label="edit" children={<FaPencilAlt />} onClick={() => onOpen()} />
+        <IconButton colorScheme="yellow" aria-label="edit" onClick={() => onOpen()}>
+          <FaPencilAlt />
+        </IconButton>
       ) : (
         <Button onClick={() => onOpen()}>Új cikk</Button>
       )}

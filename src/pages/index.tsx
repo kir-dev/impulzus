@@ -128,7 +128,7 @@ export default function Home() {
 }*/
 
 const Page: NextPageWithLayout = () => {
-  const { data: session, status, update } = useSession()
+  const { data: session } = useSession()
 
   console.log(session)
   return (

@@ -10,7 +10,7 @@ import Router from 'next/router'
 import { FaRegLightbulb } from 'react-icons/fa'
 import { IdeaEntity } from '../api/ideas/dto/IdeaEntity.dto'
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const ideas = await prisma.idea.findMany()
 
   return {

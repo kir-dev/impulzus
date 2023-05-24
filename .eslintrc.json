@@ -7,12 +7,12 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
-    "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/ban-types": [
+    "react/react-in-jsx-scope": "off"
+    /*"@typescript-eslint/ban-types": [
       {
         "{}": false
       }
-    ]
+    ]*/
   },
   "plugins": ["@typescript-eslint/eslint-plugin"],
   "parser": "@typescript-eslint/parser"

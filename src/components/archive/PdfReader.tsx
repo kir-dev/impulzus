@@ -30,13 +30,12 @@ export default function PdfRenderer({ path }: Props) {
   return (
     <Box className="Example__container__document">
       <Flex mb={2} justify={page <= 1 ? 'flex-end' : 'space-between'}>
-        <IconButton children={<FaArrowLeft />} hidden={page <= 1} onClick={() => page > 1 && setPage(page - 1)} aria-label={'Előző'} />
-        <IconButton
-          children={<FaArrowRight />}
-          hidden={page >= numPages}
-          onClick={() => page < numPages && setPage(page + 1)}
-          aria-label={'Következő'}
-        />
+        <IconButton hidden={page <= 1} onClick={() => page > 1 && setPage(page - 1)} aria-label={'Előző'}>
+          <FaArrowLeft />
+        </IconButton>
+        <IconButton hidden={page >= numPages} onClick={() => page < numPages && setPage(page + 1)} aria-label={'Következő'}>
+          <FaArrowRight />
+        </IconButton>
       </Flex>
 
       <Document file={`/files/${path}.pdf`} onLoadSuccess={onDocumentLoadSuccess} options={options}>
