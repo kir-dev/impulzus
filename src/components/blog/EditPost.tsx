@@ -1,6 +1,8 @@
 import { PostEntity } from '@/pages/api/posts/dto/PostEntity.dto'
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react'
+import { useSession } from 'next-auth/react'
 import Router from 'next/router'
+import { useEffect } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import ReactSelect from 'react-select'
 import { BackButton } from '../common/BackButton'
@@ -15,6 +17,15 @@ type Props = {
 }
 
 export const EditPost = ({ post }: Props) => {
+  const { data } = useSession()
+  const userId = data?.user?.id
+
+  useEffect(() => {
+    if (!userId) {
+      Router.push('/login')
+    }
+  }, [])
+
   const submitData = async (body: any) => {
     try {
       await fetch(post ? `/api/posts/${post.id}` : '/api/posts', {
@@ -54,7 +65,7 @@ export const EditPost = ({ post }: Props) => {
       previewContent: data.previewContent,
       content: data.content,
       categories: data.categories?.map((c) => c.value),
-      userId: 'clhxrc2lo0000i0o8bdkrdyyg' //TODO
+      userId: userId
     }
     submitData(formData)
   })

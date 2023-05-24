@@ -9,8 +9,9 @@ import prisma from '@/lib/prisma'
 import { CommentEntity } from '@/pages/api/comments/dto/CommentEntity.dto'
 import { UserEntity } from '@/pages/api/users/dto/UserEntity.dto'
 import { PATHS } from '@/util/paths'
-import { Button, Flex } from '@chakra-ui/react'
+import { Box, Button, Flex } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { PostEntity } from '../../api/posts/dto/PostEntity.dto'
@@ -48,7 +49,10 @@ type Props = {
 }
 
 export default function Blog({ post, comments }: Props) {
-  console.log(comments)
+  const { data } = useSession()
+  const isAdmin = data?.user?.isAdmin
+  const isCreater = data?.user?.id === post.userId
+
   const deleteData = async (id: string) => {
     try {
       await fetch('/api/posts/' + id, {
@@ -65,9 +69,8 @@ export default function Blog({ post, comments }: Props) {
     <>
       <Title text={post.title} />
       <PageHeading text={post.title} />
-      <Flex justify="space-between">
-        <BackButton />
-        <Flex>
+      {(isAdmin || isCreater) && (
+        <Flex justify="flex-end">
           <Link href={PATHS.BLOG + `/${post.id}/edit`}>
             <Button mr={2} mb={2}>
               Szerkesztés
@@ -80,11 +83,14 @@ export default function Blog({ post, comments }: Props) {
             confirmButtonText="Törlés"
           />
         </Flex>
-      </Flex>
+      )}
 
       <Markdown markdown={post.content} />
       <NewComment postId={post.id} />
       <CommentList comments={comments} />
+      <Box mt={4}>
+        <BackButton />
+      </Box>
     </>
   )
 }

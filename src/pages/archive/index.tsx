@@ -19,6 +19,7 @@ import {
   VStack
 } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Router from 'next/router'
@@ -43,6 +44,9 @@ export default function Archive({ newspapers }: Props) {
   let latestGraade = Math.max(...newspapers.map((n) => n.grade))
   const [grade, setGrade] = useState<number>(latestGraade)
   const [filteredNewspapers, setFilteredNewspapers] = useState<NewspaperEntity[]>(newspapers)
+
+  const { data } = useSession()
+  const isAdmin = data?.user?.isAdmin
 
   useEffect(() => {
     setFilteredNewspapers(newspapers.filter((n) => n.grade === grade))
@@ -73,7 +77,7 @@ export default function Archive({ newspapers }: Props) {
           </InputGroup>
           <IconButton aria-label="prev grade" children={<FaArrowRight />} onClick={() => grade < latestGraade && setGrade(grade + 1)} />
         </HStack>
-        <NewspaperModalButton />
+        {isAdmin && <NewspaperModalButton />}
       </HStack>
       {filteredNewspapers.length < 1 ? (
         <Text mt={5}>Nem található semmi</Text>
@@ -108,15 +112,17 @@ export default function Archive({ newspapers }: Props) {
                     </VStack>
                   </Stack>
                 </Link>
-                <VStack justifySelf="flex-start">
-                  <NewspaperModalButton newspaper={n} />
-                  <ConfirmDialogButton
-                    bodyText="Biztosan törlöd az újságot?"
-                    confirmAction={() => deleteData(n.id)}
-                    headerText="Újság törlése"
-                    confirmButtonText="Törlés"
-                  />
-                </VStack>
+                {isAdmin && (
+                  <VStack justifySelf="flex-start">
+                    <NewspaperModalButton newspaper={n} />
+                    <ConfirmDialogButton
+                      bodyText="Biztosan törlöd az újságot?"
+                      confirmAction={() => deleteData(n.id)}
+                      headerText="Újság törlése"
+                      confirmButtonText="Törlés"
+                    />
+                  </VStack>
+                )}
               </Flex>
             </GridItem>
           ))}

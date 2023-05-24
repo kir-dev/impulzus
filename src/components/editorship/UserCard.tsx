@@ -15,6 +15,7 @@ type Props = {
 
 export const UserCard = ({ user }: Props) => {
   const { data } = useSession()
+  const isAdmin = data?.user?.isAdmin
 
   const deleteData = async (id: string) => {
     try {
@@ -51,15 +52,17 @@ export const UserCard = ({ user }: Props) => {
           </VStack>
         </Stack>
       </Link>
-      <VStack>
-        <EditorshipModalButton user={user} />
-        <ConfirmDialogButton
-          bodyText="Biztosan törlöd a felhasználót?"
-          confirmAction={() => deleteData(user.id)}
-          headerText="Felhasználó törlése"
-          confirmButtonText="Törlés"
-        />
-      </VStack>
+      {isAdmin && (
+        <VStack>
+          <EditorshipModalButton user={user} />
+          <ConfirmDialogButton
+            bodyText="Biztosan törlöd a felhasználót?"
+            confirmAction={() => deleteData(user.id)}
+            headerText="Felhasználó törlése"
+            confirmButtonText="Törlés"
+          />
+        </VStack>
+      )}
     </Flex>
   )
 }

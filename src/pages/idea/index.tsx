@@ -5,6 +5,7 @@ import { IdeaModalButton } from '@/components/idea/IdeaModalButton'
 import prisma from '@/lib/prisma'
 import { Flex, HStack, Text } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
+import { useSession } from 'next-auth/react'
 import Router from 'next/router'
 import { FaRegLightbulb } from 'react-icons/fa'
 import { IdeaEntity } from '../api/ideas/dto/IdeaEntity.dto'
@@ -22,6 +23,9 @@ type Props = {
 }
 
 export default function Idea({ ideas }: Props) {
+  const { data } = useSession()
+  const isAdmin = data?.user?.isAdmin
+
   const deleteData = async (id: number) => {
     try {
       await fetch('/api/ideas/' + id, {
@@ -47,12 +51,14 @@ export default function Idea({ ideas }: Props) {
             <FaRegLightbulb size={30} />
             <Text>{idea.description}</Text>
           </HStack>
-          <ConfirmDialogButton
-            bodyText="Biztosan törlöd az ötletet?"
-            confirmAction={() => deleteData(idea.id)}
-            headerText="Ötlet törlése"
-            confirmButtonText="Törlés"
-          />
+          {isAdmin && (
+            <ConfirmDialogButton
+              bodyText="Biztosan törlöd az ötletet?"
+              confirmAction={() => deleteData(idea.id)}
+              headerText="Ötlet törlése"
+              confirmButtonText="Törlés"
+            />
+          )}
         </HStack>
       ))}
     </>

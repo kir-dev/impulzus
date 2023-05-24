@@ -5,6 +5,7 @@ import { UserGrid } from '@/components/editorship/UserGrid'
 import prisma from '@/lib/prisma'
 import { Flex } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
+import { useSession } from 'next-auth/react'
 import { UserEntity } from '../api/users/dto/UserEntity.dto'
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -21,13 +22,18 @@ type Props = {
 }
 
 export default function Editorship({ users }: Props) {
+  const { data } = useSession()
+  const isAdmin = data?.user?.isAdmin
+
   return (
     <>
       <Title text="Szerkesztőség" />
       <PageHeading text="Vezetőség" />
-      <Flex mb={4} justify="flex-end">
-        <EditorshipModalButton />
-      </Flex>
+      {isAdmin && (
+        <Flex mb={4} justify="flex-end">
+          <EditorshipModalButton />
+        </Flex>
+      )}
       <UserGrid users={users.filter((u) => u.isBoardMember)} />
       <PageHeading text="Szerkesztőség" />
       <UserGrid users={users.filter((u) => !u.isBoardMember)} />

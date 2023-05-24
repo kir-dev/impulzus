@@ -5,13 +5,13 @@ export class UserEntity {
   id: string
 
   @IsUUID('all')
-  authSchId: string | null
+  authSchId?: string | null | undefined
 
   @IsNotEmpty()
-  name: string
+  name?: string | null | undefined
 
   @IsEmail()
-  email: string
+  email?: string | null | undefined
 
   @IsBoolean()
   @IsOptional()

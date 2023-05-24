@@ -4,6 +4,7 @@ import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
 import { Button, Flex, GridItem, SimpleGrid, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { PostEntity } from '../api/posts/dto/PostEntity.dto'
 import { UserEntity } from '../api/users/dto/UserEntity.dto'
@@ -26,15 +27,20 @@ type Props = {
 }
 
 export default function Blog({ posts }: Props) {
+  const { status } = useSession()
+  const isAuthenticated = status === 'authenticated'
+
   return (
     <>
       <Title text="Blog" />
       <PageHeading text="Blog" />
-      <Flex justify="flex-end">
-        <Link href={PATHS.BLOG + '/new'}>
-          <Button>Új poszt</Button>
-        </Link>
-      </Flex>
+      {isAuthenticated && (
+        <Flex justify="flex-end">
+          <Link href={PATHS.BLOG + '/new'}>
+            <Button>Új poszt</Button>
+          </Link>
+        </Flex>
+      )}
       <SimpleGrid my={5} columns={{ base: 1, xl: 2 }} spacing={10}>
         {posts.map((p) => (
           <GridItem key={p.id} borderWidth={1} borderRadius={5} p={2}>

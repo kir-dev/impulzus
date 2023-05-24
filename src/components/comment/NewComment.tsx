@@ -1,4 +1,5 @@
-import { Button, Flex, Textarea } from '@chakra-ui/react'
+import { Button, Flex, Text, Textarea } from '@chakra-ui/react'
+import { useSession } from 'next-auth/react'
 import Router from 'next/router'
 import { useState } from 'react'
 
@@ -8,10 +9,12 @@ type Props = {
 
 export const NewComment = ({ postId }: Props) => {
   const [value, setValue] = useState<string>('')
+  const { data, status } = useSession()
+  const isAuthenticated = status === 'authenticated'
 
   const submitData = async () => {
     try {
-      const body = { content: value, postId, userId: 'clhxrc2lo0000i0o8bdkrdyyg' } //TODO
+      const body = { content: value, postId, userId: data?.user?.id }
       await fetch('/api/comments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -25,9 +28,20 @@ export const NewComment = ({ postId }: Props) => {
 
   return (
     <>
-      <Textarea mt={8} placeholder="Oszdd meg a véleményedet!" value={value} onChange={(e) => setValue(e.target.value)} />
-      <Flex mt={4} justify="flex-end">
-        <Button isDisabled={value === ''} onClick={() => submitData()}>
+      <Textarea
+        isDisabled={!isAuthenticated}
+        mt={8}
+        placeholder="Oszdd meg a véleményedet!"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      <Flex mt={4} justify={isAuthenticated ? 'flex-end' : 'space-between'}>
+        {!isAuthenticated && (
+          <Text color="red" as="b">
+            Jelenkezz be, hogy tudjál kommentelni!
+          </Text>
+        )}
+        <Button isDisabled={value === '' || !isAuthenticated} onClick={() => submitData()}>
           Új komment
         </Button>
       </Flex>
