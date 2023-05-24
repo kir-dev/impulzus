@@ -24,7 +24,7 @@ type Props = {
 export default function Editorship({ user }: Props) {
   return (
     <>
-      <Title text={user.name} />
+      <Title text={user.name ?? ''} />
       <Image height={100} width={100} alt="profile_pic" src={user.picture ? user.picture : '/img/impulzus_logo_light.png'} />
       <Text>{user.name}</Text>
       <Text>{user.email}</Text>
