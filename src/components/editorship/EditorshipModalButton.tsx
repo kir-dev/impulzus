@@ -110,7 +110,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
                     required: { value: true, message: 'A név nem lehet üres!' },
                     maxLength: {
                       value: 200,
-                      message: 'Név túl hosszú! ' + getStatusString(watch('name'), 200)
+                      message: 'Név túl hosszú! ' + getStatusString(watch('name') ?? '', 200)
                     }
                   })}
                   placeholder="Teszt Elek"
@@ -130,7 +130,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
                     },
                     maxLength: {
                       value: 200,
-                      message: 'Email túl hosszú! ' + getStatusString(watch('email'), 200)
+                      message: 'Email túl hosszú! ' + getStatusString(watch('email') ?? '', 200)
                     }
                   })}
                   placeholder="elek@gmail.com"
