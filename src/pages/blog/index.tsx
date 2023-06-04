@@ -52,7 +52,7 @@ export default function Blog({ posts }: Props) {
                 <Text as="i">
                   {p.user.name} - {new Date(p.createdAt).toLocaleDateString()}
                 </Text>
-                <Text>&ldquo{p.previewContent}&rdquo</Text>
+                <Text>&ldquo;{p.previewContent}&rdquo;</Text>
                 <Wrap>
                   {p.categories.map((t) => (
                     <Tag key={t}>{t}</Tag>
