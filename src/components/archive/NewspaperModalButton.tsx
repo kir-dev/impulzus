@@ -17,8 +17,9 @@ import {
 } from '@chakra-ui/react'
 import Router from 'next/router'
 import { useForm } from 'react-hook-form'
-import { FaPencilAlt } from 'react-icons/fa'
+import { FaFile, FaPencilAlt } from 'react-icons/fa'
 import { getStatusString } from '../common/editor/editorUtils'
+import { FileUpload } from './FileUpload'
 
 type Props = {
   newspaper?: NewspaperEntity
@@ -91,18 +92,18 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
           <FaPencilAlt />
         </IconButton>
       ) : (
-        <Button onClick={() => onOpen()}>Új cikk</Button>
+        <Button onClick={() => onOpen()}>Új lap</Button>
       )}
 
       <Modal motionPreset="slideInBottom" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <form>
-            <ModalHeader>{newspaper ? newspaper.title + ' módosítása' : 'Új cikk'}</ModalHeader>
+            <ModalHeader>{newspaper ? newspaper.title + ' módosítása' : 'Új lap'}</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
               <FormControl isInvalid={!!errors.title} isRequired>
-                <FormLabel>Cikk címe</FormLabel>
+                <FormLabel>Lap címe</FormLabel>
                 <Input
                   autoFocus
                   type="text"
@@ -151,17 +152,17 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
               </FormControl>
 
               <FormControl mt={2} isInvalid={!!errors.coverImage}>
-                <FormLabel>Borítókép url</FormLabel>
+                <FormLabel>Borítókép URL</FormLabel>
                 <Input
                   type="text"
                   {...register('coverImage', {
                     pattern: {
                       value: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
-                      message: 'Rossz url'
+                      message: 'Rossz URL'
                     },
                     maxLength: {
                       value: 200,
-                      message: 'Url túl hosszú! ' + getStatusString(watch('coverImage') ?? '', 200)
+                      message: 'URL túl hosszú! ' + getStatusString(watch('coverImage') ?? '', 200)
                     }
                   })}
                   placeholder="https://image"
@@ -170,19 +171,21 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
               </FormControl>
 
               <FormControl mt={2} isInvalid={!!errors.pdf}>
-                <FormLabel>Pdf név</FormLabel>
+                <FormLabel>PDF név</FormLabel>
                 <Input
                   type="text"
                   {...register('pdf', {
                     maxLength: {
                       value: 200,
-                      message: 'Url túl hosszú! ' + getStatusString(watch('pdf') ?? '', 200)
+                      message: 'PDF túl hosszú! ' + getStatusString(watch('pdf') ?? '', 200)
                     }
                   })}
                   placeholder="L-2"
                 />
                 {errors.pdf && <FormErrorMessage>{errors.pdf.message?.toString()}</FormErrorMessage>}
               </FormControl>
+
+              <FileUpload required fieldName="files" buttonIcon={<FaFile />} accept={'.pdf'} />
             </ModalBody>
             <ModalFooter>
               <Button
