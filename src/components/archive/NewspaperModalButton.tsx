@@ -15,8 +15,9 @@ import {
   ModalOverlay,
   useDisclosure
 } from '@chakra-ui/react'
+import axios from 'axios'
 import Router from 'next/router'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { FaFile, FaPencilAlt } from 'react-icons/fa'
 import { getStatusString } from '../common/editor/editorUtils'
 import { FileUpload } from './FileUpload'
@@ -28,13 +29,14 @@ type Props = {
 export const NewspaperModalButton = ({ newspaper }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors }
-  } = useForm({
+  const methods = useForm<{
+    files?: FileList
+    title?: string
+    grade?: number
+    coverImage?: string | null
+    contents: string | undefined
+    pdf?: string | null
+  }>({
     defaultValues: {
       title: newspaper?.title,
       grade: newspaper?.grade,
@@ -45,15 +47,38 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
     mode: 'all'
   })
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors }
+  } = methods
+
+  const onSubmit = handleSubmit(async (data) => {
+    const file = data.files?.[0]
+
+    if (!file) {
+      console.log('File missing')
+      return
+    }
+
     const formData = {
       title: data.title,
       grade: Number(data.grade),
       coverImage: data.coverImage,
       contents: data.contents?.split(','),
-      pdf: data.pdf
+      pdf: file.name
     }
+
+    try {
+      const formData = new FormData()
+      formData.append('pdf', file)
+      await axios.post('/api/file', formData)
+    } catch (e) {
+      console.log(e)
+    }
+
     newspaper ? updateData(formData) : submitData(formData)
   })
 
@@ -98,94 +123,89 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
       <Modal motionPreset="slideInBottom" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <form>
+          <form onSubmit={onSubmit}>
             <ModalHeader>{newspaper ? newspaper.title + ' módosítása' : 'Új lap'}</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <FormControl isInvalid={!!errors.title} isRequired>
-                <FormLabel>Lap címe</FormLabel>
-                <Input
-                  autoFocus
-                  type="text"
-                  {...register('title', {
-                    required: { value: true, message: 'A cím nem lehet üres!' },
-                    maxLength: {
-                      value: 200,
-                      message: 'Cím túl hosszú! ' + getStatusString(watch('title'), 200)
-                    }
-                  })}
-                  placeholder="XLIX. évfolyam, 3. szám"
-                />
-                {errors.title && <FormErrorMessage>{errors.title.message?.toString()}</FormErrorMessage>}
-              </FormControl>
+              <FormProvider {...methods}>
+                <FormControl isInvalid={!!errors.title} isRequired>
+                  <FormLabel>Lap címe</FormLabel>
+                  <Input
+                    autoFocus
+                    type="text"
+                    {...register('title', {
+                      required: { value: true, message: 'A cím nem lehet üres!' },
+                      maxLength: {
+                        value: 200,
+                        message: 'Cím túl hosszú! ' + getStatusString(watch('title'), 200)
+                      }
+                    })}
+                    placeholder="XLIX. évfolyam, 3. szám"
+                  />
+                  {errors.title && <FormErrorMessage>{errors.title.message?.toString()}</FormErrorMessage>}
+                </FormControl>
 
-              <FormControl mt={2} isInvalid={!!errors.grade} isRequired>
-                <FormLabel>Évfolyam</FormLabel>
-                <Input
-                  type="number"
-                  {...register('grade', {
-                    required: { value: true, message: 'Az évfolyam nem lehet üres!' },
-                    min: { value: 1, message: 'Az évfolyam legalább 1!' },
-                    maxLength: {
-                      value: 200,
-                      message: 'Cím túl hosszú! ' + getStatusString(watch('grade')?.toString(), 200)
-                    }
-                  })}
-                  placeholder="50"
-                />
-                {errors.grade && <FormErrorMessage>{errors.grade.message?.toString()}</FormErrorMessage>}
-              </FormControl>
+                <FormControl mt={2} isInvalid={!!errors.grade} isRequired>
+                  <FormLabel>Évfolyam</FormLabel>
+                  <Input
+                    type="number"
+                    {...register('grade', {
+                      required: { value: true, message: 'Az évfolyam nem lehet üres!' },
+                      min: { value: 1, message: 'Az évfolyam legalább 1!' },
+                      maxLength: {
+                        value: 200,
+                        message: 'Cím túl hosszú! ' + getStatusString(watch('grade')?.toString(), 200)
+                      }
+                    })}
+                    placeholder="50"
+                  />
+                  {errors.grade && <FormErrorMessage>{errors.grade.message?.toString()}</FormErrorMessage>}
+                </FormControl>
 
-              <FormControl mt={2} isInvalid={!!errors.contents}>
-                <FormLabel>Tartalom</FormLabel>
-                <Input
-                  type="text"
-                  {...register('contents', {
-                    maxLength: {
-                      value: 200,
-                      message: 'Tartalom túl hosszú! ' + getStatusString(watch('contents'), 200)
-                    }
-                  })}
-                  placeholder="Tartalom, tartalom2..."
-                />
-                {errors.contents && <FormErrorMessage>{errors.contents.message?.toString()}</FormErrorMessage>}
-              </FormControl>
+                <FormControl mt={2} isInvalid={!!errors.contents}>
+                  <FormLabel>Tartalom</FormLabel>
+                  <Input
+                    type="text"
+                    {...register('contents', {
+                      maxLength: {
+                        value: 200,
+                        message: 'Tartalom túl hosszú! ' + getStatusString(watch('contents'), 200)
+                      }
+                    })}
+                    placeholder="Tartalom, tartalom2..."
+                  />
+                  {errors.contents && <FormErrorMessage>{errors.contents.message?.toString()}</FormErrorMessage>}
+                </FormControl>
 
-              <FormControl mt={2} isInvalid={!!errors.coverImage}>
-                <FormLabel>Borítókép URL</FormLabel>
-                <Input
-                  type="text"
-                  {...register('coverImage', {
-                    pattern: {
-                      value: /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
-                      message: 'Rossz URL'
-                    },
-                    maxLength: {
-                      value: 200,
-                      message: 'URL túl hosszú! ' + getStatusString(watch('coverImage') ?? '', 200)
-                    }
-                  })}
-                  placeholder="https://image"
-                />
-                {errors.coverImage && <FormErrorMessage>{errors.coverImage.message?.toString()}</FormErrorMessage>}
-              </FormControl>
+                <FormControl mt={2} isInvalid={!!errors.coverImage}>
+                  <FormLabel>Borítókép URL</FormLabel>
+                  <Input
+                    type="text"
+                    {...register('coverImage', {
+                      pattern: {
+                        value:
+                          /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
+                        message: 'Rossz URL'
+                      },
+                      maxLength: {
+                        value: 200,
+                        message: 'URL túl hosszú! ' + getStatusString(watch('coverImage') ?? '', 200)
+                      }
+                    })}
+                    placeholder="https://image"
+                  />
+                  {errors.coverImage && <FormErrorMessage>{errors.coverImage.message?.toString()}</FormErrorMessage>}
+                </FormControl>
 
-              <FormControl mt={2} isInvalid={!!errors.pdf}>
-                <FormLabel>PDF név</FormLabel>
-                <Input
-                  type="text"
-                  {...register('pdf', {
-                    maxLength: {
-                      value: 200,
-                      message: 'PDF túl hosszú! ' + getStatusString(watch('pdf') ?? '', 200)
-                    }
-                  })}
-                  placeholder="L-2"
+                <FileUpload
+                  fieldTitle="PDF"
+                  oldFileName={newspaper?.pdf}
+                  required
+                  fieldName="files"
+                  buttonIcon={<FaFile />}
+                  accept={'.pdf'}
                 />
-                {errors.pdf && <FormErrorMessage>{errors.pdf.message?.toString()}</FormErrorMessage>}
-              </FormControl>
-
-              <FileUpload required fieldName="files" buttonIcon={<FaFile />} accept={'.pdf'} />
+              </FormProvider>
             </ModalBody>
             <ModalFooter>
               <Button
@@ -197,7 +217,7 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
               >
                 Mégse
               </Button>
-              <Button colorScheme="blue" type="submit" onClick={() => onSubmit()}>
+              <Button colorScheme="blue" type="submit">
                 Mentés
               </Button>
             </ModalFooter>

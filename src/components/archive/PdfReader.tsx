@@ -13,10 +13,10 @@ const options = {
 }
 
 type Props = {
-  path: string
+  fileName: string
 }
 
-export default function PdfRenderer({ path }: Props) {
+export default function PdfRenderer({ fileName }: Props) {
   const [numPages, setNumPages] = useState<number>(1)
   const [page, setPage] = useState<number>(1)
   const bigScreen = useMediaQuery('(min-width: 1300px)')
@@ -38,7 +38,7 @@ export default function PdfRenderer({ path }: Props) {
         </IconButton>
       </Flex>
 
-      <Document file={`/files/${path}.pdf`} onLoadSuccess={onDocumentLoadSuccess} options={options}>
+      <Document file={`/files/${fileName}`} onLoadSuccess={onDocumentLoadSuccess} options={options}>
         <ReactPdfPage pageNumber={page} height={bigScreen[0] ? 750 : 250} />
       </Document>
     </Box>

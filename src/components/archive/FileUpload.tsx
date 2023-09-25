@@ -10,8 +10,8 @@ import {
   InputLeftAddon,
   InputRightAddon
 } from '@chakra-ui/react'
-import { FC, ReactElement, useRef } from 'react'
-import { useForm } from 'react-hook-form'
+import { FC, ReactElement, useEffect, useRef } from 'react'
+import { useFormContext } from 'react-hook-form'
 import { FaTimes } from 'react-icons/fa'
 
 type Props = {
@@ -23,6 +23,7 @@ type Props = {
   required?: boolean
   maxFileSizeMB?: number
   buttonIcon: ReactElement
+  oldFileName?: string | null
 }
 
 export const FileUpload: FC<Props> = ({
@@ -30,10 +31,11 @@ export const FileUpload: FC<Props> = ({
   fieldTitle,
   uploadButtonText = 'Feltöltés',
   helper,
-  accept = 'image/*',
+  accept = '.pdf',
   required = false,
   maxFileSizeMB = 10,
-  buttonIcon
+  buttonIcon,
+  oldFileName
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const {
@@ -41,7 +43,7 @@ export const FileUpload: FC<Props> = ({
     formState: { errors },
     watch,
     setValue
-  } = useForm()
+  } = useFormContext()
 
   const validateFiles = (value: FileList | undefined) => {
     if (!value) {
@@ -62,8 +64,21 @@ export const FileUpload: FC<Props> = ({
   const onUploadPressed = () => inputRef.current?.click()
   const onRemovePressed = () => setValue(fieldName, undefined)
 
+  useEffect(() => {
+    const getOldFile = async () => {
+      /*const oldFile = await fs.readFile(path.join(process.cwd(), `/public/files/${oldFileName}`))
+      if (oldFile) {
+        setValue(fieldName, oldFile)
+      }*/
+    }
+
+    getOldFile()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  console.log(required)
   return (
-    <FormControl isRequired={required} isInvalid={!!errors[fieldName]}>
+    <FormControl mt={2} isRequired={required} isInvalid={!!errors[fieldName]}>
       {fieldTitle && <FormLabel htmlFor={fieldName}>{fieldTitle}</FormLabel>}
       <InputGroup>
         <input
