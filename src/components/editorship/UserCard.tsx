@@ -23,7 +23,7 @@ export const UserCard = ({ user }: Props) => {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
       })
-      Router.reload()
+      Router.replace(Router.asPath)
     } catch (error) {
       console.error(error)
     }

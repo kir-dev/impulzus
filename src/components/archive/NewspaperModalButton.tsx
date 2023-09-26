@@ -90,7 +90,7 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
         body: JSON.stringify(formData)
       })
       onClose()
-      Router.reload()
+      Router.replace(Router.asPath)
     } catch (error) {
       console.error(error)
     }
@@ -104,7 +104,7 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
         body: JSON.stringify(formData)
       })
       onClose()
-      Router.reload()
+      Router.replace(Router.asPath)
     } catch (error) {
       console.error(error)
     }

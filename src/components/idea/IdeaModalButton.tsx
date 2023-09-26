@@ -29,7 +29,7 @@ export const IdeaModalButton = () => {
         body: JSON.stringify(body)
       })
       onClose()
-      Router.reload()
+      Router.replace(Router.asPath)
     } catch (error) {
       console.error(error)
     }

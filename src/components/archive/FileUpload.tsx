@@ -76,7 +76,6 @@ export const FileUpload: FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log(required)
   return (
     <FormControl mt={2} isRequired={required} isInvalid={!!errors[fieldName]}>
       {fieldTitle && <FormLabel htmlFor={fieldName}>{fieldTitle}</FormLabel>}

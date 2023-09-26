@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma'
+import { PrismaClientValidationError } from '@prisma/client/runtime/library'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { PostEntity } from './dto/PostEntity.dto'
 
@@ -20,9 +21,17 @@ const handleGET = async (res: NextApiResponse<PostEntity[]>) => {
   res.status(200).json(posts)
 }
 
-const handlePOST = async (req: NextApiRequest, res: NextApiResponse<PostEntity>) => {
-  const post = await prisma.post.create({
-    data: req.body
-  })
-  res.status(200).json(post)
+const handlePOST = async (req: NextApiRequest, res: NextApiResponse<PostEntity | unknown>) => {
+  try {
+    const post = await prisma.post.create({
+      data: req.body
+    })
+    res.status(200).json(post)
+  } catch (e) {
+    if (e instanceof PrismaClientValidationError) {
+      return res.status(400).send(e.message)
+    } else {
+      return res.status(500).send(e)
+    }
+  }
 }

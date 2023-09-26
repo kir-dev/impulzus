@@ -20,7 +20,7 @@ export const NewComment = ({ postId }: Props) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       })
-      Router.reload()
+      Router.replace(Router.asPath)
     } catch (error) {
       console.error(error)
     }

@@ -67,7 +67,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
         body: JSON.stringify(formData)
       })
       onClose()
-      Router.reload()
+      Router.replace(Router.asPath)
     } catch (error) {
       console.error(error)
     }
@@ -81,7 +81,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
         body: JSON.stringify(formData)
       })
       onClose()
-      Router.reload()
+      Router.replace(Router.asPath)
     } catch (error) {
       console.error(error)
     }
