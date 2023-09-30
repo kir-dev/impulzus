@@ -67,9 +67,12 @@ export const FileUpload: FC<Props> = ({
   useEffect(() => {
     const getOldFile = async () => {
       /*const oldFile = await fs.readFile(path.join(process.cwd(), `/public/files/${oldFileName}`))
+
       if (oldFile) {
         setValue(fieldName, oldFile)
       }*/
+      const oldFile = await fetch(`/public/files/${oldFileName}`)
+      console.log(oldFile)
     }
 
     getOldFile()

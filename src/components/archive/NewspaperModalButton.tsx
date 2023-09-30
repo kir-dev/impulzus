@@ -74,7 +74,7 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
     try {
       const formData = new FormData()
       formData.append('pdf', file)
-      await axios.post('/api/file', formData)
+      await axios.post('/api/file/upload', formData)
     } catch (e) {
       console.log(e)
     }
