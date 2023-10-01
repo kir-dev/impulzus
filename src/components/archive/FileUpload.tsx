@@ -10,7 +10,7 @@ import {
   InputLeftAddon,
   InputRightAddon
 } from '@chakra-ui/react'
-import { FC, ReactElement, useEffect, useRef } from 'react'
+import { FC, ReactElement, useRef, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { FaTimes } from 'react-icons/fa'
 
@@ -44,12 +44,17 @@ export const FileUpload: FC<Props> = ({
     watch,
     setValue
   } = useFormContext()
+  const [oldFile, setOldFile] = useState<string>(oldFileName ?? '')
+  const [isReuired, setsetIsRequired] = useState(required)
 
   const validateFiles = (value: FileList | undefined) => {
+    if (!isReuired) {
+      return true
+    }
     if (!value) {
       return 'Legalább egy fájl feltöltése szükséges!'
     }
-    if (required && value.length < 1) {
+    if (isReuired && value.length < 1) {
       return 'Legalább egy fájl feltöltése szükséges!'
     }
     if (value.length > 1) {
@@ -60,27 +65,20 @@ export const FileUpload: FC<Props> = ({
     return true
   }
 
-  const registerProps = { ...register(fieldName, { required: 'Kötelező mező', validate: validateFiles }) }
-  const onUploadPressed = () => inputRef.current?.click()
-  const onRemovePressed = () => setValue(fieldName, undefined)
-
-  useEffect(() => {
-    const getOldFile = async () => {
-      /*const oldFile = await fs.readFile(path.join(process.cwd(), `/public/files/${oldFileName}`))
-
-      if (oldFile) {
-        setValue(fieldName, oldFile)
-      }*/
-      const oldFile = await fetch(`/public/files/${oldFileName}`)
-      console.log(oldFile)
-    }
-
-    getOldFile()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const registerProps = { ...register(fieldName, { validate: validateFiles }) }
+  const onUploadPressed = () => {
+    setsetIsRequired(true)
+    setOldFile('')
+    inputRef.current?.click()
+  }
+  const onRemovePressed = () => {
+    setsetIsRequired(true)
+    setOldFile('')
+    setValue(fieldName, undefined)
+  }
 
   return (
-    <FormControl mt={2} isRequired={required} isInvalid={!!errors[fieldName]}>
+    <FormControl mt={2} isRequired={isReuired} isInvalid={!!errors[fieldName]}>
       {fieldTitle && <FormLabel htmlFor={fieldName}>{fieldTitle}</FormLabel>}
       <InputGroup>
         <input
@@ -96,7 +94,12 @@ export const FileUpload: FC<Props> = ({
         <InputLeftAddon as={Button} leftIcon={buttonIcon} onClick={onUploadPressed}>
           {uploadButtonText}
         </InputLeftAddon>
-        <Input value={watch(fieldName)?.item(0)?.name || 'Nincs fájl kiválasztva'} readOnly onClick={onUploadPressed} cursor="pointer" />
+        <Input
+          value={oldFile || watch(fieldName)?.item(0)?.name || 'Nincs fájl kiválasztva'}
+          readOnly
+          onClick={onUploadPressed}
+          cursor="pointer"
+        />
         <InputRightAddon as={IconButton} aria-label="Választott fájl visszavonása" icon={<FaTimes />} onClick={onRemovePressed} />
       </InputGroup>
       {errors?.[fieldName] ? (

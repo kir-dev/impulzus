@@ -58,25 +58,24 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
   const onSubmit = handleSubmit(async (data) => {
     const file = data.files?.[0]
 
-    if (!file) {
-      console.log('File missing')
-      return
-    }
-
-    const formData = {
+    const formData: Partial<NewspaperEntity> = {
       title: data.title,
       grade: Number(data.grade),
       coverImage: data.coverImage,
-      contents: data.contents?.split(','),
-      pdf: file.name
+      contents: data.contents?.split(',')
+    }
+    if (file?.name) {
+      formData.pdf = file.name
     }
 
-    try {
-      const formData = new FormData()
-      formData.append('pdf', file)
-      await axios.post('/api/file/upload', formData)
-    } catch (e) {
-      console.log(e)
+    if (file) {
+      try {
+        const formData = new FormData()
+        formData.append('pdf', file)
+        await axios.post('/api/file/upload', formData)
+      } catch (e) {
+        console.log(e)
+      }
     }
 
     newspaper ? updateData(formData) : submitData(formData)
@@ -168,7 +167,7 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
                     type="text"
                     {...register('contents', {
                       maxLength: {
-                        value: 200,
+                        value: 400,
                         message: 'Tartalom túl hosszú! ' + getStatusString(watch('contents'), 200)
                       }
                     })}
@@ -200,7 +199,7 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
                 <FileUpload
                   fieldTitle="PDF"
                   oldFileName={newspaper?.pdf}
-                  required
+                  required={!newspaper?.pdf}
                   fieldName="files"
                   buttonIcon={<FaFile />}
                   accept={'.pdf'}
