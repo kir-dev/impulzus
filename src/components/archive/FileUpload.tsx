@@ -45,7 +45,7 @@ export const FileUpload: FC<Props> = ({
     setValue
   } = useFormContext()
   const [oldFile, setOldFile] = useState<string>(oldFileName ?? '')
-  const [isReuired, setsetIsRequired] = useState(required)
+  const [isReuired, setIsRequired] = useState(required)
 
   const validateFiles = (value: FileList | undefined) => {
     if (!isReuired) {
@@ -67,12 +67,12 @@ export const FileUpload: FC<Props> = ({
 
   const registerProps = { ...register(fieldName, { validate: validateFiles }) }
   const onUploadPressed = () => {
-    setsetIsRequired(true)
+    setIsRequired(true)
     setOldFile('')
     inputRef.current?.click()
   }
   const onRemovePressed = () => {
-    setsetIsRequired(true)
+    setIsRequired(true)
     setOldFile('')
     setValue(fieldName, undefined)
   }

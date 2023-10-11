@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Document, Page as ReactPdfPage, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import 'react-pdf/dist/esm/Page/TextLayer.css'
@@ -13,12 +13,13 @@ const options = {
 }
 
 type Props = {
-  fileName: string
+  fileURL: string
 }
 
-export default function PdfRenderer({ fileName }: Props) {
+export default function PdfRenderer({ fileURL }: Props) {
   const [numPages, setNumPages] = useState<number>(1)
   const [page, setPage] = useState<number>(1)
+  const [file, setFile] = useState<File>()
   const bigScreen = useMediaQuery('(min-width: 1300px)')
 
   function onDocumentLoadSuccess({ numPages: nextNumPages }: PDFDocumentProxy) {
@@ -26,6 +27,26 @@ export default function PdfRenderer({ fileName }: Props) {
   }
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
+
+  useEffect(() => {
+    const fetchAndSetFile = async () => {
+      try {
+        const response = await fetch(fileURL)
+        if (!response.ok) {
+          throw new Error('Failed to fetch blob data')
+        }
+
+        const blobData = await response.blob()
+        const file = new File([blobData], 'fileName', { type: blobData.type })
+        setFile(file)
+      } catch (error) {
+        console.error('Error fetching blob data:', error)
+      }
+    }
+
+    fetchAndSetFile()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Box className="Example__container__document">
@@ -38,7 +59,7 @@ export default function PdfRenderer({ fileName }: Props) {
         </IconButton>
       </Flex>
 
-      <Document file={`/files/${fileName}`} onLoadSuccess={onDocumentLoadSuccess} options={options}>
+      <Document file={file} onLoadSuccess={onDocumentLoadSuccess} options={options}>
         <ReactPdfPage pageNumber={page} height={bigScreen[0] ? 750 : 250} />
       </Document>
     </Box>

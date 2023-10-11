@@ -1,4 +1,6 @@
 import prisma from '@/lib/prisma'
+import { PrismaClientValidationError } from '@prisma/client/runtime'
+import { del } from '@vercel/blob'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { NewspaperEntity } from './dto/NewspaperEntity.dto'
 
@@ -42,13 +44,24 @@ const handlePATCH = async (newspaperId: number, req: NextApiRequest, res: NextAp
   }
 }
 
-const handleDELETE = async (newspaperId: number, res: NextApiResponse<NewspaperEntity | string>) => {
+const handleDELETE = async (newspaperId: number, res: NextApiResponse<NewspaperEntity | unknown>) => {
+  const newspaper = await prisma.newspaper.findUnique({
+    where: { id: newspaperId }
+  })
+  const pdfUrl = newspaper?.pdf
   try {
-    const newspaper = await prisma.newspaper.delete({
+    if (pdfUrl) {
+      await del(pdfUrl)
+    }
+    const deletedNewspaper = await prisma.newspaper.delete({
       where: { id: newspaperId }
     })
-    return res.status(200).json(newspaper)
-  } catch {
-    return res.status(404).json('Az újság nem található!')
+    return res.status(200).json(deletedNewspaper)
+  } catch (e) {
+    if (e instanceof PrismaClientValidationError) {
+      return res.status(404).json('Az újság nem található!')
+    } else {
+      return res.status(500).json(e)
+    }
   }
 }

@@ -1,5 +1,4 @@
 import { type PutBlobResult } from '@vercel/blob'
-import { upload } from '@vercel/blob/client'
 import { useRef, useState } from 'react'
 
 export default function AvatarUploadPage() {
@@ -19,12 +18,15 @@ export default function AvatarUploadPage() {
 
           const file = inputFileRef.current.files[0]
 
-          const newBlob = await upload(file.name, file, {
-            access: 'public',
-            handleUploadUrl: '/api/avatar/upload'
+          const res = await fetch('/api/avatar/upload', {
+            method: 'POST',
+            headers: { 'content-type': file.type },
+            body: file
           })
+          const data = await res.json()
+          const url = data.url
 
-          setBlob(newBlob)
+          console.log(url)
         }}
       >
         <input name="file" ref={inputFileRef} type="file" required />

@@ -15,7 +15,6 @@ import {
   ModalOverlay,
   useDisclosure
 } from '@chakra-ui/react'
-import axios from 'axios'
 import Router from 'next/router'
 import { FormProvider, useForm } from 'react-hook-form'
 import { FaFile, FaPencilAlt } from 'react-icons/fa'
@@ -64,18 +63,25 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
       coverImage: data.coverImage,
       contents: data.contents?.split(',')
     }
-    if (file?.name) {
-      formData.pdf = file.name
-    }
 
+    let pdfUrl
+    //TODO move this to the API
     if (file) {
       try {
-        const formData = new FormData()
-        formData.append('pdf', file)
-        await axios.post('/api/file/upload', formData)
+        const res = await fetch('/api/avatar/upload', {
+          method: 'POST',
+          headers: { 'content-type': file.type, 'file-name': file.name },
+          body: file
+        })
+        const data = await res.json()
+        pdfUrl = data.url
       } catch (e) {
         console.log(e)
       }
+    }
+
+    if (pdfUrl) {
+      formData.pdf = pdfUrl
     }
 
     newspaper ? updateData(formData) : submitData(formData)
