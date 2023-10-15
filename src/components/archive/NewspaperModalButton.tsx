@@ -65,7 +65,6 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
     }
 
     let pdfUrl
-    //TODO move this to the API
     if (file) {
       try {
         const res = await fetch('/api/avatar/upload', {
@@ -78,6 +77,7 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
       } catch (e) {
         console.log(e)
       }
+      formData.ISSUU_Link = file.name
     }
 
     if (pdfUrl) {
@@ -102,11 +102,16 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
   }
 
   const updateData = async (formData: Partial<NewspaperEntity>) => {
+    const body = {
+      data: formData,
+      oldURL: formData.pdf ? newspaper?.pdf : undefined
+    }
+
     try {
       await fetch('/api/newspapers/' + newspaper?.id, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(body)
       })
       onClose()
       Router.replace(Router.asPath)
@@ -204,8 +209,8 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
 
                 <FileUpload
                   fieldTitle="PDF"
-                  oldFileName={newspaper?.pdf}
-                  required={!newspaper?.pdf}
+                  oldFileName={newspaper?.ISSUU_Link}
+                  required={!newspaper?.ISSUU_Link}
                   fieldName="files"
                   buttonIcon={<FaFile />}
                   accept={'.pdf'}

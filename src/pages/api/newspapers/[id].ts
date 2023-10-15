@@ -33,10 +33,21 @@ const handleGET = async (newspaperId: number, res: NextApiResponse<NewspaperEnti
 }
 
 const handlePATCH = async (newspaperId: number, req: NextApiRequest, res: NextApiResponse<NewspaperEntity | string>) => {
+  const data = req.body.data
+  const oldURL = req.body.oldURL
+
+  if (oldURL) {
+    try {
+      await del(oldURL)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   try {
     const newspaper = await prisma.newspaper.update({
       where: { id: newspaperId },
-      data: req.body
+      data: data
     })
     return res.status(200).json(newspaper)
   } catch (e) {
