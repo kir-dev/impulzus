@@ -12,12 +12,14 @@ import {
   Textarea,
   useDisclosure
 } from '@chakra-ui/react'
+import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 import { useState } from 'react'
 
 export const IdeaModalButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [description, setDescriptioon] = useState<string>()
+  const { t } = useTranslation('common')
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -37,19 +39,19 @@ export const IdeaModalButton = () => {
 
   return (
     <>
-      <Button onClick={() => onOpen()}>Új ötlet</Button>
+      <Button onClick={() => onOpen()}>{t('idea.newIdea')}</Button>
       <Modal motionPreset="slideInBottom" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <form>
-            <ModalHeader>{'Új ötlet'}</ModalHeader>
+            <ModalHeader>{t('idea.newIdea')}</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
               <FormControl>
-                <FormLabel>Leírás</FormLabel>
+                <FormLabel>{t('common.description')}</FormLabel>
                 <Textarea
                   autoFocus
-                  placeholder="Ötlet, gondolat...."
+                  placeholder={t('idea.ideaOrSuggestion')}
                   value={description}
                   onChange={(e) => setDescriptioon(e.target.value)}
                 />
@@ -57,10 +59,10 @@ export const IdeaModalButton = () => {
             </ModalBody>
             <ModalFooter>
               <Button onClick={onClose} mr={3}>
-                Mégse
+                {t('common.cancel')}
               </Button>
               <Button colorScheme="blue" type="submit" onClick={(e) => submitData(e)}>
-                Mentés
+                {t('common.save')}
               </Button>
             </ModalFooter>
           </form>

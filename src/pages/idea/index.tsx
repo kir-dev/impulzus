@@ -6,6 +6,7 @@ import prisma from '@/lib/prisma'
 import { Flex, HStack, Text } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/react'
+import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 import { FaRegLightbulb } from 'react-icons/fa'
 import { IdeaEntity } from '../api/ideas/dto/IdeaEntity.dto'
@@ -24,6 +25,7 @@ type Props = {
 
 export default function Idea({ ideas }: Props) {
   const { data } = useSession()
+  const { t } = useTranslation('common')
   const isAdmin = data?.user?.isAdmin
 
   const deleteData = async (id: number) => {
@@ -40,8 +42,8 @@ export default function Idea({ ideas }: Props) {
 
   return (
     <>
-      <Title text="Ötletdoboz" />
-      <PageHeading text="Ötletdoboz" />
+      <Title text={t('idea.title')} />
+      <PageHeading text={t('idea.title')} />
       <Flex justify="flex-end">
         <IdeaModalButton />
       </Flex>

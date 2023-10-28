@@ -8,7 +8,7 @@ type Props = {
 
 export const UserGrid = ({ users }: Props) => {
   return (
-    <SimpleGrid spacing={10} columns={{ base: 1, xl: 2 }}>
+    <SimpleGrid mb={4} spacing={10} columns={{ base: 1, xl: 2 }}>
       {users.map((u) => (
         <GridItem borderWidth={1} borderRadius={5} p={2} key={u.id}>
           <UserCard key={u.id} user={u} />

@@ -18,6 +18,7 @@ import {
   Text,
   useDisclosure
 } from '@chakra-ui/react'
+import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 import { useForm } from 'react-hook-form'
 import { FaPencilAlt } from 'react-icons/fa'
@@ -29,6 +30,7 @@ type Props = {
 
 export const EditorshipModalButton = ({ user }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { t } = useTranslation('common')
 
   const {
     register,
@@ -94,18 +96,18 @@ export const EditorshipModalButton = ({ user }: Props) => {
           <FaPencilAlt />
         </IconButton>
       ) : (
-        <Button onClick={() => onOpen()}>Új tag</Button>
+        <Button onClick={() => onOpen()}>{t('editorship.newMember')}</Button>
       )}
 
       <Modal motionPreset="slideInBottom" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <form>
-            <ModalHeader>{user ? user.name + ' módosítása' : 'Új tag'}</ModalHeader>
+            <ModalHeader>{user ? user.name + ' módosítása' : t('editorship.newMember')}</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
               <FormControl isInvalid={!!errors.name} isRequired>
-                <FormLabel>Név</FormLabel>
+                <FormLabel>{t('editorship.name')}</FormLabel>
                 <Input
                   type="text"
                   {...register('name', {
@@ -121,7 +123,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
               </FormControl>
 
               <FormControl mt={2} isInvalid={!!errors.email} isRequired>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t('editorship.email')}</FormLabel>
                 <Input
                   type="email"
                   {...register('email', {
@@ -141,7 +143,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
               </FormControl>
 
               <FormControl mt={2} isInvalid={!!errors.titles} isRequired>
-                <FormLabel>Posztok</FormLabel>
+                <FormLabel>{t('editorship.roles')}</FormLabel>
                 <Input
                   type="text"
                   {...register('titles', {
@@ -157,7 +159,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
               </FormControl>
 
               <FormControl mt={2} isInvalid={!!errors.picture}>
-                <FormLabel>Profilkép</FormLabel>
+                <FormLabel>{t('editorship.profilePicture')}</FormLabel>
                 <Input
                   type="text"
                   {...register('picture', {
@@ -174,7 +176,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
               <FormControl isInvalid={!!errors.picture}>
                 <HStack mt={4}>
                   <Checkbox {...register('isBoardMember')}>
-                    <Text fontWeight="semibold">Vezetőségi tag</Text>
+                    <Text fontWeight="semibold">{t('editorship.isLeadershipMember')}</Text>
                   </Checkbox>
                 </HStack>
               </FormControl>
@@ -188,10 +190,10 @@ export const EditorshipModalButton = ({ user }: Props) => {
                 }}
                 mr={3}
               >
-                Mégse
+                {t('common.cancel')}
               </Button>
               <Button colorScheme="blue" type="submit" onClick={() => onSubmit()}>
-                Mentés
+                {t('common.save')}
               </Button>
             </ModalFooter>
           </form>

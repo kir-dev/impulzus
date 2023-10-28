@@ -2,12 +2,15 @@ import { PageHeading } from '@/components/common/PageHeading'
 import { Paragraph } from '@/components/common/Paragraph'
 import { Title } from '@/components/common/Title'
 import { Heading } from '@chakra-ui/react'
+import useTranslation from 'next-translate/useTranslation'
 
 export default function About() {
+  const { t } = useTranslation('common')
+
   return (
     <>
-      <Title text="Rólunk" />
-      <PageHeading text="Magunkról" />
+      <Title text={t('about.title')} />
+      <PageHeading text={t('about.aboutUs')} />
       <Heading size="lg">Impulzus</Heading>
       <Paragraph>
         A Budapesti Műszaki és Gazdaságtudományi Egyetem Villamosmérnöki és Informatikai Kar Hallgatói Képviseletének lapja vagyunk, röviden

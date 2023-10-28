@@ -2,6 +2,7 @@ import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import { Heading } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
+import useTranslation from 'next-translate/useTranslation'
 import { NextPageWithLayout } from './_app'
 /*
 const inter = Inter({ subsets: ['latin'] })
@@ -129,12 +130,13 @@ export default function Home() {
 
 const Page: NextPageWithLayout = () => {
   const { data: session } = useSession()
+  const { t } = useTranslation('common')
 
   console.log(session)
   return (
     <>
       <Title />
-      <PageHeading text="Üdvözlünk az Impulzus oldalán!" />
+      <PageHeading text={t('title')} />
       <Heading>Üdvözlünk az Impulzus oldalán!</Heading>
     </>
   )

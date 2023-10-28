@@ -1,8 +1,10 @@
 import { Flex, HStack, Image, Link, Stack, Text, VStack, useColorModeValue } from '@chakra-ui/react'
+import useTranslation from 'next-translate/useTranslation'
 import NextLink from 'next/link'
 import { FaEnvelope, FaFacebook, FaGithub, FaGlobe, FaHeart, FaInstagram } from 'react-icons/fa'
 
 export const Footer = () => {
+  const { t } = useTranslation('common')
   const kirdevLogo = useColorModeValue('/img/kirdev.svg', '/img/kirdev-white.svg')
   const impulzusLogo = useColorModeValue('/img/impulzus_logo_light.png', '/img/impulzus_logo_dark.png')
 
@@ -13,7 +15,7 @@ export const Footer = () => {
           <Image alt="impulzus logo" src={impulzusLogo} width={100} height={100} />
         </NextLink>
         <VStack ml={1}>
-          <Text>Elérhetőségek</Text>
+          <Text>{t('contacts')}</Text>
           <HStack>
             <Link isExternal href="mailto:impulzus@impulzus.bme.hu">
               <FaEnvelope />

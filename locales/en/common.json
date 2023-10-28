@@ -1,0 +1,33 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "description": "Description"
+  },
+  "about": {
+    "title": "About",
+    "aboutUs": "About us"
+  },
+  "title": "Welcome to Impulzus",
+  "archive": "Archive",
+  "newPaper": "New paper",
+  "grade": "Grade",
+  "blog": "Blog",
+  "newPost": "New post",
+  "contacts": "Contacts",
+  "editorship": {
+    "title": "Editorship",
+    "leadership": "Leadership",
+    "newMember": "New member",
+    "name": "Name",
+    "email": "Email",
+    "roles": "Roles",
+    "profilePicture": "Profile picture",
+    "isLeadershipMember": "Leadership member"
+  },
+  "idea": {
+    "title": "Ideas",
+    "newIdea": "New idea",
+    "ideaOrSuggestion": "Idea, suggestion...."
+  }
+}

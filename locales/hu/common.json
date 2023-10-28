@@ -1,0 +1,34 @@
+{
+  "common": {
+    "save": "Mentés",
+    "cancel": "Mégse",
+    "description": "Leírás"
+  },
+  "about": {
+    "title": "Rólunk",
+    "aboutUs": "Magunkról"
+  },
+  "title": "Üdvözlünk az Impulzus oldalán!",
+
+  "archive": "Archívum",
+  "newPaper": "Új lap",
+  "grade": "Évfolyam",
+  "blog": "Blog",
+  "newPost": "Új poszt",
+  "contacts": "Elérhetőségek",
+  "editorship": {
+    "title": "Szerkesztőség",
+    "leadership": "Vezetőség",
+    "newMember": "Új tag",
+    "name": "Név",
+    "email": "Email",
+    "roles": "Posztok",
+    "profilePicture": "Profilkép",
+    "isLeadershipMember": "Vezetőségi tag"
+  },
+  "idea": {
+    "title": "Ötletdoboz",
+    "newIdea": "Új ötlet",
+    "ideaOrSuggestion": "Ötlet, gondolat...."
+  }
+}

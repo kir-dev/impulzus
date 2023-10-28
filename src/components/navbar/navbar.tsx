@@ -1,5 +1,6 @@
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
-import { Box, Collapse, Flex, HStack, Heading, IconButton, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Collapse, Flex, HStack, Heading, IconButton, useColorModeValue, useDisclosure } from '@chakra-ui/react'
+import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -9,6 +10,7 @@ import { MobileNav } from './MobileNav'
 
 export const Navbar = () => {
   const { isOpen, onToggle } = useDisclosure()
+  const { t, lang } = useTranslation()
   const [isDisabled, setDisabled] = useState<boolean>(false)
   const onNavigate = () => onToggle()
   const impulzusLogo = useColorModeValue('/img/long_logo_blue.png', '/img/long_logo_white.png')
@@ -25,6 +27,9 @@ export const Navbar = () => {
           </Flex>
           <Flex>
             <HStack ml={{ base: 0, md: 6 }}>
+              <Button as={Link} href="" locale={lang === 'hu' ? 'en' : 'hu'}>
+                {lang}
+              </Button>
               <ColorModeSwitcher />
             </HStack>
             <IconButton
