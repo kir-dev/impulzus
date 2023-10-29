@@ -30,17 +30,22 @@ export const IdeaModalButton = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       })
-      onClose()
+      close()
       Router.replace(Router.asPath)
     } catch (error) {
       console.error(error)
     }
   }
 
+  const close = () => {
+    onClose()
+    setDescriptioon('')
+  }
+
   return (
     <>
       <Button onClick={() => onOpen()}>{t('idea.newIdea')}</Button>
-      <Modal motionPreset="slideInBottom" isOpen={isOpen} onClose={onClose}>
+      <Modal motionPreset="slideInBottom" isOpen={isOpen} onClose={close}>
         <ModalOverlay />
         <ModalContent>
           <form>
@@ -58,7 +63,7 @@ export const IdeaModalButton = () => {
               </FormControl>
             </ModalBody>
             <ModalFooter>
-              <Button onClick={onClose} mr={3}>
+              <Button onClick={close} mr={3}>
                 {t('common.cancel')}
               </Button>
               <Button colorScheme="blue" type="submit" onClick={(e) => submitData(e)}>

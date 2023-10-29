@@ -10,6 +10,7 @@ import {
   InputLeftAddon,
   InputRightAddon
 } from '@chakra-ui/react'
+import useTranslation from 'next-translate/useTranslation'
 import { FC, ReactElement, useRef, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { FaTimes } from 'react-icons/fa'
@@ -46,22 +47,25 @@ export const FileUpload: FC<Props> = ({
   } = useFormContext()
   const [oldFile, setOldFile] = useState<string>(oldFileName ?? '')
   const [isReuired, setIsRequired] = useState(required)
+  const { t } = useTranslation('common')
 
   const validateFiles = (value: FileList | undefined) => {
     if (!isReuired) {
       return true
     }
     if (!value) {
-      return 'Legalább egy fájl feltöltése szükséges!'
+      return t('archive.fileRequired')
     }
     if (isReuired && value.length < 1) {
-      return 'Legalább egy fájl feltöltése szükséges!'
+      return t('archive.fileRequired')
     }
     if (value.length > 1) {
-      return 'Csak egy fájl feltöltése lehetséges!'
+      return t('archive.maxOneFile')
     }
     const fsMb = value[0].size / (1024 * 1024)
-    if (fsMb > maxFileSizeMB) return `Maximális megengedett méret: ${maxFileSizeMB} MB`
+    if (fsMb > maxFileSizeMB) {
+      return `${t('archive.maxAllowedSize')}: ${maxFileSizeMB} MB`
+    }
     return true
   }
 
@@ -95,7 +99,7 @@ export const FileUpload: FC<Props> = ({
           {uploadButtonText}
         </InputLeftAddon>
         <Input
-          value={oldFile || watch(fieldName)?.item(0)?.name || 'Nincs fájl kiválasztva'}
+          value={oldFile || watch(fieldName)?.item(0)?.name || t('archive.noFileSelected')}
           readOnly
           onClick={onUploadPressed}
           cursor="pointer"

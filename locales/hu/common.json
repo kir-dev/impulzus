@@ -2,20 +2,41 @@
   "common": {
     "save": "Mentés",
     "cancel": "Mégse",
-    "description": "Leírás"
+    "description": "Leírás",
+    "edit": "módosítása",
+    "delete": "Törlés"
   },
   "about": {
     "title": "Rólunk",
     "aboutUs": "Magunkról"
   },
   "title": "Üdvözlünk az Impulzus oldalán!",
-
-  "archive": "Archívum",
-  "newPaper": "Új lap",
-  "grade": "Évfolyam",
   "blog": "Blog",
   "newPost": "Új poszt",
   "contacts": "Elérhetőségek",
+  "archive": {
+    "title": "Archívum",
+    "newPaper": "Új lap",
+    "grade": "Évfolyam",
+    "contents": "Tartalomjegyzék",
+    "paperCantbeFound": "Nem található lap",
+    "paperTitle": "Lap címe",
+    "titleCantBeEmpty": "A cím nem lehet üres!",
+    "titleTooLong": "Cím túl hosszú!",
+    "gradeCantBeEmpty": "Az évfolyam nem lehet üres!",
+    "gradeAtLeast": "Az évfolyam legalább 1!",
+    "gradTooLong": "Évfolyam túl hosszú!",
+    "content": "Tartalom",
+    "contentTooLong": "Tartalom túl hosszú!",
+    "coverUrl": "Borítókép URL",
+    "coverUrlTooLong": "URL túl hosszú!",
+    "badCoverUrl": "Rossz URL",
+    "upload": "Feltöltés",
+    "maxAllowedSize": "Maximális megengedett méret",
+    "fileRequired": "Legalább egy fájl feltöltése szükséges!",
+    "maxOneFile": "Csak egy fájl feltöltése lehetséges!",
+    "noFileSelected": "Nincs fájl kiválasztva"
+  },
   "editorship": {
     "title": "Szerkesztőség",
     "leadership": "Vezetőség",
@@ -24,11 +45,24 @@
     "email": "Email",
     "roles": "Posztok",
     "profilePicture": "Profilkép",
-    "isLeadershipMember": "Vezetőségi tag"
+    "isLeadershipMember": "Vezetőségi tag",
+    "writerEditor": "Író, szerkesztő",
+    "nameError": "A név nem lehet üres!",
+    "emailError": "Az email nem lehet üres!",
+    "roleError": "Legalább 1 poszt kell!",
+    "nameTooLong": "Név túl hosszú!",
+    "emailTooLong": "Email túl hosszú!",
+    "badEmail": "Rossz email forma",
+    "rolesTooLong": "Posztok túl hosszú!",
+    "pictureTooLong": "Kép link túl hosszú!",
+    "deleteUser": "Felhasználó törlése",
+    "deleteUserQuestion": "Biztosan törlöd a felhasználót?"
   },
   "idea": {
     "title": "Ötletdoboz",
     "newIdea": "Új ötlet",
-    "ideaOrSuggestion": "Ötlet, gondolat...."
+    "ideaOrSuggestion": "Ötlet, gondolat....",
+    "deleteIdea": "Ötlet törlése",
+    "deleteIdeaQuestion": "Biztosan törlöd az ötletet?"
   }
 }

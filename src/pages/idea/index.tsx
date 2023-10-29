@@ -55,10 +55,11 @@ export default function Idea({ ideas }: Props) {
           </HStack>
           {isAdmin && (
             <ConfirmDialogButton
-              bodyText="Biztosan törlöd az ötletet?"
+              bodyText={t('idea.deleteIdeaQuestion')}
               confirmAction={() => deleteData(idea.id)}
-              headerText="Ötlet törlése"
-              confirmButtonText="Törlés"
+              headerText={t('idea.deleteIdea')}
+              confirmButtonText={t('common.delete')}
+              refuseButtonText={t('common.cancel')}
             />
           )}
         </HStack>

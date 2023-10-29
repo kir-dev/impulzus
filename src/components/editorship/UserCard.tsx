@@ -2,6 +2,7 @@ import { UserEntity } from '@/pages/api/users/dto/UserEntity.dto'
 import { PATHS } from '@/util/paths'
 import { Flex, HStack, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
+import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import Link from 'next/link'
 import Router from 'next/router'
@@ -14,6 +15,7 @@ type Props = {
 }
 
 export const UserCard = ({ user }: Props) => {
+  const { t } = useTranslation('common')
   const { data } = useSession()
   const isAdmin = data?.user?.isAdmin
 
@@ -56,10 +58,11 @@ export const UserCard = ({ user }: Props) => {
         <VStack>
           <EditorshipModalButton user={user} />
           <ConfirmDialogButton
-            bodyText="Biztosan törlöd a felhasználót?"
+            bodyText={t('editorship.deleteUserQuestion')}
             confirmAction={() => deleteData(user.id)}
-            headerText="Felhasználó törlése"
-            confirmButtonText="Törlés"
+            headerText={t('editorship.deleteUser')}
+            confirmButtonText={t('common.delete')}
+            refuseButtonText={t('common.cancel')}
           />
         </VStack>
       )}

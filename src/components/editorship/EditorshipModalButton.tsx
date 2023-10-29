@@ -103,18 +103,18 @@ export const EditorshipModalButton = ({ user }: Props) => {
         <ModalOverlay />
         <ModalContent>
           <form>
-            <ModalHeader>{user ? user.name + ' módosítása' : t('editorship.newMember')}</ModalHeader>
-            <ModalCloseButton />
+            <ModalHeader>{user ? user.name + ' ' + t('common.edit') : t('editorship.newMember')}</ModalHeader>
+            <ModalCloseButton onClick={() => reset()} />
             <ModalBody pb={6}>
               <FormControl isInvalid={!!errors.name} isRequired>
                 <FormLabel>{t('editorship.name')}</FormLabel>
                 <Input
                   type="text"
                   {...register('name', {
-                    required: { value: true, message: 'A név nem lehet üres!' },
+                    required: { value: true, message: t('editorship.nameError') },
                     maxLength: {
                       value: 200,
-                      message: 'Név túl hosszú! ' + getStatusString(watch('name') ?? '', 200)
+                      message: t('editorship.emailTooLong') + ' ' + getStatusString(watch('name') ?? '', 200)
                     }
                   })}
                   placeholder="Teszt Elek"
@@ -127,14 +127,14 @@ export const EditorshipModalButton = ({ user }: Props) => {
                 <Input
                   type="email"
                   {...register('email', {
-                    required: { value: true, message: 'Az email nem lehet üres!' },
+                    required: { value: true, message: t('editorship.emailError') },
                     pattern: {
                       value: /\S+@\S+\.\S+/,
-                      message: 'Rossz email forma'
+                      message: t('editorship.badEmail')
                     },
                     maxLength: {
                       value: 200,
-                      message: 'Email túl hosszú! ' + getStatusString(watch('email') ?? '', 200)
+                      message: t('editorship.emailTooLong') + ' ' + getStatusString(watch('email') ?? '', 200)
                     }
                   })}
                   placeholder="elek@gmail.com"
@@ -147,13 +147,13 @@ export const EditorshipModalButton = ({ user }: Props) => {
                 <Input
                   type="text"
                   {...register('titles', {
-                    required: { value: true, message: 'Legalább 1 poszt kell!' },
+                    required: { value: true, message: t('editorship.roleError') },
                     maxLength: {
                       value: 200,
-                      message: 'Posztok túl hosszú! ' + getStatusString(watch('titles'), 200)
+                      message: t('editorship.rolesTooLong') + ' ' + getStatusString(watch('titles'), 200)
                     }
                   })}
-                  placeholder="Író, grafikus"
+                  placeholder={t('editorship.writerEditor')}
                 />
                 {errors.titles && <FormErrorMessage>{errors.titles.message?.toString()}</FormErrorMessage>}
               </FormControl>
@@ -165,7 +165,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
                   {...register('picture', {
                     maxLength: {
                       value: 200,
-                      message: 'Kép link túl hosszú! ' + getStatusString(watch('picture'), 200)
+                      message: t('editorship.pictureTooLong') + ' ' + getStatusString(watch('picture'), 200)
                     }
                   })}
                   placeholder="https://image"

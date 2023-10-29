@@ -1,10 +1,11 @@
-import { NewspaperModalButton } from '@/components/archive/NewspaperModalButton'
+import { NewspaperModalButton } from '@/components/archive/NewspaperModalButton.1'
 import { ConfirmDialogButton } from '@/components/common/ConfirmDialogButton'
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
 import {
+  Box,
   Flex,
   GridItem,
   HStack,
@@ -20,6 +21,7 @@ import {
 } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { useSession } from 'next-auth/react'
+import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import Link from 'next/link'
 import Router from 'next/router'
@@ -44,6 +46,7 @@ export default function Archive({ newspapers }: Props) {
   const latestGraade = Math.max(...newspapers.map((n) => n.grade))
   const [grade, setGrade] = useState<number>(latestGraade)
   const [filteredNewspapers, setFilteredNewspapers] = useState<NewspaperEntity[]>(newspapers)
+  const { t } = useTranslation('common')
 
   const { data } = useSession()
   const isAdmin = data?.user?.isAdmin
@@ -66,11 +69,11 @@ export default function Archive({ newspapers }: Props) {
 
   return (
     <>
-      <Title text="Archívum" />
-      <PageHeading text="Archívum" />
+      <Title text={t('archive.title')} />
+      <PageHeading text={t('archive.title')} />
       <HStack justify="space-between">
         <HStack>
-          <Text>Évfolyam: </Text>
+          <Text>{t('archive.grade')}</Text>
           <IconButton aria-label="next grade" onClick={() => grade > 1 && setGrade(grade - 1)}>
             <FaArrowLeft />
           </IconButton>
@@ -84,7 +87,9 @@ export default function Archive({ newspapers }: Props) {
         {isAdmin && <NewspaperModalButton />}
       </HStack>
       {filteredNewspapers.length < 1 ? (
-        <Text mt={5}>Nem található semmi</Text>
+        <Box textAlign="center">
+          <Text mt={5}>{t('archive.paperCantbeFound')}</Text>
+        </Box>
       ) : (
         <SimpleGrid my={5} columns={{ base: 1, '2xl': 2 }} spacing={10}>
           {filteredNewspapers.map((n) => (
@@ -103,7 +108,7 @@ export default function Archive({ newspapers }: Props) {
                       <Text fontSize="2xl">{n.title}</Text>
                       {n.contents.length > 0 && n.contents[0] != '' && (
                         <>
-                          <Text>Tartalomjegyzék:</Text>
+                          <Text>{t('archive.contents')}</Text>
                           <UnorderedList>
                             {n.contents.map((c) => (
                               <ListItem ml={5} key={c}>

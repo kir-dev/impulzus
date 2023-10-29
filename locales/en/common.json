@@ -2,19 +2,41 @@
   "common": {
     "save": "Save",
     "cancel": "Cancel",
-    "description": "Description"
+    "description": "Description",
+    "edit": "edit",
+    "delete": "Delete"
   },
   "about": {
     "title": "About",
     "aboutUs": "About us"
   },
   "title": "Welcome to Impulzus",
-  "archive": "Archive",
-  "newPaper": "New paper",
-  "grade": "Grade",
   "blog": "Blog",
   "newPost": "New post",
   "contacts": "Contacts",
+  "archive": {
+    "title": "Archive",
+    "newPaper": "New peper",
+    "grade": "Grade",
+    "contents": "Contents",
+    "paperCantbeFound": "Paper can't be found",
+    "paperTitle": "Paper title",
+    "titleCantBeEmpty": "Title can't be empty!",
+    "titleTooLong": "Title is too long!",
+    "gradeCantBeEmpty": "Grade can't be empty!",
+    "gradeAtLeast": "Grade is at least 1!",
+    "gradTooLong": "Grade too long!",
+    "content": "Content",
+    "contentTooLong": "Content",
+    "coverUrl": "Cover URL",
+    "coverUrlTooLong": "URL too long!",
+    "badCoverUrl": "Bad URL",
+    "upload": "Upload",
+    "maxAllowedSize": "Maximum allowed size",
+    "fileRequired": "File is required!",
+    "maxOneFile": "Only one file can be uploaded!",
+    "noFileSelected": "No file selected"
+  },
   "editorship": {
     "title": "Editorship",
     "leadership": "Leadership",
@@ -23,11 +45,24 @@
     "email": "Email",
     "roles": "Roles",
     "profilePicture": "Profile picture",
-    "isLeadershipMember": "Leadership member"
+    "isLeadershipMember": "Leadership member",
+    "writerEditor": "Writer, editor",
+    "nameError": "Name is required!",
+    "emailError": "Email is required!",
+    "roleError": "At least 1 role is required!",
+    "nameTooLong": "Name too long!",
+    "emailTooLong": "Email too long!",
+    "badEmail": "Bad email pattern",
+    "rolesTooLong": "Roles too long!",
+    "pictureTooLong": "Picture link too long!",
+    "deleteUser": "Delete user",
+    "deleteUserQuestion": "Do you want to delete this user?"
   },
   "idea": {
     "title": "Ideas",
     "newIdea": "New idea",
-    "ideaOrSuggestion": "Idea, suggestion...."
+    "ideaOrSuggestion": "Idea, suggestion....",
+    "deleteIdea": "Delete idea",
+    "deleteIdeaQuestion": "Do you want to delete this idea?"
   }
 }
