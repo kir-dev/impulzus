@@ -1,10 +1,10 @@
 import { PATHS } from '@/util/paths'
 
 export const NAV_ITEMS = [
-  { text: 'Rólunk', href: PATHS.ABOUT },
-  { text: 'Blog', href: PATHS.BLOG },
-  { text: 'Archívum', href: PATHS.ARCHIVE },
-  { text: 'Szerkesztőség', href: PATHS.EDITORSHIP },
-  { text: 'Ötletdoboz', href: PATHS.IDEA },
-  { text: 'Belépés', href: PATHS.LOGIN }
+  { text: 'about', href: PATHS.ABOUT },
+  { text: 'blog', href: PATHS.BLOG },
+  { text: 'archive', href: PATHS.ARCHIVE },
+  { text: 'editorship', href: PATHS.EDITORSHIP },
+  { text: 'ideas', href: PATHS.IDEA },
+  { text: 'login', href: PATHS.LOGIN }
 ]

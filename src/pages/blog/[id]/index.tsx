@@ -12,6 +12,7 @@ import { PATHS } from '@/util/paths'
 import { Box, Button, Flex } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/react'
+import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import Router from 'next/router'
 import { PostEntity } from '../../api/posts/dto/PostEntity.dto'
@@ -50,6 +51,7 @@ type Props = {
 
 export default function Blog({ post, comments }: Props) {
   const { data } = useSession()
+  const { t } = useTranslation('common')
   const isAdmin = data?.user?.isAdmin
   const isCreater = data?.user?.id === post.userId
 
@@ -73,7 +75,7 @@ export default function Blog({ post, comments }: Props) {
         <Flex justify="flex-end">
           <Link href={PATHS.BLOG + `/${post.id}/edit`}>
             <Button mr={2} mb={2}>
-              Szerkesztés
+              {t('common.edit')}
             </Button>
           </Link>
           <ConfirmDialogButton
@@ -89,7 +91,7 @@ export default function Blog({ post, comments }: Props) {
       <NewComment postId={post.id} />
       <CommentList comments={comments} />
       <Box mt={4}>
-        <BackButton />
+        <BackButton link={PATHS.BLOG} />
       </Box>
     </>
   )

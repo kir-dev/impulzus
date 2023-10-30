@@ -1,8 +1,17 @@
 import { Button } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
+import useTranslation from 'next-translate/useTranslation'
+import Link from 'next/link'
 
-export const BackButton = () => {
-  const router = useRouter()
+type Props = {
+  link: string
+}
 
-  return <Button onClick={() => router.back()}>Vissza</Button>
+export const BackButton = ({ link }: Props) => {
+  const { t } = useTranslation('common')
+
+  return (
+    <Button as={Link} href={link}>
+      {t('common.back')}
+    </Button>
+  )
 }

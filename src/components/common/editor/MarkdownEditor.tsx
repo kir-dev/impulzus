@@ -13,6 +13,7 @@ import {
   Tabs,
   Textarea
 } from '@chakra-ui/react'
+import useTranslation from 'next-translate/useTranslation'
 import { useFormContext } from 'react-hook-form'
 import Markdown from './Markdown'
 import { getStatusString } from './editorUtils'
@@ -20,7 +21,6 @@ import { getStatusString } from './editorUtils'
 type Props = {
   formDetails: {
     id: string
-    promptText: string
     minChar?: number
     maxChar: number
   }
@@ -35,30 +35,30 @@ export const MarkdownEditor = ({ textAreaHeight = '22rem', previewHeight = '26re
     watch,
     formState: { errors }
   } = useFormContext()
+  const { t } = useTranslation('common')
 
   return (
     <Tabs variant="enclosed">
       <TabList>
-        <Tab>Szerkesztés</Tab>
-        <Tab>Előnézet</Tab>
+        <Tab>{t('common.edit')}</Tab>
+        <Tab>{t('blog.preview')}</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>
           <FormControl isInvalid={!!errors[formDetails.id]}>
             <FormLabel htmlFor={formDetails.id}>
-              {`${formDetails.promptText} `}
               <Link href="https://www.markdownguide.org/cheat-sheet/" isExternal>
-                Markdown útmutató itt.
+                {t('blog.markdownGuide')}
               </Link>
             </FormLabel>
             <Textarea
               id={formDetails.id}
-              placeholder="Add meg a markdown formátumú szöveged itt..."
+              placeholder={t('blog.markdownPlaceholder')}
               height={textAreaHeight}
               defaultValue={defaultValue}
               {...register(formDetails.id, {
-                minLength: formDetails.minChar ? { value: formDetails.minChar, message: 'Szöveg nem lehet üres!' } : undefined,
-                maxLength: { value: formDetails.maxChar, message: 'Szöveg túl hosszú!' }
+                minLength: formDetails.minChar ? { value: formDetails.minChar, message: t('blog.markdownRequired') } : undefined,
+                maxLength: { value: formDetails.maxChar, message: t('blog.markdownTooLong') }
               })}
               isInvalid={!!errors[formDetails.id]}
             />

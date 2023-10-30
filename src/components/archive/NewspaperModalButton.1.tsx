@@ -134,7 +134,7 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>
-            <ModalHeader>{newspaper ? newspaper.title + ' ' + t('common.edit') : t('archive.newPaper')}</ModalHeader>
+            <ModalHeader>{newspaper ? newspaper.title + ' ' + t('common.editOf') : t('archive.newPaper')}</ModalHeader>
             <ModalCloseButton onClick={() => reset()} />
             <ModalBody pb={6}>
               <FormProvider {...methods}>

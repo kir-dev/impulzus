@@ -1,19 +1,48 @@
 {
+  "title": "Üdvözlünk az Impulzus oldalán!",
+  "contacts": "Elérhetőségek",
   "common": {
     "save": "Mentés",
     "cancel": "Mégse",
     "description": "Leírás",
-    "edit": "módosítása",
-    "delete": "Törlés"
+    "editOf": "módosítása",
+    "editOf2": "szerkesztése",
+    "edit": "Szerkesztés",
+    "delete": "Törlés",
+    "back": "Vissza",
+    "create": "Létrehozás"
+  },
+  "navitems": {
+    "about": "Rólunk",
+    "blog": "Blog",
+    "archive": "Archívum",
+    "editorship": "Szerkesztőség",
+    "ideas": "Ötletdoboz",
+    "login": "Belépés",
+    "profile": "Profil"
   },
   "about": {
     "title": "Rólunk",
     "aboutUs": "Magunkról"
   },
-  "title": "Üdvözlünk az Impulzus oldalán!",
-  "blog": "Blog",
-  "newPost": "Új poszt",
-  "contacts": "Elérhetőségek",
+  "blog": {
+    "title": "Blog",
+    "newPost": "Új poszt",
+    "postTitle": "Poszt címe",
+    "titleRequired": "A cím nem lehet üres!",
+    "titleTooLong": "Cím túl hosszú!",
+    "smallDescription": "Rövid leírás",
+    "smallDescriptionRequired": "A leírás nem lehet üres!",
+    "smallDescriptionTooLong": "Leírás túl hosszú!",
+    "smallDescriptionPlaceholder": "Poszt a dínókról",
+    "category": "Kategória",
+    "description": "Leírás",
+    "preview": "Előnézet",
+    "markdownGuide": "Markdown útmutató",
+    "markdownPlaceholder": "Adj meg egy markdown formátumú szöveget",
+    "markdownRequired": "Szöveg nem lehet üres!",
+    "markdownTooLong": "Szöveg túl hosszú!"
+  },
   "archive": {
     "title": "Archívum",
     "newPaper": "Új lap",

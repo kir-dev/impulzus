@@ -1,6 +1,8 @@
 import { PostEntity } from '@/pages/api/posts/dto/PostEntity.dto'
+import { PATHS } from '@/util/paths'
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
+import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 import { useEffect } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
@@ -18,6 +20,7 @@ type Props = {
 
 export const EditPost = ({ post }: Props) => {
   const { data } = useSession()
+  const { t } = useTranslation('common')
   const userId = data?.user?.id
 
   useEffect(() => {
@@ -69,45 +72,46 @@ export const EditPost = ({ post }: Props) => {
     }
     submitData(formData)
   })
+
   return (
     <>
-      <Title text={post ? `${post.title} szerkesztése` : 'Új poszt'} />
-      <PageHeading text={post ? `${post.title} szerkesztése` : 'Új poszt'} />
+      <Title text={post ? `${post.title} ${t('common.editOf2')}` : t('blog.newPost')} />
+      <PageHeading text={post ? `${post.title} ${t('common.editOf2')}` : t('blog.newPost')} />
       <VStack alignItems="flex-start">
         <FormControl isInvalid={!!errors.title} isRequired>
-          <FormLabel>Poszt címe</FormLabel>
+          <FormLabel>{t('blog.postTitle')}</FormLabel>
           <Input
             type="text"
             {...register('title', {
-              required: { value: true, message: 'A cím nem lehet üres!' },
+              required: { value: true, message: t('blog.titleRequired') },
               maxLength: {
                 value: 200,
-                message: 'Cím túl hosszú! ' + getStatusString(watch('title'), 200)
+                message: t('blog.titleTooLong') + ' ' + getStatusString(watch('title'), 200)
               }
             })}
-            placeholder="Post cím"
+            placeholder={t('blog.postTitle')}
           />
           {errors.title && <FormErrorMessage>{errors.title.message?.toString()}</FormErrorMessage>}
         </FormControl>
 
         <FormControl isInvalid={!!errors.previewContent} isRequired>
-          <FormLabel>Rövid leírása</FormLabel>
+          <FormLabel>{t('blog.smallDescription')}</FormLabel>
           <Input
             type="text"
             {...register('previewContent', {
-              required: { value: true, message: 'A leírás nem lehet üres!' },
+              required: { value: true, message: t('blog.smallDescriptionRequired') },
               maxLength: {
                 value: 200,
-                message: 'Leírás túl hosszú! ' + getStatusString(watch('previewContent'), 1000)
+                message: t('blog.smallDescriptionTooLong') + ' ' + getStatusString(watch('previewContent'), 1000)
               }
             })}
-            placeholder="Poszt a dínókról"
+            placeholder={t('blog.smallDescriptionPlaceholder')}
           />
           {errors.previewContent && <FormErrorMessage>{errors.previewContent.message?.toString()}</FormErrorMessage>}
         </FormControl>
 
         <FormControl isInvalid={!!errors.categories} isRequired>
-          <FormLabel>Kategória</FormLabel>
+          <FormLabel>{t('blog.category')}</FormLabel>
           <Controller
             control={control}
             name="categories"
@@ -127,11 +131,10 @@ export const EditPost = ({ post }: Props) => {
 
         <FormProvider {...form}>
           <FormControl isRequired>
-            <FormLabel>Leírás</FormLabel>
+            <FormLabel>{t('blog.description')}</FormLabel>
             <MarkdownEditor
               formDetails={{
                 id: 'content',
-                promptText: '',
                 minChar: 5,
                 maxChar: 20000 //MAX_DESCRIPTION_LENGTH
               }}
@@ -142,8 +145,8 @@ export const EditPost = ({ post }: Props) => {
         </FormProvider>
       </VStack>
       <Flex justify="space-between">
-        <BackButton />
-        <Button onClick={onSubmit}>{post ? 'Mentés' : 'Létrehozás'}</Button>
+        <BackButton link={PATHS.BLOG} />
+        <Button onClick={onSubmit}>{post ? t('common.save') : t('common.create')}</Button>
       </Flex>
     </>
   )

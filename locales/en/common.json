@@ -1,25 +1,54 @@
 {
+  "title": "Welcome to Impulzus",
+  "contacts": "Contacts",
   "common": {
     "save": "Save",
     "cancel": "Cancel",
     "description": "Description",
-    "edit": "edit",
-    "delete": "Delete"
+    "editOf": "edit",
+    "editOf2": "edit",
+    "edit": "Edit",
+    "delete": "Delete",
+    "back": "Back",
+    "create": "Create"
+  },
+  "navitems": {
+    "about": "About",
+    "blog": "Blog",
+    "archive": "Archive",
+    "editorship": "Editorship",
+    "ideas": "Ideas",
+    "login": "Login",
+    "profile": "Profile"
   },
   "about": {
     "title": "About",
     "aboutUs": "About us"
   },
-  "title": "Welcome to Impulzus",
-  "blog": "Blog",
-  "newPost": "New post",
-  "contacts": "Contacts",
+  "blog": {
+    "title": "Blog",
+    "newPost": "New post",
+    "postTitle": "Post title",
+    "titleRequired": "Title is required!",
+    "titleTooLong": "Title too long!",
+    "smallDescription": "Small description",
+    "smallDescriptionRequired": "Description required!",
+    "smallDescriptionTooLong": "Description too long!",
+    "smallDescriptionPlaceholder": "Post about pets",
+    "category": "Category",
+    "description": "Description",
+    "preview": "Preview",
+    "markdownGuide": "Markdown guide",
+    "markdownPlaceholder": "Write a markdown text",
+    "markdownRequired": "Text is required!",
+    "markdownTooLong": "Text is too long!"
+  },
   "archive": {
     "title": "Archive",
     "newPaper": "New peper",
     "grade": "Grade",
     "contents": "Contents",
-    "paperCantbeFound": "Paper can't be found",
+    "paperCantbeFound": "Papers can't be found",
     "paperTitle": "Paper title",
     "titleCantBeEmpty": "Title can't be empty!",
     "titleTooLong": "Title is too long!",

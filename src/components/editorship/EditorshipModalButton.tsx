@@ -103,7 +103,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
         <ModalOverlay />
         <ModalContent>
           <form>
-            <ModalHeader>{user ? user.name + ' ' + t('common.edit') : t('editorship.newMember')}</ModalHeader>
+            <ModalHeader>{user ? user.name + ' ' + t('common.editOf') : t('editorship.newMember')}</ModalHeader>
             <ModalCloseButton onClick={() => reset()} />
             <ModalBody pb={6}>
               <FormControl isInvalid={!!errors.name} isRequired>

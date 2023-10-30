@@ -1,16 +1,18 @@
 import { HStack } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
+import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { NAV_ITEMS } from './navitems'
 
 export const DesktopNav = () => {
   const { status } = useSession()
+  const { t } = useTranslation('common')
 
   return (
     <HStack spacing={8}>
       {NAV_ITEMS.map((item) => (
         <Link key={item.text + item.href} href={item.href}>
-          {item.text === 'Belépés' && status === 'authenticated' ? 'Profil' : item.text}
+          {item.text === 'login' && status === 'authenticated' ? t('navitems.profile') : t('navitems.' + item.text)}
         </Link>
       ))}
     </HStack>

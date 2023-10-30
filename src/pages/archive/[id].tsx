@@ -3,6 +3,7 @@ import { BackButton } from '@/components/common/BackButton'
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
+import { PATHS } from '@/util/paths'
 import { Flex } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
 import { NewspaperEntity } from '../api/newspapers/dto/NewspaperEntity.dto'
@@ -35,7 +36,7 @@ export default function NewsPaperPage({ newspaper }: Props) {
       <Flex mb={4} justify="center">
         <PdfRenderer fileURL={newspaper.pdf ?? '' /* TODO */} />
       </Flex>
-      <BackButton />
+      <BackButton link={PATHS.ARCHIVE} />
     </>
   )
 }
