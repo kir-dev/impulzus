@@ -69,7 +69,7 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
     let pdfUrl
     if (file) {
       try {
-        const res = await fetch('/api/avatar/upload', {
+        const res = await fetch('/api/upload', {
           method: 'POST',
           headers: { 'content-type': file.type, 'file-name': file.name },
           body: file
