@@ -1,6 +1,9 @@
 {
   "title": "Welcome to Impulzus",
+  "newImpulzus": "The new Impulzus page!",
+  "description": "Discover our history, get to know our members and read our published articles. You can find interesting posts on the blog, and if you have any ideas that you would like us to write about in our next paper, share them with us in the Ideas section!",
   "contacts": "Contacts",
+  "notFound": "Page not found!",
   "common": {
     "save": "Save",
     "cancel": "Cancel",
