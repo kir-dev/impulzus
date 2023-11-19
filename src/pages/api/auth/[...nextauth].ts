@@ -47,7 +47,7 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.AUTHSCH_CLIENT_ID,
       clientSecret: process.env.AUTHSCH_CLIENT_SECRET,
       profile(profile: AuthSchProfile) {
-        const impulzusEntitlements = profile.eduPersonEntitlement.filter((e) => e.name === 'Impulzus')[0]
+        const impulzusEntitlements = profile.eduPersonEntitlement?.filter((e) => e.name === 'Impulzus')[0]
         const titles = impulzusEntitlements ? impulzusEntitlements.title : []
 
         return {
