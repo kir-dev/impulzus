@@ -37,7 +37,7 @@ export default function Editorship({ users }: Props) {
           <EditorshipModalButton />
         </Flex>
       )}
-      <UserGrid users={impulzusUsers.filter((u) => u.isBoardMember)} />
+      <UserGrid mb={8} users={impulzusUsers.filter((u) => u.isBoardMember)} />
       <PageHeading text={t('editorship.title')} />
       <UserGrid users={impulzusUsers.filter((u) => !u.isBoardMember)} />
     </>

@@ -9,6 +9,7 @@ export const ColorModeSwitcher = () => {
   return (
     <IconButton
       size="md"
+      m="0 !important"
       fontSize={{ base: 'xl', md: '2xl' }}
       variant="ghost"
       onClick={toggleColorMode}
