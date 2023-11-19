@@ -15,7 +15,7 @@ export default function LoginPage() {
       <PageHeading text={isAuthenticated ? t('login.profile') : t('login.title')} />
       <Heading mb={4}>{isAuthenticated ? data?.user?.name : t('login.logInWithAuthSch')}</Heading>
       {isAuthenticated ? (
-        <Button onClick={() => signOut()}>{t('login.authSchLogout')}</Button>
+        <Button onClick={() => signOut({ callbackUrl: '/' })}>{t('login.authSchLogout')}</Button>
       ) : (
         <Button onClick={() => signIn()}>{t('login.authSchLogin')}</Button>
       )}
