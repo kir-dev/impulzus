@@ -21,6 +21,13 @@
     "login": "Login",
     "profile": "Profile"
   },
+  "login": {
+    "title": "Login",
+    "profile": "Profile",
+    "authSchLogin": "AuthSCH login",
+    "authSchLogout": "AuthSCH logout",
+    "logInWithAuthSch": "Log in with AuthSCH account!"
+  },
   "about": {
     "title": "About",
     "aboutUs": "About us"

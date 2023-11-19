@@ -21,6 +21,13 @@
     "login": "Belépés",
     "profile": "Profil"
   },
+  "login": {
+    "title": "Belépés",
+    "profile": "Profil",
+    "authSchLogin": "AuthSCH bejelentkezés",
+    "authSchLogout": "AuthSCH kijelentkezés",
+    "logInWithAuthSch": "Jelentkezz be AuthSCH fiókkal!"
+  },
   "about": {
     "title": "Rólunk",
     "aboutUs": "Magunkról"

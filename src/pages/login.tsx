@@ -2,26 +2,22 @@ import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import { Button, Heading } from '@chakra-ui/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import useTranslation from 'next-translate/useTranslation'
 
 export default function LoginPage() {
+  const { t } = useTranslation('common')
   const { data, status } = useSession()
   const isAuthenticated = status === 'authenticated'
 
-  console.log(data)
   return (
     <>
-      <Title text={isAuthenticated ? 'Profil' : 'Bejelentkezés'} />
-      <PageHeading text={isAuthenticated ? 'Profil' : 'Belépés'} />
-      {isAuthenticated ? <Heading>{data?.user?.name}</Heading> : <Heading mb={4}>Jelentkezz be AuthSCH fiókkal!</Heading>}
-
+      <Title text={isAuthenticated ? t('login.profile') : t('login.title')} />
+      <PageHeading text={isAuthenticated ? t('login.profile') : t('login.title')} />
+      <Heading mb={4}>{isAuthenticated ? data?.user?.name : t('login.logInWithAuthSch')}</Heading>
       {isAuthenticated ? (
-        <Button transform="auto" skewX={5} onClick={() => signOut()}>
-          AuthSCH kijelentkezés
-        </Button>
+        <Button onClick={() => signOut()}>{t('login.authSchLogout')}</Button>
       ) : (
-        <Button transform="auto" skewX={5} onClick={() => signIn()}>
-          AuthSCH bejelentkezés
-        </Button>
+        <Button onClick={() => signIn()}>{t('login.authSchLogin')}</Button>
       )}
     </>
   )
