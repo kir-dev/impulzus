@@ -43,6 +43,10 @@
     "markdownRequired": "Text is required!",
     "markdownTooLong": "Text is too long!"
   },
+  "comments": {
+    "newComment": "New comment",
+    "loginToComment": "Log in to comment!"
+  },
   "archive": {
     "title": "Archive",
     "newPaper": "New peper",

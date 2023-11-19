@@ -1,5 +1,6 @@
 import { Button, Flex, Text, Textarea } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
+import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 import { useState } from 'react'
 
@@ -8,6 +9,7 @@ type Props = {
 }
 
 export const NewComment = ({ postId }: Props) => {
+  const { t } = useTranslation('common')
   const [value, setValue] = useState<string>('')
   const { data, status } = useSession()
   const isAuthenticated = status === 'authenticated'
@@ -38,11 +40,11 @@ export const NewComment = ({ postId }: Props) => {
       <Flex mt={4} justify={isAuthenticated ? 'flex-end' : 'space-between'}>
         {!isAuthenticated && (
           <Text color="red" as="b">
-            Jelenkezz be, hogy tudjál kommentelni!
+            {t('comments.loginToComment')}
           </Text>
         )}
         <Button isDisabled={value === '' || !isAuthenticated} onClick={() => submitData()}>
-          Új komment
+          {t('comments.newComment')}
         </Button>
       </Flex>
     </>

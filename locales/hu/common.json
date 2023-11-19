@@ -43,6 +43,10 @@
     "markdownRequired": "Szöveg nem lehet üres!",
     "markdownTooLong": "Szöveg túl hosszú!"
   },
+  "comments": {
+    "newComment": "Új komment",
+    "loginToComment": "Jelenkezz be, hogy tudjál kommentelni!"
+  },
   "archive": {
     "title": "Archívum",
     "newPaper": "Új lap",
