@@ -1,4 +1,4 @@
-import { NewspaperModalButton } from '@/components/archive/NewspaperModalButton.1'
+import { NewspaperModalButton } from '@/components/archive/NewspaperModalButton'
 import { ConfirmDialogButton } from '@/components/common/ConfirmDialogButton'
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'

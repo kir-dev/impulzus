@@ -11,7 +11,7 @@ import {
   InputRightAddon
 } from '@chakra-ui/react'
 import useTranslation from 'next-translate/useTranslation'
-import { FC, ReactElement, useRef, useState } from 'react'
+import { ReactElement, useRef, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { FaTimes } from 'react-icons/fa'
 
@@ -27,7 +27,7 @@ type Props = {
   oldFileName?: string | null
 }
 
-export const FileUpload: FC<Props> = ({
+export const FileUpload = ({
   fieldName,
   fieldTitle,
   uploadButtonText = 'Feltöltés',
@@ -37,7 +37,7 @@ export const FileUpload: FC<Props> = ({
   maxFileSizeMB = 10,
   buttonIcon,
   oldFileName
-}) => {
+}: Props) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const {
     register,

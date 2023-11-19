@@ -33,7 +33,7 @@ export const NewComment = ({ postId }: Props) => {
       <Textarea
         isDisabled={!isAuthenticated}
         mt={8}
-        placeholder="Oszdd meg a véleményedet!"
+        placeholder={t('comments.shareYourThoughts')}
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />

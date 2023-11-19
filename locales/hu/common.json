@@ -52,7 +52,10 @@
   },
   "comments": {
     "newComment": "Új komment",
-    "loginToComment": "Jelenkezz be, hogy tudjál kommentelni!"
+    "loginToComment": "Jelenkezz be, hogy tudjál kommentelni!",
+    "shareYourThoughts": "Oszdd meg a véleményedet!",
+    "deleteComment": "Komment törlése",
+    "deleteCommentQuestion": "Biztosan törlöd a komentet?"
   },
   "archive": {
     "title": "Archívum",

@@ -2,6 +2,7 @@ import { CommentEntity } from '@/pages/api/comments/dto/CommentEntity.dto'
 import { UserEntity } from '@/pages/api/users/dto/UserEntity.dto'
 import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
+import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 import { ConfirmDialogButton } from '../common/ConfirmDialogButton'
 
@@ -10,6 +11,7 @@ type Props = {
 }
 
 export const CommentList = ({ comments }: Props) => {
+  const { t } = useTranslation('common')
   const { data } = useSession()
   const isAdmin = data?.user?.isAdmin
 
@@ -39,10 +41,11 @@ export const CommentList = ({ comments }: Props) => {
           </Box>
           {(isAdmin || data?.user?.id === c.userId) && (
             <ConfirmDialogButton
-              bodyText="Biztosan törlöd a komentet?"
+              bodyText={t('comments.deleteCommentQuestion')}
               confirmAction={() => deleteData(c.id)}
-              headerText="Komment törlése"
-              confirmButtonText="Törlés"
+              headerText={t('comments.deleteComment')}
+              confirmButtonText={t('common.delete')}
+              refuseButtonText={t('common.cancel')}
             />
           )}
         </Flex>

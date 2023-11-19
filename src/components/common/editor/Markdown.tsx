@@ -17,7 +17,11 @@ const theme: any = {
   }
 }
 
-const Markdown = ({ markdown }: { markdown?: string }) => {
+type Props = {
+  markdown?: string
+}
+
+const Markdown = ({ markdown }: Props) => {
   // eslint-disable-next-line react/no-children-prop
   return <ReactMarkdown components={ChakraUIRenderer(theme)} children={markdown || ''} remarkPlugins={[remarkGfm, remarkGemoji]} />
 }
