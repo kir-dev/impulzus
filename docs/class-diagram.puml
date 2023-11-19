@@ -6,15 +6,18 @@ class User {
     authSchId: string
     email: string
     isAdmin: boolean
+    isBoardMember: boolean
+    titles: string[]
+    picture: string
 }
 class Post {
     id: string
     title: string
     previewContent: string
     content: string
-    type: stirng[]
+    categories: stirng[]
     tag: string[]
-    date: Date
+    createdAt: Date
 }
 
 class Comment {
@@ -36,9 +39,9 @@ class Newspaper {
     id: string
     title: string
     contents: string[]
-    coverImage: ?
-    ISSUU_Link: string
-    pdf ?
+    coverImage: string
+    grade: number
+    pdf: string
 }
 
 @enduml
