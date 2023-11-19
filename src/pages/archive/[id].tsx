@@ -34,7 +34,7 @@ export default function NewsPaperPage({ newspaper }: Props) {
       <Title text={newspaper.title} />
       <PageHeading text={newspaper.title} />
       <Flex mb={4} justify="center">
-        <PdfRenderer fileURL={newspaper.pdf ?? '' /* TODO */} />
+        <PdfRenderer fileURL={newspaper.pdf ?? ''} />
       </Flex>
       <BackButton link={PATHS.ARCHIVE} />
     </>

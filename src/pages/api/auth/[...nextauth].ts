@@ -47,15 +47,16 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.AUTHSCH_CLIENT_ID,
       clientSecret: process.env.AUTHSCH_CLIENT_SECRET,
       profile(profile: AuthSchProfile) {
-        //TODO
-        //const impulzusTitles = profile.eduPersonEntitlement.map((e: any) => e.name === 'Impulzus')[0].title
+        const impulzusEntitlements = profile.eduPersonEntitlement.filter((e) => e.name === 'Impulzus')[0]
+        const titles = impulzusEntitlements ? impulzusEntitlements.title : []
+
         return {
           id: profile.internal_id,
           authSchId: profile.internal_id,
           email: profile.mail,
           name: profile.displayName,
           emailVerified: true,
-          titles: profile?.eduPersonEntitlement?.[0]?.title ?? [],
+          titles: titles,
           isAdmin: false,
           isBoardMember: false,
           picture: ''

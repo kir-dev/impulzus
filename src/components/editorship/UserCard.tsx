@@ -32,7 +32,7 @@ export const UserCard = ({ user }: Props) => {
   return (
     <Stack justify="space-between" direction={['column', 'row']}>
       <Stack p={1} direction={{ base: 'column', md: 'row' }} alignItems={{ base: 'center', sm: 'flex-start' }}>
-        <Image height={150} width={150} alt="profile_pic" src={user.picture ?? '/img/impulzus_logo_light.png'} />
+        <Image height={150} width={150} alt="profile_pic" src={user.picture || '/img/impulzus_logo_light.png'} />
         <VStack align="flex-start" alignSelf="flex-start">
           <Text fontSize="3xl">{user.name}</Text>
           <HStack wordBreak="break-word">

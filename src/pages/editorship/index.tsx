@@ -26,6 +26,8 @@ export default function Editorship({ users }: Props) {
   const { t } = useTranslation('common')
   const isAdmin = data?.user?.isAdmin
 
+  const impulzusUsers = users.filter((u) => u.titles && u.titles.length > 0)
+
   return (
     <>
       <Title text={t('editorship.title')} />
@@ -35,9 +37,9 @@ export default function Editorship({ users }: Props) {
           <EditorshipModalButton />
         </Flex>
       )}
-      <UserGrid users={users.filter((u) => u.isBoardMember)} />
+      <UserGrid users={impulzusUsers.filter((u) => u.isBoardMember)} />
       <PageHeading text={t('editorship.title')} />
-      <UserGrid users={users.filter((u) => !u.isBoardMember)} />
+      <UserGrid users={impulzusUsers.filter((u) => !u.isBoardMember)} />
     </>
   )
 }
