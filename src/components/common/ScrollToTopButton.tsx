@@ -5,7 +5,7 @@ import { FaArrowUp } from 'react-icons/fa'
 export const ScrollToTopButton = () => {
   const [scrollPosition, setScrollPosition] = useState(0)
   const handleScroll = () => {
-    const position = window.pageYOffset
+    const position = window.scrollY
     setTimeout(() => setScrollPosition(position), 300)
   }
 

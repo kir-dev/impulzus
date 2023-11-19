@@ -18,7 +18,6 @@ type AppPropsWithLayout = AppProps & {
 }
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) {
-  //navbar, footer, authcontext stb
   const getLayout = Component.getLayout ?? ((page: unknown) => page)
   return getLayout(
     <ThemeProvider attribute="class">

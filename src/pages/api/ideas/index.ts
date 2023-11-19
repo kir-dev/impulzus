@@ -21,15 +21,20 @@ const handleGET = async (res: NextApiResponse<IdeaEntity[]>) => {
   res.status(200).json(ideas)
 }
 
-const handlePOST = async (req: NextApiRequest, res: NextApiResponse<IdeaEntity | unknown>) => {
+const handlePOST = async (req: NextApiRequest, res: NextApiResponse<IdeaEntity | string>) => {
   try {
-    const idea = await prisma.idea.create({ data: { description: req.body.description } })
+    const idea = await prisma.idea.create({
+      data: {
+        description: req.body.description
+      }
+    })
     res.status(200).json(idea)
   } catch (e) {
     if (e instanceof PrismaClientValidationError) {
       res.status(400).send(e.message)
     } else {
-      res.status(500).send(e)
+      console.log(e)
+      res.status(500).send('Internal server error')
     }
   }
 }

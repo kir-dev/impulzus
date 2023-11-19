@@ -28,9 +28,6 @@ interface ConfirmDialogButtonProps {
 export const ConfirmDialogButton = ({
   headerText,
   bodyText,
-  /*buttonText = '',
-  buttonColorSchene,
-  buttonVariant,*/
   buttonWidth,
   confirmButtonText = 'Igen',
   refuseButtonText = 'Mégse',
