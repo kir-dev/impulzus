@@ -130,7 +130,9 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
           <FaPencilAlt />
         </IconButton>
       ) : (
-        <Button onClick={() => onOpen()}>{t('archive.newPaper')}</Button>
+        <Button width="min-content" onClick={() => onOpen()}>
+          {t('archive.newPaper')}
+        </Button>
       )}
 
       <Modal motionPreset="slideInBottom" isOpen={isOpen} onClose={onClose}>

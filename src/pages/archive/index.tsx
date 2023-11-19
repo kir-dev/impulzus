@@ -6,7 +6,6 @@ import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
 import {
   Box,
-  Flex,
   GridItem,
   HStack,
   IconButton,
@@ -70,7 +69,7 @@ export default function Archive({ newspapers }: Props) {
     <>
       <Title text={t('archive.title')} />
       <PageHeading text={t('archive.title')} />
-      <HStack justify="space-between">
+      <Stack justify="space-between" direction={['column', 'row']} alignItems="flex-end">
         <HStack>
           <Text>{t('archive.grade')}</Text>
           <IconButton aria-label="next grade" onClick={() => grade > 1 && setGrade(grade - 1)}>
@@ -84,7 +83,7 @@ export default function Archive({ newspapers }: Props) {
           </IconButton>
         </HStack>
         {isAdmin && <NewspaperModalButton />}
-      </HStack>
+      </Stack>
       {filteredNewspapers.length < 1 ? (
         <Box textAlign="center">
           <Text mt={5}>{t('archive.paperCantbeFound')}</Text>
@@ -93,17 +92,16 @@ export default function Archive({ newspapers }: Props) {
         <SimpleGrid my={5} columns={{ base: 1, '2xl': 2 }} spacing={10}>
           {filteredNewspapers.map((n) => (
             <GridItem key={n.id} borderWidth={1} borderRadius={5} p={2}>
-              <Flex justify="space-between">
-                <Link href={`${PATHS.ARCHIVE}/${n.id}`}>
-                  <Stack align={{ base: 'center', md: 'flex-start' }} direction={{ base: 'column', md: 'row' }}>
+              <Stack justify="space-between" direction={['column', 'row']} alignItems={['center', 'flex-start']}>
+                <Link style={{ width: '100%' }} href={`${PATHS.ARCHIVE}/${n.id}`}>
+                  <Stack minWidth="100%" align={{ base: 'center', md: 'flex-start' }} direction={{ base: 'column', md: 'row' }}>
                     <Image
                       src={!n.coverImage || n.coverImage === '' ? '/img/impulzus_logo_light.png' : n.coverImage}
                       height={100}
                       width={200}
                       alt="Borítókép"
                     />
-
-                    <VStack p={3} pt={0} align="flex-start">
+                    <VStack p={3} pt={0} align="flex-start" alignSelf="flex-start">
                       <Text fontSize="2xl">{n.title}</Text>
                       {n.contents.length > 0 && n.contents[0] != '' && (
                         <>
@@ -121,17 +119,18 @@ export default function Archive({ newspapers }: Props) {
                   </Stack>
                 </Link>
                 {isAdmin && (
-                  <VStack justifySelf="flex-start">
+                  <Stack justifySelf="flex-start" direction={['row', 'column']}>
                     <NewspaperModalButton newspaper={n} />
                     <ConfirmDialogButton
-                      bodyText="Biztosan törlöd az újságot?"
+                      bodyText={t('archive.deletePaperQuestion')}
                       confirmAction={() => deleteData(n.id)}
-                      headerText="Újság törlése"
-                      confirmButtonText="Törlés"
+                      headerText={t('archive.deletePaper')}
+                      confirmButtonText={t('common.delete')}
+                      refuseButtonText={t('common.cancel')}
                     />
-                  </VStack>
+                  </Stack>
                 )}
-              </Flex>
+              </Stack>
             </GridItem>
           ))}
         </SimpleGrid>

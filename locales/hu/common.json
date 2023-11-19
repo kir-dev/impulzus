@@ -78,7 +78,9 @@
     "maxAllowedSize": "Maximális megengedett méret",
     "fileRequired": "Legalább egy fájl feltöltése szükséges!",
     "maxOneFile": "Csak egy fájl feltöltése lehetséges!",
-    "noFileSelected": "Nincs fájl kiválasztva"
+    "noFileSelected": "Nincs fájl kiválasztva",
+    "deletePaper": "Lap törlése",
+    "deletePaperQuestion": "Biztosan törlöd a lapot?"
   },
   "editorship": {
     "title": "Szerkesztőség",

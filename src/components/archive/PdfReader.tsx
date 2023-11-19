@@ -49,7 +49,7 @@ export default function PdfRenderer({ fileURL }: Props) {
   }, [])
 
   return (
-    <Box className="Example__container__document">
+    <Box>
       <Flex mb={2} justify={page <= 1 ? 'flex-end' : 'space-between'}>
         <IconButton hidden={page <= 1} onClick={() => page > 1 && setPage(page - 1)} aria-label={'Előző'}>
           <FaArrowLeft />

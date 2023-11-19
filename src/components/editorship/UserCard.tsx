@@ -1,6 +1,6 @@
 import { UserEntity } from '@/pages/api/users/dto/UserEntity.dto'
 import { PATHS } from '@/util/paths'
-import { Flex, HStack, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
+import { HStack, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
@@ -32,14 +32,14 @@ export const UserCard = ({ user }: Props) => {
   }
 
   return (
-    <Flex justify="space-between">
+    <Stack justify="space-between" direction={['column', 'row']}>
       <Link key={user.id} href={PATHS.EDITORSHIP + '/' + user.id}>
-        <Stack p={1} direction={{ base: 'column', md: 'row' }}>
+        <Stack p={1} direction={{ base: 'column', md: 'row' }} alignItems={{ base: 'center', sm: 'flex-start' }}>
           <Image height={150} width={150} alt="profile_pic" src={user.picture ?? '/img/impulzus_logo_light.png'} />
-          <VStack align="flex-start">
+          <VStack align="flex-start" alignSelf="flex-start">
             <Text fontSize="3xl">{user.name}</Text>
-            <HStack>
-              <FaRegEnvelope />
+            <HStack wordBreak="break-word">
+              <FaRegEnvelope style={{ minWidth: '16px' }} />
               <Text>{user.email}</Text>
             </HStack>
             <Wrap>
@@ -55,7 +55,7 @@ export const UserCard = ({ user }: Props) => {
         </Stack>
       </Link>
       {isAdmin && (
-        <VStack>
+        <Stack direction={['row', 'column']} alignSelf={['center', 'flex-start']}>
           <EditorshipModalButton user={user} />
           <ConfirmDialogButton
             bodyText={t('editorship.deleteUserQuestion')}
@@ -64,8 +64,8 @@ export const UserCard = ({ user }: Props) => {
             confirmButtonText={t('common.delete')}
             refuseButtonText={t('common.cancel')}
           />
-        </VStack>
+        </Stack>
       )}
-    </Flex>
+    </Stack>
   )
 }

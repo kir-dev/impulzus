@@ -78,7 +78,9 @@
     "maxAllowedSize": "Maximum allowed size",
     "fileRequired": "File is required!",
     "maxOneFile": "Only one file can be uploaded!",
-    "noFileSelected": "No file selected"
+    "noFileSelected": "No file selected",
+    "deletePaper": "Delete paper",
+    "deletePaperQuestion": "Do you want to delete this paper?"
   },
   "editorship": {
     "title": "Editorship",
