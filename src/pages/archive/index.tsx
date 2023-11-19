@@ -19,7 +19,7 @@ import {
   UnorderedList,
   VStack
 } from '@chakra-ui/react'
-import { GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/react'
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
@@ -29,12 +29,11 @@ import { useEffect, useState } from 'react'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 import { NewspaperEntity } from '../api/newspapers/dto/NewspaperEntity.dto'
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const newspapers = await prisma.newspaper.findMany()
 
   return {
-    props: { newspapers },
-    revalidate: 10
+    props: { newspapers }
   }
 }
 

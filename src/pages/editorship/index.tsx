@@ -4,17 +4,16 @@ import { EditorshipModalButton } from '@/components/editorship/EditorshipModalBu
 import { UserGrid } from '@/components/editorship/UserGrid'
 import prisma from '@/lib/prisma'
 import { Flex } from '@chakra-ui/react'
-import { GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/react'
 import useTranslation from 'next-translate/useTranslation'
 import { UserEntity } from '../api/users/dto/UserEntity.dto'
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const users = await prisma.user.findMany()
 
   return {
-    props: { users },
-    revalidate: 10
+    props: { users }
   }
 }
 

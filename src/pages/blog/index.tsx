@@ -3,14 +3,14 @@ import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
 import { Button, Flex, GridItem, SimpleGrid, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
-import { GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/react'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { PostEntity } from '../api/posts/dto/PostEntity.dto'
 import { UserEntity } from '../api/users/dto/UserEntity.dto'
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const posts = await prisma.post.findMany({
     include: {
       user: true
@@ -18,8 +18,7 @@ export const getStaticProps: GetStaticProps = async () => {
   })
 
   return {
-    props: { posts: JSON.parse(JSON.stringify(posts)) },
-    revalidate: 10
+    props: { posts: JSON.parse(JSON.stringify(posts)) }
   }
 }
 
