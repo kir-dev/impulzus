@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { NotFoundException } from 'next-api-decorators'
-import { UserEntity } from './dto/UserEntity.dto'
+import { UserEntity } from '../../../models/UserEntity'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const userId = req.query.id

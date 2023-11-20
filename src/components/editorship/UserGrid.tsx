@@ -1,4 +1,4 @@
-import { UserEntity } from '@/pages/api/users/dto/UserEntity.dto'
+import { UserEntity } from '@/models/UserEntity'
 import { GridItem, SimpleGrid } from '@chakra-ui/react'
 import { UserCard } from './UserCard'
 

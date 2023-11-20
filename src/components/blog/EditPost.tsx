@@ -1,4 +1,4 @@
-import { PostEntity } from '@/pages/api/posts/dto/PostEntity.dto'
+import { PostEntity } from '@/models/PostEntity'
 import { PATHS } from '@/util/paths'
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'

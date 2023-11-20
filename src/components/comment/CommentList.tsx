@@ -1,5 +1,5 @@
-import { CommentEntity } from '@/pages/api/comments/dto/CommentEntity.dto'
-import { UserEntity } from '@/pages/api/users/dto/UserEntity.dto'
+import { CommentEntity } from '@/models/CommentEntity'
+import { UserEntity } from '@/models/UserEntity'
 import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import useTranslation from 'next-translate/useTranslation'

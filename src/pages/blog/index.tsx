@@ -7,8 +7,8 @@ import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/react'
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
-import { PostEntity } from '../api/posts/dto/PostEntity.dto'
-import { UserEntity } from '../api/users/dto/UserEntity.dto'
+import { PostEntity } from '../../models/PostEntity'
+import { UserEntity } from '../../models/UserEntity'
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const posts = await prisma.post.findMany({

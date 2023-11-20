@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma'
 import { PrismaClientValidationError } from '@prisma/client/runtime/library'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { CommentEntity } from './dto/CommentEntity.dto'
+import { CommentEntity } from '../../../models/CommentEntity'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {

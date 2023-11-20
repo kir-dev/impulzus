@@ -1,6 +1,6 @@
 import { EditPost } from '@/components/blog/EditPost'
 import prisma from '@/lib/prisma'
-import { PostEntity } from '@/pages/api/posts/dto/PostEntity.dto'
+import { PostEntity } from '@/models/PostEntity'
 import { GetServerSideProps } from 'next'
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {

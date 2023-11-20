@@ -6,7 +6,7 @@ import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
 import { Flex } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
-import { NewspaperEntity } from '../api/newspapers/dto/NewspaperEntity.dto'
+import { NewspaperEntity } from '../../models/NewspaperEntity'
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const newspaper = await prisma.newspaper.findUnique({

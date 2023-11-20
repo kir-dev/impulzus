@@ -9,7 +9,7 @@ import { useSession } from 'next-auth/react'
 import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 import { FaRegLightbulb } from 'react-icons/fa'
-import { IdeaEntity } from '../api/ideas/dto/IdeaEntity.dto'
+import { IdeaEntity } from '../../models/IdeaEntity'
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const ideas = await prisma.idea.findMany()

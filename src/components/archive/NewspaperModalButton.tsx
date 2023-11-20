@@ -1,4 +1,4 @@
-import { NewspaperEntity } from '@/pages/api/newspapers/dto/NewspaperEntity.dto'
+import { NewspaperEntity } from '@/models/NewspaperEntity'
 import {
   Button,
   FormControl,

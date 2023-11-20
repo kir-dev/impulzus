@@ -1,4 +1,4 @@
-import { UserEntity } from '@/pages/api/users/dto/UserEntity.dto'
+import { UserEntity } from '@/models/UserEntity'
 import { HStack, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import useTranslation from 'next-translate/useTranslation'

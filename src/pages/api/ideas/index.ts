@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma'
 import { PrismaClientValidationError } from '@prisma/client/runtime/library'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { IdeaEntity } from './dto/IdeaEntity.dto'
+import { IdeaEntity } from '../../../models/IdeaEntity'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {

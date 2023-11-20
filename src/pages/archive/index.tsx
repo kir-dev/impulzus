@@ -26,7 +26,7 @@ import Link from 'next/link'
 import Router from 'next/router'
 import { useEffect, useState } from 'react'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
-import { NewspaperEntity } from '../api/newspapers/dto/NewspaperEntity.dto'
+import { NewspaperEntity } from '../../models/NewspaperEntity'
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const newspapers = await prisma.newspaper.findMany()
