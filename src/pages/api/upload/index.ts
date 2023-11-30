@@ -7,17 +7,14 @@ export const config = {
 
 export default async function POST(req: Request): Promise<NextResponse> {
   const file = req.body || ''
+  const fileName = req.headers.get('file-name') || 'fileName'
   const contentType = req.headers.get('content-type') || 'text/plain'
-  const filename = req.headers.get('file-name') || 'fileName'
 
-  const blob = await put(filename, file, {
+  const res = await put(fileName, file, {
     contentType,
-    //token: process.env.BLOB_READ_WRITE_TOKEN,
     access: 'public'
+    //token: process.env.BLOB_READ_WRITE_TOKEN,
   })
 
-  console.log('BLOB------------------')
-  console.log(blob)
-
-  return NextResponse.json(blob)
+  return NextResponse.json(res)
 }
