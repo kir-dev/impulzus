@@ -35,5 +35,7 @@ class Session {
     user: User
 }
 
-User "1" -- "0..*  " Session
-User "1  " -- "0..*" Account
+User "1" -right- "0..*  " Session : \t
+User "1  " -left- "0..*" Account : \t
+
+@enduml

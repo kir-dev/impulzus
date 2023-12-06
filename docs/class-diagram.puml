@@ -25,7 +25,7 @@ class Comment {
     content: string
 }
 
-User "1" -- "0..*" Post: Author
+User "1  " -- "0..*" Post: Author
 User "1" -- "0..*" Comment
 Post "1" -- "0..*" Comment
 Newspaper "1" -[hidden]- "0..*" Comment
