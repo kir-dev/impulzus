@@ -1,3 +1,4 @@
+'use client'
 import { CommentEntity } from '@/models/CommentEntity'
 import { UserEntity } from '@/models/UserEntity'
 import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react'

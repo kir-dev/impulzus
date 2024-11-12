@@ -3,25 +3,7 @@ import { UserEntity } from '@/models/UserEntity'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { NotFoundException } from 'next-api-decorators'
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  const userId = req.query.id
-
-  switch (req.method) {
-    case 'GET':
-      return handleGET(userId, res)
-
-    case 'DELETE':
-      return handleDELETE(userId, res)
-
-    case 'PATCH':
-      return handlePATCH(userId, req, res)
-
-    default:
-      throw new Error(`The HTTP ${req.method} method is not supported at this route.`)
-  }
-}
-
-const handleGET = async (userId: unknown, res: NextApiResponse<UserEntity | null>) => {
+export const GET = async (userId: unknown, res: NextApiResponse<UserEntity | null>) => {
   const user = await prisma.user.findUnique({
     where: { id: userId?.toString() }
   })
@@ -31,7 +13,7 @@ const handleGET = async (userId: unknown, res: NextApiResponse<UserEntity | null
   return res.status(200).json(user)
 }
 
-const handlePATCH = async (userId: unknown, req: NextApiRequest, res: NextApiResponse<UserEntity>) => {
+export const PATCH = async (userId: unknown, req: NextApiRequest, res: NextApiResponse<UserEntity>) => {
   const user = await prisma.user.update({
     where: { id: userId?.toString() },
     data: req.body
@@ -39,7 +21,7 @@ const handlePATCH = async (userId: unknown, req: NextApiRequest, res: NextApiRes
   return res.status(200).json(user)
 }
 
-const handleDELETE = async (userId: unknown, res: NextApiResponse<UserEntity>) => {
+export const DELETE = async (userId: unknown, res: NextApiResponse<UserEntity>) => {
   const user = await prisma.user.delete({
     where: { id: userId?.toString() }
   })

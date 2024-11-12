@@ -1,3 +1,4 @@
+'use client'
 import { Divider, Heading, useColorModeValue } from '@chakra-ui/react'
 
 type Props = {

@@ -12,6 +12,11 @@ const nextConfig = {
         pathname: '/images/**'
       }
     ]
+  },
+  i18n: {
+    locales: ['default', 'en', 'de', 'fr'],
+    defaultLocale: 'default',
+    localeDetection: false
   }
 }
 

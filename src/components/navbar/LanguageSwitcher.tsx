@@ -1,3 +1,4 @@
+'use client'
 import { Button, useColorModeValue } from '@chakra-ui/react'
 import setLanguage from 'next-translate/setLanguage'
 import useTranslation from 'next-translate/useTranslation'

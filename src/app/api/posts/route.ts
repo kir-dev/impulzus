@@ -3,25 +3,12 @@ import { PrismaClientValidationError } from '@prisma/client/runtime/library'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { PostEntity } from '../../../models/PostEntity'
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  switch (req.method) {
-    case 'GET':
-      return handleGET(res)
-
-    case 'POST':
-      return handlePOST(req, res)
-
-    default:
-      throw new Error(`The HTTP ${req.method} method is not supported at this route.`)
-  }
-}
-
-const handleGET = async (res: NextApiResponse<PostEntity[]>) => {
+export const GET = async (res: NextApiResponse<PostEntity[]>) => {
   const posts = await prisma.post.findMany()
   res.status(200).json(posts)
 }
 
-const handlePOST = async (req: NextApiRequest, res: NextApiResponse<PostEntity | unknown>) => {
+export const POST = async (req: NextApiRequest, res: NextApiResponse<PostEntity | unknown>) => {
   try {
     const post = await prisma.post.create({
       data: req.body

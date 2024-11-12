@@ -4,25 +4,7 @@ import { PrismaClientValidationError } from '@prisma/client/runtime'
 import { del } from '@vercel/blob'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  const newspaperId = Number(req.query.id)
-
-  switch (req.method) {
-    case 'GET':
-      return handleGET(newspaperId, res)
-
-    case 'PATCH':
-      return handlePATCH(newspaperId, req, res)
-
-    case 'DELETE':
-      return handleDELETE(newspaperId, res)
-
-    default:
-      throw new Error(`The HTTP ${req.method} method is not supported at this route.`)
-  }
-}
-
-const handleGET = async (newspaperId: number, res: NextApiResponse<NewspaperEntity | string>) => {
+export const GET = async (newspaperId: number, res: NextApiResponse<NewspaperEntity | string>) => {
   const newspaper = await prisma.newspaper.findUnique({
     where: { id: newspaperId }
   })
@@ -32,7 +14,7 @@ const handleGET = async (newspaperId: number, res: NextApiResponse<NewspaperEnti
   return res.status(200).json(newspaper)
 }
 
-const handlePATCH = async (newspaperId: number, req: NextApiRequest, res: NextApiResponse<NewspaperEntity | string>) => {
+export const PATCH = async (newspaperId: number, req: NextApiRequest, res: NextApiResponse<NewspaperEntity | string>) => {
   const data = req.body.data
   const oldURL = req.body.oldURL
 
@@ -55,7 +37,7 @@ const handlePATCH = async (newspaperId: number, req: NextApiRequest, res: NextAp
   }
 }
 
-const handleDELETE = async (newspaperId: number, res: NextApiResponse<NewspaperEntity | unknown>) => {
+export const DELETE = async (newspaperId: number, res: NextApiResponse<NewspaperEntity | unknown>) => {
   const newspaper = await prisma.newspaper.findUnique({
     where: { id: newspaperId }
   })

@@ -1,3 +1,4 @@
+'use client'
 import { Flex, HStack, Image, Link, Stack, Text, VStack, useColorModeValue } from '@chakra-ui/react'
 import useTranslation from 'next-translate/useTranslation'
 import NextLink from 'next/link'

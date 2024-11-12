@@ -1,18 +1,8 @@
 import prisma from '@/lib/prisma'
 import { UserEntity } from '@/models/UserEntity'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiResponse } from 'next'
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  switch (req.method) {
-    case 'GET':
-      return handleGET(res)
-
-    default:
-      throw new Error(`The HTTP ${req.method} method is not supported at this route.`)
-  }
-}
-
-const handleGET = async (res: NextApiResponse<UserEntity | null>) => {
+export const GET = async (res: NextApiResponse<UserEntity | null>) => {
   const user = await prisma.user.findUnique({
     where: { id: '1' /*oldUser.id*/ }
   })

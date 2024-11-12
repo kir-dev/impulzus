@@ -5,7 +5,7 @@ export const config = {
   runtime: 'edge'
 }
 
-export default async function POST(req: Request): Promise<NextResponse> {
+export async function POST(req: Request): Promise<NextResponse> {
   const file = req.body || ''
   const fileName = req.headers.get('file-name') || 'fileName'
   const contentType = req.headers.get('content-type') || 'text/plain'

@@ -1,40 +1,37 @@
 import prisma from '@/lib/prisma'
+import { IdeaEntity } from '@/models/IdeaEntity'
 import { PrismaClientValidationError } from '@prisma/client/runtime/library'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { IdeaEntity } from '../../../models/IdeaEntity'
+import { NextApiResponse } from 'next'
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  switch (req.method) {
-    case 'GET':
-      return handleGET(res)
-
-    case 'POST':
-      return handlePOST(req, res)
-
-    default:
-      throw new Error(`The HTTP ${req.method} method is not supported at this route.`)
-  }
-}
-
-const handleGET = async (res: NextApiResponse<IdeaEntity[]>) => {
+export const GET = async (res: NextApiResponse<IdeaEntity[]>) => {
   const ideas = await prisma.idea.findMany()
   res.status(200).json(ideas)
 }
 
-const handlePOST = async (req: NextApiRequest, res: NextApiResponse<IdeaEntity | string>) => {
+export const POST = async (req: Request, res: NextApiResponse<IdeaEntity | string>) => {
   try {
+    const requestData: IdeaEntity = await req.json()
     const idea = await prisma.idea.create({
       data: {
-        description: req.body.description
+        description: requestData.description
       }
     })
-    res.status(200).json(idea)
+    return new Response(JSON.stringify(idea), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   } catch (e) {
     if (e instanceof PrismaClientValidationError) {
-      res.status(400).send(e.message)
+      return new Response(e.message, {
+        status: 400
+      })
     } else {
       console.log(e)
-      res.status(500).send('Internal server error')
+      return new Response('Internal server error', {
+        status: 500
+      })
     }
   }
 }
