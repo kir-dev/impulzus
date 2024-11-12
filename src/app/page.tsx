@@ -2,9 +2,8 @@ import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import { Heading, Text } from '@chakra-ui/react'
 import useTranslation from 'next-translate/useTranslation'
-import { NextPageWithLayout } from './_app'
 
-const Page: NextPageWithLayout = () => {
+const Page = () => {
   const { t } = useTranslation('common')
 
   return (

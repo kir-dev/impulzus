@@ -3,10 +3,10 @@ import { BackButton } from '@/components/common/BackButton'
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
+import { NewspaperEntity } from '@/models/NewspaperEntity'
 import { PATHS } from '@/util/paths'
 import { Flex } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
-import { NewspaperEntity } from '../../models/NewspaperEntity'
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const newspaper = await prisma.newspaper.findUnique({
