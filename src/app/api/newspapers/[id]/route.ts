@@ -1,8 +1,8 @@
 import prisma from '@/lib/prisma'
+import { NewspaperEntity } from '@/models/NewspaperEntity'
 import { PrismaClientValidationError } from '@prisma/client/runtime'
 import { del } from '@vercel/blob'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { NewspaperEntity } from '../../../models/NewspaperEntity'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const newspaperId = Number(req.query.id)

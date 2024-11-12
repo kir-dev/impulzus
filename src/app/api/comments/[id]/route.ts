@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma'
+import { CommentEntity } from '@/models/CommentEntity'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { CommentEntity } from '../../../models/CommentEntity'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const commentId = req.query.id

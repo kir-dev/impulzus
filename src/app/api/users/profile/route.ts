@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma'
+import { UserEntity } from '@/models/UserEntity'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { UserEntity } from '../../../models/UserEntity'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {

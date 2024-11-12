@@ -1,3 +1,4 @@
+'use client'
 import customTheme from '@/assets/theme'
 import Layout from '@/components/layout'
 import '@/styles/globals.css'
@@ -17,17 +18,18 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
 
-export default function App({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page: unknown) => page)
-  return getLayout(
-    <ThemeProvider attribute="class">
-      <SessionProvider session={session}>
-        <ChakraProvider theme={customTheme}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ChakraProvider>
-      </SessionProvider>
-    </ThemeProvider>
+export default function RootLayout({ children, session }: { children: ReactNode; session?: any }) {
+  return (
+    <html>
+      <body>
+        <ThemeProvider attribute="class">
+          <SessionProvider session={session}>
+            <ChakraProvider theme={customTheme}>
+              <Layout>{children}</Layout>
+            </ChakraProvider>
+          </SessionProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   )
 }

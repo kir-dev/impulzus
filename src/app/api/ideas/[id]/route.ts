@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma'
+import { IdeaEntity } from '@/models/IdeaEntity'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { IdeaEntity } from '../../../models/IdeaEntity'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const ideaId = req.query.id

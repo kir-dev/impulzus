@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma'
+import { PostEntity } from '@/models/PostEntity'
 import { PrismaClientValidationError } from '@prisma/client/runtime/library'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { PostEntity } from '../../../models/PostEntity'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const postId = req.query.id
