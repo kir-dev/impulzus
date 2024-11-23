@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
 }
 
 export const BackButton = ({ link }: Props) => {
-  const { t } = useTranslation('common')
+  const t = useTranslations()
 
   return (
     <Button as={Link} href={link}>

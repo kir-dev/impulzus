@@ -15,7 +15,7 @@ import {
   ModalOverlay,
   useDisclosure
 } from '@chakra-ui/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Router from 'next/router'
 import { FormProvider, useForm } from 'react-hook-form'
 import { FaFile, FaPencilAlt } from 'react-icons/fa'
@@ -28,7 +28,7 @@ export type Props = {
 
 export const NewspaperModalButton = ({ newspaper }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { t } = useTranslation('common')
+  const t = useTranslations()
 
   const methods = useForm<{
     files?: FileList

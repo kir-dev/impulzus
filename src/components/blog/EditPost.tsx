@@ -2,7 +2,7 @@ import { PostEntity } from '@/models/PostEntity'
 import { PATHS } from '@/util/paths'
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Router from 'next/router'
 import { useEffect } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
@@ -20,7 +20,7 @@ type Props = {
 
 export const EditPost = ({ post }: Props) => {
   const { data } = useSession()
-  const { t } = useTranslation('common')
+  const t = useTranslations()
   const userId = data?.user?.id
 
   useEffect(() => {

@@ -3,6 +3,7 @@ import { ConfirmDialogButton } from '@/components/common/ConfirmDialogButton'
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
+import { NewspaperEntity } from '@/models/NewspaperEntity'
 import { PATHS } from '@/util/paths'
 import {
   Box,
@@ -20,13 +21,12 @@ import {
 } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
 import Router from 'next/router'
 import { useEffect, useState } from 'react'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
-import { NewspaperEntity } from '../../models/NewspaperEntity'
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const newspapers = await prisma.newspaper.findMany()
@@ -44,7 +44,7 @@ export default function Archive({ newspapers }: Props) {
   const latestGraade = Math.max(...newspapers.map((n) => n.grade))
   const [grade, setGrade] = useState<number>(latestGraade)
   const [filteredNewspapers, setFilteredNewspapers] = useState<NewspaperEntity[]>(newspapers)
-  const { t } = useTranslation('common')
+  const t = useTranslations()
 
   const { data } = useSession()
   const isAdmin = data?.user?.isAdmin

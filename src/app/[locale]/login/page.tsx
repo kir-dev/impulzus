@@ -2,10 +2,10 @@ import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import { Button, Heading } from '@chakra-ui/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 
 export default function LoginPage() {
-  const { t } = useTranslation('common')
+  const t = useTranslations()
   const { data, status } = useSession()
   const isAuthenticated = status === 'authenticated'
 

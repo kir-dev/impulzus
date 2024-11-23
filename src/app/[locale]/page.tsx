@@ -1,10 +1,10 @@
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import { Heading, Text } from '@chakra-ui/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 
 const Page = () => {
-  const { t } = useTranslation('common')
+  const t = useTranslations()
 
   return (
     <>

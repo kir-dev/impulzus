@@ -13,14 +13,14 @@ import {
   Textarea,
   useDisclosure
 } from '@chakra-ui/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Router from 'next/router'
 import { useState } from 'react'
 
 export const IdeaModalButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [description, setDescriptioon] = useState<string>()
-  const { t } = useTranslation('common')
+  const t = useTranslations()
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault()

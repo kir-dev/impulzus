@@ -1,11 +1,11 @@
 'use client'
 import { Flex, HStack, Image, Link, Stack, Text, VStack, useColorModeValue } from '@chakra-ui/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import NextLink from 'next/link'
 import { FaEnvelope, FaFacebook, FaGithub, FaGlobe, FaHeart, FaInstagram } from 'react-icons/fa'
 
 export const Footer = () => {
-  const { t } = useTranslation('common')
+  const t = useTranslations()
   const kirdevLogo = useColorModeValue('/img/kirdev.svg', '/img/kirdev-white.svg')
   const impulzusLogo = useColorModeValue('/img/impulzus_logo_light.png', '/img/impulzus_logo_dark.png')
 

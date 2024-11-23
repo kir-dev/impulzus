@@ -7,15 +7,15 @@ import { Title } from '@/components/common/Title'
 import Markdown from '@/components/common/editor/Markdown'
 import prisma from '@/lib/prisma'
 import { CommentEntity } from '@/models/CommentEntity'
+import { PostEntity } from '@/models/PostEntity'
 import { UserEntity } from '@/models/UserEntity'
 import { PATHS } from '@/util/paths'
 import { Box, Button, Flex } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import Router from 'next/router'
-import { PostEntity } from '../../../models/PostEntity'
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
@@ -51,7 +51,7 @@ type Props = {
 
 export default function Blog({ post, comments }: Props) {
   const { data } = useSession()
-  const { t } = useTranslation('common')
+  const t = useTranslations()
   const isAdmin = data?.user?.isAdmin
   const isCreater = data?.user?.id === post.userId
 

@@ -1,8 +1,8 @@
 import { Stack, Text } from '@chakra-ui/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 
 export default function Custom404() {
-  const { t } = useTranslation('common')
+  const t = useTranslations()
 
   return (
     <Stack my={8} align="center">

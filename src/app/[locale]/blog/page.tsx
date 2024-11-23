@@ -1,14 +1,14 @@
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
+import { PostEntity } from '@/models/PostEntity'
+import { UserEntity } from '@/models/UserEntity'
 import { PATHS } from '@/util/paths'
 import { Button, Flex, GridItem, SimpleGrid, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
-import { PostEntity } from '../../models/PostEntity'
-import { UserEntity } from '../../models/UserEntity'
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const posts = await prisma.post.findMany({
@@ -28,7 +28,7 @@ type Props = {
 
 export default function Blog({ posts }: Props) {
   const { status } = useSession()
-  const { t } = useTranslation('common')
+  const t = useTranslations()
   const isAuthenticated = status === 'authenticated'
 
   return (

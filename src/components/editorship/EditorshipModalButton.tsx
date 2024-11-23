@@ -18,7 +18,7 @@ import {
   Text,
   useDisclosure
 } from '@chakra-ui/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Router from 'next/router'
 import { useForm } from 'react-hook-form'
 import { FaPencilAlt } from 'react-icons/fa'
@@ -30,7 +30,7 @@ type Props = {
 
 export const EditorshipModalButton = ({ user }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { t } = useTranslation('common')
+  const t = useTranslations()
 
   const {
     register,

@@ -3,7 +3,7 @@ import { CommentEntity } from '@/models/CommentEntity'
 import { UserEntity } from '@/models/UserEntity'
 import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Router from 'next/router'
 import { ConfirmDialogButton } from '../common/ConfirmDialogButton'
 
@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const CommentList = ({ comments }: Props) => {
-  const { t } = useTranslation('common')
+  const t = useTranslations()
   const { data } = useSession()
   const isAdmin = data?.user?.isAdmin
 

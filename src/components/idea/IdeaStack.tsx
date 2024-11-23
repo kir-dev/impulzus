@@ -5,14 +5,14 @@ import { Title } from '@/components/common/Title'
 import { IdeaModalButton } from '@/components/idea/IdeaModalButton'
 import { Flex, HStack, Text } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Router from 'next/router'
 import { FaRegLightbulb } from 'react-icons/fa'
 import { IdeaEntity } from '../../models/IdeaEntity'
 
 export default function IdeaStack({ ideas }: { ideas: IdeaEntity[] }) {
   const { data } = useSession()
-  const { t } = useTranslation('common')
+  const t = useTranslations()
   const isAdmin = data?.user?.isAdmin
   const deleteData = async (id: number) => {
     try {

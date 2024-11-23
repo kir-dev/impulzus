@@ -1,6 +1,6 @@
 import { VStack } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { NAV_ITEMS } from './navitems'
 
@@ -10,7 +10,7 @@ type Props = {
 
 export const MobileNav = ({ onNavigate }: Props) => {
   const { status } = useSession()
-  const { t } = useTranslation('common')
+  const t = useTranslations()
 
   return (
     <VStack display={{ base: 'flex', lg: 'none' }} ml="1.5rem" mb="1rem" alignItems="flex-start">

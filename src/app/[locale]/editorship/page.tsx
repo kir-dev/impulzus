@@ -6,7 +6,6 @@ import prisma from '@/lib/prisma'
 import { Flex } from '@chakra-ui/react'
 import { GetServerSideProps } from 'next'
 import { useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
 import { UserEntity } from '../../models/UserEntity'
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -23,7 +22,7 @@ type Props = {
 
 export default function Editorship({ users }: Props) {
   const { data } = useSession()
-  const { t } = useTranslation('common')
+  const t = useTranslations()
   const isAdmin = data?.user?.isAdmin
 
   const impulzusUsers = users.filter((u) => u.titles && u.titles.length > 0)

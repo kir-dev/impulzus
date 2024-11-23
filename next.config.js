@@ -12,15 +12,10 @@ const nextConfig = {
         pathname: '/images/**'
       }
     ]
-  },
-  i18n: {
-    locales: ['default', 'en', 'de', 'fr'],
-    defaultLocale: 'default',
-    localeDetection: false
   }
 }
+const createNextIntlPlugin = require('next-intl/plugin')
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const nextTranslate = require('next-translate-plugin')
+const withNextIntl = createNextIntlPlugin()
 
-module.exports = nextTranslate(nextConfig)
+module.exports = withNextIntl(nextConfig)

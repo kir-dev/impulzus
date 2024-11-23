@@ -1,7 +1,7 @@
 import { UserEntity } from '@/models/UserEntity'
 import { HStack, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Router from 'next/router'
 import { FaRegEnvelope } from 'react-icons/fa'
@@ -13,7 +13,7 @@ type Props = {
 }
 
 export const UserCard = ({ user }: Props) => {
-  const { t } = useTranslation('common')
+  const t = useTranslations()
   const { data } = useSession()
   const isAdmin = data?.user?.isAdmin
 

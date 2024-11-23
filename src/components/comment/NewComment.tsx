@@ -1,6 +1,6 @@
 import { Button, Flex, Text, Textarea } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Router from 'next/router'
 import { useState } from 'react'
 
@@ -9,7 +9,7 @@ type Props = {
 }
 
 export const NewComment = ({ postId }: Props) => {
-  const { t } = useTranslation('common')
+  const t = useTranslations()
   const [value, setValue] = useState<string>('')
   const { data, status } = useSession()
   const isAuthenticated = status === 'authenticated'
