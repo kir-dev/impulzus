@@ -51,7 +51,6 @@ export const EditorshipModalButton = ({ user }: Props) => {
   })
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
     const formData = {
       name: data.name,
       email: data.email,
@@ -193,7 +192,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
               >
                 {t('common.cancel')}
               </Button>
-              <Button colorScheme="blue" type="submit" onClick={() => onSubmit()}>
+              <Button colorScheme="blue" type="submit" onClick={onSubmit}>
                 {t('common.save')}
               </Button>
             </ModalFooter>

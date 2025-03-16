@@ -1,7 +1,9 @@
 import prisma from '@/lib/prisma'
 import { PrismaClientValidationError } from '@prisma/client/runtime/library'
 
-export const GET = async (postId: unknown) => {
+export const GET = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params
+  const postId = Number(id)
   const post = await prisma.post.findUnique({
     where: { id: Number(postId) }
   })
@@ -11,7 +13,9 @@ export const GET = async (postId: unknown) => {
   return new Response(JSON.stringify(post), { status: 200 })
 }
 
-export const PATCH = async (postId: unknown, req: Request) => {
+export const PATCH = async (req: Request, { params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params
+  const postId = Number(id)
   try {
     const post = await prisma.post.update({
       where: { id: Number(postId) },
@@ -27,7 +31,9 @@ export const PATCH = async (postId: unknown, req: Request) => {
   }
 }
 
-export const DELETE = async (postId: unknown) => {
+export const DELETE = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params
+  const postId = Number(id)
   try {
     const post = await prisma.post.delete({
       where: { id: Number(postId) }

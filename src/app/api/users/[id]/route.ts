@@ -1,9 +1,9 @@
 import prisma from '@/lib/prisma'
-import { UserEntity } from '@/models/UserEntity'
-import { NextApiRequest, NextApiResponse } from 'next'
 import { NotFoundException } from 'next-api-decorators'
 
-export const GET = async (userId: unknown, res: NextApiResponse<UserEntity | null>) => {
+export const GET = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params
+  const userId = Number(id)
   const user = await prisma.user.findUnique({
     where: { id: userId?.toString() }
   })
@@ -13,15 +13,20 @@ export const GET = async (userId: unknown, res: NextApiResponse<UserEntity | nul
   return new Response(JSON.stringify(user), { status: 200 })
 }
 
-export const PATCH = async (userId: unknown, req: NextApiRequest, res: NextApiResponse<UserEntity>) => {
+export const PATCH = async (req: Request, { params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params
+  const userId = Number(id)
+  const body = await req.json()
   const user = await prisma.user.update({
     where: { id: userId?.toString() },
-    data: req.body
+    data: body
   })
   return new Response(JSON.stringify(user), { status: 200 })
 }
 
-export const DELETE = async (userId: unknown, res: NextApiResponse<UserEntity>) => {
+export const DELETE = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params
+  const userId = Number(id)
   const user = await prisma.user.delete({
     where: { id: userId?.toString() }
   })
