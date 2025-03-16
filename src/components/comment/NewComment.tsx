@@ -1,3 +1,4 @@
+'use client'
 import { Button, Flex, Text, Textarea } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'

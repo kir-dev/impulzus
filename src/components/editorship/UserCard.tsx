@@ -1,3 +1,4 @@
+'use client'
 import { UserEntity } from '@/models/UserEntity'
 import { HStack, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'

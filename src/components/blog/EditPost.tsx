@@ -1,9 +1,10 @@
+'use client'
 import { PostEntity } from '@/models/PostEntity'
 import { PATHS } from '@/util/paths'
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
-import Router from 'next/router'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import ReactSelect from 'react-select'
@@ -22,10 +23,10 @@ export const EditPost = ({ post }: Props) => {
   const { data } = useSession()
   const t = useTranslations()
   const userId = data?.user?.id
-
+  const router = useRouter()
   useEffect(() => {
     if (!userId) {
-      Router.push('/login')
+      router.push('/login')
     }
   }, [userId])
 
@@ -36,7 +37,7 @@ export const EditPost = ({ post }: Props) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       })
-      Router.replace('/blog')
+      router.replace('/blog')
     } catch (error) {
       console.error(error)
     }
@@ -124,6 +125,7 @@ export const EditPost = ({ post }: Props) => {
                 value={value}
                 name={name}
                 ref={ref}
+                instanceId={name}
               />
             )}
           />

@@ -11,8 +11,10 @@ import { FaRegLightbulb } from 'react-icons/fa'
 import { IdeaEntity } from '../../models/IdeaEntity'
 
 export default function IdeaStack({ ideas }: { ideas: IdeaEntity[] }) {
-  const { data } = useSession()
+  const session = useSession()
   const t = useTranslations()
+  console.log(session)
+  const { data } = session
   const isAdmin = data?.user?.isAdmin
   const deleteData = async (id: number) => {
     try {

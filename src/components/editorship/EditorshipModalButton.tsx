@@ -1,3 +1,4 @@
+'use client'
 import { UserEntity } from '@/models/UserEntity'
 import {
   Button,

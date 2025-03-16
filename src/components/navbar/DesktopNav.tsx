@@ -4,15 +4,11 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { NAV_ITEMS } from './navitems'
 
-import { routing } from '@/i18n/routing'
-
-export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }))
-}
-
 export const DesktopNav = () => {
-  const { status } = useSession()
+  const session = useSession()
+  const { data, status } = session
   const t = useTranslations()
+  console.log(session)
 
   return (
     <HStack spacing={8}>
