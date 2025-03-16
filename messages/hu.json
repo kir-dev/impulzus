@@ -71,7 +71,7 @@
     "titleTooLong": "Cím túl hosszú!",
     "gradeCantBeEmpty": "Az évfolyam nem lehet üres!",
     "gradeAtLeast": "Az évfolyam legalább 1!",
-    "gradTooLong": "Évfolyam túl hosszú!",
+    "gradeTooLong": "Évfolyam túl hosszú!",
     "content": "Tartalom",
     "contentTooLong": "Tartalom túl hosszú!",
     "coverUrl": "Borítókép URL",

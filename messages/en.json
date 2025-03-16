@@ -71,7 +71,7 @@
     "titleTooLong": "Title is too long!",
     "gradeCantBeEmpty": "Grade can't be empty!",
     "gradeAtLeast": "Grade is at least 1!",
-    "gradTooLong": "Grade too long!",
+    "gradeTooLong": "Grade too long!",
     "content": "Content",
     "contentTooLong": "Content",
     "coverUrl": "Cover URL",
