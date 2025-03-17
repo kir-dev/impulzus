@@ -6,23 +6,7 @@ import { Button, Flex, GridItem, SimpleGrid, Tag, Text, VStack, Wrap } from '@ch
 import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
-import { authOptions } from '../api/auth/[...nextauth]/route'
-
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   const posts = await prisma.post.findMany({
-//     include: {
-//       user: true
-//     }
-//   })
-
-//   return {
-//     props: { posts: JSON.parse(JSON.stringify(posts)) }
-//   }
-// }
-
-// type Props = {
-//   posts: (PostEntity & { user: UserEntity })[]
-// }
+import { authOptions } from '../api/auth/[...nextauth]/authOptions'
 
 export default async function Blog() {
   const session = await getServerSession(authOptions)

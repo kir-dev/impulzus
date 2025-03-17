@@ -23,3 +23,10 @@ export class PostEntity {
 
   userId: string
 }
+export class createPostDto {
+  title: string
+  previewContent: string
+  content: string
+  categories: string[]
+  tag: string[]
+}

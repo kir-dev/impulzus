@@ -1,4 +1,5 @@
 'use client'
+import { createIdea } from '@/util/idea/actions'
 import {
   Button,
   FormControl,
@@ -14,31 +15,15 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
-import Router from 'next/router'
 import { useState } from 'react'
 
 export const IdeaModalButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [description, setDescriptioon] = useState<string>()
+  const [description, setDescriptioon] = useState<string>('')
   const t = useTranslations()
-
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault()
-    try {
-      const body = { description }
-      await fetch('/api/ideas', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      })
-      close()
-      Router.replace(Router.asPath)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const close = () => {
+    createIdea(description)
     onClose()
     setDescriptioon('')
   }

@@ -1,5 +1,6 @@
 'use client'
 import { PostEntity } from '@/models/PostEntity'
+import { createPost, editPost } from '@/util/blog/actions'
 import { PATHS } from '@/util/paths'
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
@@ -30,19 +31,6 @@ export const EditPost = ({ post }: Props) => {
     }
   }, [userId])
 
-  const submitData = async (body: Partial<PostEntity>) => {
-    try {
-      await fetch(post ? `/api/posts/${post.id}` : '/api/posts', {
-        method: post ? 'PATCH' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      })
-      router.replace('/blog')
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   const form = useForm({
     defaultValues: {
       title: post?.title,
@@ -71,7 +59,13 @@ export const EditPost = ({ post }: Props) => {
       categories: data.categories?.map((c) => c.value),
       userId: userId
     }
-    submitData(formData)
+    if (post) {
+      editPost({ ...formData })
+    } else {
+      if (formData.title !== undefined && formData.content !== undefined && formData.previewContent !== undefined) {
+        createPost({ ...formData, tag: [] })
+      }
+    }
   })
 
   return (

@@ -1,7 +1,7 @@
 import ArchiveClient from '@/components/archive/ArchiveClient'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../api/auth/[...nextauth]/route'
+import { authOptions } from '../api/auth/[...nextauth]/authOptions'
 
 export default async function Archive() {
   const newspapers = await prisma.newspaper.findMany()

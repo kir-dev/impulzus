@@ -4,31 +4,19 @@ import { UserEntity } from '@/models/UserEntity'
 import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
-import Router from 'next/router'
 import { ConfirmDialogButton } from '../common/ConfirmDialogButton'
 
 type Props = {
   comments: (CommentEntity & { user: UserEntity })[]
+  deleteComment: (id: number) => void
 }
 
-export const CommentList = ({ comments }: Props) => {
+export const CommentList = ({ comments, deleteComment }: Props) => {
   const t = useTranslations()
   const { data } = useSession()
   const isAdmin = data?.user?.isAdmin
 
   const bgColor = useColorModeValue('gray.50', 'gray.900')
-
-  const deleteData = async (id: number) => {
-    try {
-      await fetch('/api/comments/' + id, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
-      })
-      Router.replace(Router.asPath)
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   return (
     <>
@@ -43,7 +31,7 @@ export const CommentList = ({ comments }: Props) => {
           {(isAdmin || data?.user?.id === c.userId) && (
             <ConfirmDialogButton
               bodyText={t('comments.deleteCommentQuestion')}
-              confirmAction={() => deleteData(c.id)}
+              confirmAction={() => deleteComment(c.id)}
               headerText={t('comments.deleteComment')}
               confirmButtonText={t('common.delete')}
               refuseButtonText={t('common.cancel')}

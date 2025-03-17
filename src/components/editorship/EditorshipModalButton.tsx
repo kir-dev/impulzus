@@ -1,5 +1,6 @@
 'use client'
 import { UserEntity } from '@/models/UserEntity'
+import { createUser, updateUser } from '@/util/users/actions'
 import {
   Button,
   Checkbox,
@@ -20,7 +21,7 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
-import Router from 'next/router'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { FaPencilAlt } from 'react-icons/fa'
 import { getStatusString } from '../common/editor/editorUtils'
@@ -32,6 +33,7 @@ type Props = {
 export const EditorshipModalButton = ({ user }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const t = useTranslations()
+  const router = useRouter()
 
   const {
     register,
@@ -62,31 +64,16 @@ export const EditorshipModalButton = ({ user }: Props) => {
   })
 
   const submitData = async (formData: Partial<UserEntity>) => {
-    try {
-      await fetch('/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
-      onClose()
-      Router.replace(Router.asPath)
-    } catch (error) {
-      console.error(error)
-    }
+    await createUser(formData)
+    onClose()
+    router.refresh()
   }
 
   const updateData = async (formData: Partial<UserEntity>) => {
-    try {
-      await fetch('/api/users/' + user?.id, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
-      onClose()
-      Router.replace(Router.asPath)
-    } catch (error) {
-      console.error(error)
-    }
+    if (!user) return
+    await updateUser(user?.id, formData)
+    onClose()
+    router.refresh()
   }
 
   return (

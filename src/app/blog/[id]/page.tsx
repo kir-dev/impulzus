@@ -1,4 +1,4 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
 import DeletePostButton from '@/components/blog/DeletePostButton'
 import { CommentList } from '@/components/comment/CommentList'
 import { NewComment } from '@/components/comment/NewComment'
@@ -7,17 +7,20 @@ import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import Markdown from '@/components/common/editor/Markdown'
 import prisma from '@/lib/prisma'
+import { deletePost } from '@/util/blog/actions'
 import { PATHS } from '@/util/paths'
 import { Box, Button, Flex } from '@chakra-ui/react'
 import { getServerSession } from 'next-auth/next'
 import { getTranslations } from 'next-intl/server'
+import { revalidatePath } from 'next/cache'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
-export default async function Blog({ params }: { params: { id: string } }) {
+export default async function Blog({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const post = await prisma.post.findUnique({
     where: {
-      id: Number(params?.id)
+      id: Number(id)
     }
   })
   if (!post) {
@@ -38,7 +41,29 @@ export default async function Blog({ params }: { params: { id: string } }) {
   const t = await getTranslations()
   const isAdmin = session?.user?.isAdmin
   const isCreater = session?.user?.id === post.userId
-
+  const deleteComment = async (id: number) => {
+    'use server'
+    await prisma.comment.delete({
+      where: {
+        id
+      }
+    })
+    revalidatePath('/blog/' + post.id)
+  }
+  const createComment = async (content: string) => {
+    'use server'
+    if (!session?.user?.id) {
+      return
+    }
+    await prisma.comment.create({
+      data: {
+        content,
+        postId: post.id,
+        userId: session?.user?.id
+      }
+    })
+    revalidatePath('/blog/' + post.id)
+  }
   return (
     <>
       <Title text={post.title} />
@@ -50,13 +75,13 @@ export default async function Blog({ params }: { params: { id: string } }) {
               {t('common.edit')}
             </Button>
           </Link>
-          <DeletePostButton postId={post.id.toString()} />
+          <DeletePostButton deleteData={deletePost} postId={post.id} />
         </Flex>
       )}
 
       <Markdown markdown={post.content} />
-      <NewComment postId={post.id} />
-      <CommentList comments={comments} />
+      <NewComment createComment={createComment} />
+      <CommentList comments={comments} deleteComment={deleteComment} />
       <Box mt={4}>
         <BackButton link={PATHS.BLOG} />
       </Box>

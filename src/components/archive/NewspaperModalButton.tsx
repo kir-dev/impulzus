@@ -1,4 +1,5 @@
 import { NewspaperEntity } from '@/models/NewspaperEntity'
+import { createNewspaper, editNewspaper } from '@/util/newspapers/actions'
 import {
   Button,
   FormControl,
@@ -16,7 +17,7 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
-import Router from 'next/router'
+import { useRouter } from 'next/navigation'
 import { FormProvider, useForm } from 'react-hook-form'
 import { FaFile, FaPencilAlt } from 'react-icons/fa'
 import { getStatusString } from '../common/editor/editorUtils'
@@ -29,7 +30,7 @@ export type Props = {
 export const NewspaperModalButton = ({ newspaper }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const t = useTranslations()
-
+  const router = useRouter()
   const methods = useForm<{
     files?: FileList
     title?: string
@@ -92,32 +93,25 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
 
   const submitData = async (formData: Partial<NewspaperEntity>) => {
     try {
-      await fetch('/api/newspapers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
+      await createNewspaper(formData)
       onClose()
-      Router.replace(Router.asPath)
+      router.refresh()
     } catch (error) {
       console.error(error)
     }
   }
 
   const updateData = async (formData: Partial<NewspaperEntity>) => {
+    if (!newspaper?.id) return
     const body = {
       data: formData,
       oldURL: formData.pdf ? newspaper?.pdf : undefined
     }
 
     try {
-      await fetch('/api/newspapers/' + newspaper?.id, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      })
+      await editNewspaper(newspaper.id, body)
       onClose()
-      Router.replace(Router.asPath)
+      router.refresh()
     } catch (error) {
       console.error(error)
     }

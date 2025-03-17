@@ -6,7 +6,7 @@ import prisma from '@/lib/prisma'
 import { Flex } from '@chakra-ui/react'
 import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
-import { authOptions } from '../api/auth/[...nextauth]/route'
+import { authOptions } from '../api/auth/[...nextauth]/authOptions'
 
 export default async function Editorship() {
   const users = await prisma.user.findMany()

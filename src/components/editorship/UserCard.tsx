@@ -1,10 +1,10 @@
 'use client'
 import { UserEntity } from '@/models/UserEntity'
+import { deleteUser } from '@/util/users/actions'
 import { HStack, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
-import Router from 'next/router'
 import { FaRegEnvelope } from 'react-icons/fa'
 import { ConfirmDialogButton } from '../common/ConfirmDialogButton'
 import { EditorshipModalButton } from './EditorshipModalButton'
@@ -17,18 +17,6 @@ export const UserCard = ({ user }: Props) => {
   const t = useTranslations()
   const { data } = useSession()
   const isAdmin = data?.user?.isAdmin
-
-  const deleteData = async (id: string) => {
-    try {
-      await fetch('/api/users/' + id, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
-      })
-      Router.replace(Router.asPath)
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   return (
     <Stack justify="space-between" direction={['column', 'row']}>
@@ -57,7 +45,7 @@ export const UserCard = ({ user }: Props) => {
           <EditorshipModalButton user={user} />
           <ConfirmDialogButton
             bodyText={t('editorship.deleteUserQuestion')}
-            confirmAction={() => deleteData(user.id)}
+            confirmAction={() => deleteUser(user.id)}
             headerText={t('editorship.deleteUser')}
             confirmButtonText={t('common.delete')}
             refuseButtonText={t('common.cancel')}

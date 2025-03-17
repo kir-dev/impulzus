@@ -6,27 +6,15 @@ import { IdeaModalButton } from '@/components/idea/IdeaModalButton'
 import { Flex, HStack, Text } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
-import Router from 'next/router'
 import { FaRegLightbulb } from 'react-icons/fa'
 import { IdeaEntity } from '../../models/IdeaEntity'
 
-export default function IdeaStack({ ideas }: { ideas: IdeaEntity[] }) {
+export default function IdeaStack({ ideas, deleteData }: { ideas: IdeaEntity[]; deleteData: (id: number) => void }) {
   const session = useSession()
   const t = useTranslations()
   console.log(session)
   const { data } = session
   const isAdmin = data?.user?.isAdmin
-  const deleteData = async (id: number) => {
-    try {
-      await fetch('/api/ideas/' + id, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
-      })
-      Router.replace(Router.asPath)
-    } catch (error) {
-      console.error(error)
-    }
-  }
   return (
     <>
       <Title text={t('idea.title')} />

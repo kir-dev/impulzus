@@ -1,16 +1,40 @@
 'use server'
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
 import prisma from '@/lib/prisma'
-import { Post } from '@prisma/client'
+import { PostEntity } from '@/models/PostEntity'
+import { getServerSession } from 'next-auth'
+import { redirect } from 'next/navigation'
 
-export const savePost = async (post: Post) => {
-  return prisma.post.create({
-    data: post
-  })
-}
-export const deletePost = async (id: string) => {
-  return prisma.post.delete({
-    where: {
-      id: Number(id)
+export const createPost = async (post: any) => {
+  'use server'
+  const session = await getServerSession(authOptions)
+  if (!session?.user?.id) {
+    return
+  }
+  await prisma.post.create({
+    data: {
+      ...post,
+      userId: session?.user?.id
     }
   })
+  redirect('/blog')
+}
+export const editPost = async (post: Partial<PostEntity>) => {
+  'use server'
+  await prisma.post.update({
+    where: {
+      id: post.id
+    },
+    data: post
+  })
+  redirect('/blog')
+}
+export const deletePost = async (id: number) => {
+  'use server'
+  await prisma.post.delete({
+    where: {
+      id
+    }
+  })
+  redirect('/blog')
 }

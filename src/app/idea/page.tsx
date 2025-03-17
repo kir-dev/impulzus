@@ -4,6 +4,13 @@ import { IdeaEntity } from '../../models/IdeaEntity'
 
 export default async function Idea() {
   const ideas: IdeaEntity[] = await prisma.idea.findMany()
-
-  return <IdeaStack ideas={ideas} />
+  const deleteData = async (id: number) => {
+    'use server'
+    await prisma.idea.delete({
+      where: {
+        id
+      }
+    })
+  }
+  return <IdeaStack ideas={ideas} deleteData={deleteData} />
 }
