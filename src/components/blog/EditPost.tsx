@@ -51,7 +51,6 @@ export const EditPost = ({ post }: Props) => {
   } = form
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
     const formData = {
       title: data.title,
       previewContent: data.previewContent,
@@ -60,11 +59,9 @@ export const EditPost = ({ post }: Props) => {
       userId: userId
     }
     if (post) {
-      editPost({ ...formData })
+      editPost(post.id, { ...formData })
     } else {
-      if (formData.title !== undefined && formData.content !== undefined && formData.previewContent !== undefined) {
-        createPost({ ...formData, tag: [] })
-      }
+      createPost(formData)
     }
   })
 

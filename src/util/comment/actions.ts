@@ -4,16 +4,18 @@ import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
 import { revalidatePath } from 'next/cache'
 
-export const createIdea = async (description: string) => {
+export const createComment = async (content: string, postId: number) => {
   const session = await getServerSession(authOptions)
 
   if (!session?.user?.id) {
     return
   }
-  await prisma.idea.create({
+  await prisma.comment.create({
     data: {
-      description
+      content,
+      postId: postId,
+      userId: session?.user?.id
     }
   })
-  revalidatePath('/idea')
+  revalidatePath('/blog/' + postId)
 }

@@ -6,17 +6,18 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 type Props = {
-  createComment: (content: string) => void
+  createComment: (content: string, postId: number) => void
+  postId: number
 }
 
-export const NewComment = ({ createComment }: Props) => {
+export const NewComment = ({ createComment, postId }: Props) => {
   const t = useTranslations()
   const router = useRouter()
   const [value, setValue] = useState<string>('')
   const { status } = useSession()
   const isAuthenticated = status === 'authenticated'
   const onSubmit = () => {
-    createComment(value)
+    createComment(value, postId)
     setValue('')
     router.refresh()
   }

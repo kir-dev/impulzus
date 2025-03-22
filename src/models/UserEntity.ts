@@ -8,10 +8,10 @@ export class UserEntity {
   authSchId?: string | null | undefined
 
   @IsNotEmpty()
-  name?: string | null | undefined
+  name: string
 
   @IsEmail()
-  email?: string | null | undefined
+  email: string
 
   @IsBoolean()
   @IsOptional()
@@ -19,6 +19,24 @@ export class UserEntity {
 
   @IsBoolean()
   @IsOptional()
+  isBoardMember: boolean
+
+  @IsOptional()
+  picture: string | null
+
+  titles?: string[]
+}
+export class CreateUserDto {
+  @IsNotEmpty()
+  name: string
+
+  @IsEmail()
+  email: string
+
+  @IsBoolean()
+  isAdmin: boolean
+
+  @IsBoolean()
   isBoardMember: boolean
 
   @IsOptional()

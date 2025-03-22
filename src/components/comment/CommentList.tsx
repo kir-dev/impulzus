@@ -1,13 +1,13 @@
 'use client'
-import { CommentEntity } from '@/models/CommentEntity'
 import { UserEntity } from '@/models/UserEntity'
 import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react'
+import { Comment } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import { ConfirmDialogButton } from '../common/ConfirmDialogButton'
 
 type Props = {
-  comments: (CommentEntity & { user: UserEntity })[]
+  comments: (Comment & { user: UserEntity })[]
   deleteComment: (id: number) => void
 }
 

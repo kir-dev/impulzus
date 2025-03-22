@@ -8,6 +8,7 @@ import { Title } from '@/components/common/Title'
 import Markdown from '@/components/common/editor/Markdown'
 import prisma from '@/lib/prisma'
 import { deletePost } from '@/util/blog/actions'
+import { createComment } from '@/util/comment/actions'
 import { PATHS } from '@/util/paths'
 import { Box, Button, Flex } from '@chakra-ui/react'
 import { getServerSession } from 'next-auth/next'
@@ -50,20 +51,7 @@ export default async function Blog({ params }: { params: Promise<{ id: string }>
     })
     revalidatePath('/blog/' + post.id)
   }
-  const createComment = async (content: string) => {
-    'use server'
-    if (!session?.user?.id) {
-      return
-    }
-    await prisma.comment.create({
-      data: {
-        content,
-        postId: post.id,
-        userId: session?.user?.id
-      }
-    })
-    revalidatePath('/blog/' + post.id)
-  }
+
   return (
     <>
       <Title text={post.title} />
@@ -80,7 +68,7 @@ export default async function Blog({ params }: { params: Promise<{ id: string }>
       )}
 
       <Markdown markdown={post.content} />
-      <NewComment createComment={createComment} />
+      <NewComment createComment={createComment} postId={post.id} />
       <CommentList comments={comments} deleteComment={deleteComment} />
       <Box mt={4}>
         <BackButton link={PATHS.BLOG} />

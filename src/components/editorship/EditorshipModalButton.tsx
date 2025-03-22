@@ -1,5 +1,5 @@
 'use client'
-import { UserEntity } from '@/models/UserEntity'
+import { CreateUserDto, UserEntity } from '@/models/UserEntity'
 import { createUser, updateUser } from '@/util/users/actions'
 import {
   Button,
@@ -60,18 +60,18 @@ export const EditorshipModalButton = ({ user }: Props) => {
       picture: data.picture === '' ? undefined : data.picture,
       isBoardMember: data.isBoardMember
     }
-    user ? updateData(formData) : submitData(formData)
+    user ? updateData(user.id, formData) : submitData(formData)
   })
 
-  const submitData = async (formData: Partial<UserEntity>) => {
+  const submitData = async (formData: CreateUserDto) => {
     await createUser(formData)
     onClose()
     router.refresh()
   }
 
-  const updateData = async (formData: Partial<UserEntity>) => {
+  const updateData = async (id: string, formData: Partial<UserEntity>) => {
     if (!user) return
-    await updateUser(user?.id, formData)
+    await updateUser(id, formData)
     onClose()
     router.refresh()
   }
