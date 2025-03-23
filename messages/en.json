@@ -96,6 +96,7 @@
     "isLeadershipMember": "Leadership member",
     "isAdmin": "Admin",
     "isMember": "Member",
+    "selectUser": "Select user",
     "writerEditor": "Writer, editor",
     "nameError": "Name is required!",
     "emailError": "Email is required!",

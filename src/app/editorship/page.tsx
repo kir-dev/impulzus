@@ -15,7 +15,6 @@ export default async function Editorship() {
   const isAdmin = session?.user?.isAdmin
 
   const impulzusUsers = users.filter((u) => u.isMember)
-  console.log(users)
   return (
     <>
       <Title text={t('editorship.title')} />

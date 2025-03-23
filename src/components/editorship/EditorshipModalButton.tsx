@@ -23,7 +23,7 @@ import {
 import { Select } from 'chakra-react-select'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { ChangeEventHandler, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaPencilAlt } from 'react-icons/fa'
 import { getStatusString } from '../common/editor/editorUtils'
@@ -32,13 +32,16 @@ type Props = {
   userProp?: UserEntity
   users: UserEntity[]
 }
+type SeletUserType = {
+  value: string
+  label: string
+}
 
 export const EditorshipModalButton = ({ userProp, users }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const t = useTranslations()
   const router = useRouter()
   const [user, setUser] = useState<UserEntity | undefined>(userProp)
-  console.log('user', user)
   const {
     register,
     handleSubmit,
@@ -83,8 +86,8 @@ export const EditorshipModalButton = ({ userProp, users }: Props) => {
     router.refresh()
   }
   if (!users) return null
-  const selectUser: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const selectedUser = users.find((u) => u.id === event.target.value)
+  const selectUser = (event: SeletUserType) => {
+    const selectedUser = users.find((u) => u.id === event.value)
     setUser(selectedUser)
     setValue('name', selectedUser?.name)
     setValue('email', selectedUser?.email)
@@ -109,9 +112,10 @@ export const EditorshipModalButton = ({ userProp, users }: Props) => {
             <ModalBody p={6}>
               <FormControl isInvalid={!!errors.name}>
                 <Select
-                  placeholder="Select user"
+                  placeholder={t('editorship.selectUser')}
                   onChange={selectUser}
                   options={users.map((c) => ({ value: c.id, label: c.name + ' -- ' + c.email }))}
+                  noOptions
                 ></Select>
               </FormControl>
               <FormControl mt={2} isInvalid={!!errors.name} isRequired>

@@ -6,9 +6,8 @@ import { NAV_ITEMS } from './navitems'
 
 export const DesktopNav = () => {
   const session = useSession()
-  const { data, status } = session
+  const { status } = session
   const t = useTranslations()
-  console.log(session)
 
   return (
     <HStack spacing={8}>

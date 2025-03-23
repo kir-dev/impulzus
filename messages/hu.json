@@ -96,6 +96,7 @@
     "isLeadershipMember": "Vezetőségi tag",
     "isAdmin": "Adminisztrátor",
     "isMember": "Tag",
+    "selectUser": "Válassz felhasználót",
     "writerEditor": "Író, szerkesztő",
     "nameError": "A név nem lehet üres!",
     "emailError": "Az email nem lehet üres!",
