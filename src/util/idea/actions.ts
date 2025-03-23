@@ -17,3 +17,16 @@ export const createIdea = async (description: string) => {
   })
   revalidatePath('/idea')
 }
+export const deleteIdea = async (id: number) => {
+  const session = await getServerSession(authOptions)
+  const user = session?.user
+  if (!user?.id || !user?.isAdmin) {
+    return
+  }
+  await prisma.idea.delete({
+    where: {
+      id
+    }
+  })
+  revalidatePath('/idea')
+}

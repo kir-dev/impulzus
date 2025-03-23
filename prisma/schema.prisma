@@ -56,6 +56,7 @@ model User {
   email         String    @unique
   isAdmin       Boolean   @default(false)
   isBoardMember Boolean   @default(false)
+  isMember      Boolean   @default(false)
   emailVerified DateTime?
   titles        String[]
   picture       String?

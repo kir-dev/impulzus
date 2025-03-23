@@ -1,6 +1,6 @@
 'use client'
-import { CreateUserDto, UserEntity } from '@/models/UserEntity'
-import { createUser, updateUser } from '@/util/users/actions'
+import { UserEntity } from '@/models/UserEntity'
+import { updateUser } from '@/util/users/actions'
 import {
   Button,
   Checkbox,
@@ -22,24 +22,29 @@ import {
 } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaPencilAlt } from 'react-icons/fa'
+import ReactSelect from 'react-select'
 import { getStatusString } from '../common/editor/editorUtils'
 
 type Props = {
-  user?: UserEntity
+  userProp?: UserEntity
+  users: UserEntity[]
 }
 
-export const EditorshipModalButton = ({ user }: Props) => {
+export const EditorshipModalButton = ({ userProp, users }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const t = useTranslations()
   const router = useRouter()
-
+  const [user, setUser] = useState<UserEntity | undefined>(userProp)
+  console.log('user', user)
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors }
   } = useForm({
     defaultValues: {
@@ -47,7 +52,9 @@ export const EditorshipModalButton = ({ user }: Props) => {
       email: user?.email,
       titles: user?.titles?.toString(),
       picture: user?.picture ?? '',
-      isBoardMember: user?.isBoardMember
+      isMember: user?.isMember,
+      isBoardMember: user?.isBoardMember,
+      isAdmin: user?.isAdmin
     },
     mode: 'all'
   })
@@ -58,42 +65,58 @@ export const EditorshipModalButton = ({ user }: Props) => {
       email: data.email,
       titles: data.titles?.split(','),
       picture: data.picture === '' ? undefined : data.picture,
-      isBoardMember: data.isBoardMember
+      isBoardMember: data.isBoardMember,
+      isMember: data.isMember,
+      isAdmin: data.isAdmin
     }
-    user ? updateData(user.id, formData) : submitData(formData)
+    console.log(formData)
+    if (!user?.id) {
+      return
+    }
+    updateData(user?.id, formData)
+    setUser(undefined)
+    reset()
   })
 
-  const submitData = async (formData: CreateUserDto) => {
-    await createUser(formData)
-    onClose()
-    router.refresh()
-  }
-
   const updateData = async (id: string, formData: Partial<UserEntity>) => {
-    if (!user) return
     await updateUser(id, formData)
     onClose()
     router.refresh()
   }
+  if (!users) return null
 
   return (
     <>
-      {user ? (
-        <IconButton colorScheme="yellow" aria-label="edit" onClick={() => onOpen()}>
-          <FaPencilAlt />
-        </IconButton>
-      ) : (
-        <Button onClick={() => onOpen()}>{t('editorship.newMember')}</Button>
-      )}
+      <IconButton colorScheme="yellow" aria-label="edit" onClick={() => onOpen()}>
+        <FaPencilAlt />
+      </IconButton>
 
       <Modal motionPreset="slideInBottom" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <form>
-            <ModalHeader>{user ? user.name + ' ' + t('common.editOf') : t('editorship.newMember')}</ModalHeader>
+            <ModalHeader>{t('common.editMembers')}</ModalHeader>
             <ModalCloseButton onClick={() => reset()} />
-            <ModalBody pb={6}>
-              <FormControl isInvalid={!!errors.name} isRequired>
+            <ModalBody p={6}>
+              <FormControl isInvalid={!!errors.name}>
+                <ReactSelect
+                  options={users.map((c) => ({ label: `${c.name} -- ${c.email}`, value: c.id }))}
+                  onChange={(event) => {
+                    const selectedUser = users.find((u) => u.id === event.value)
+                    console.log('selectedUser', selectedUser)
+                    setUser(selectedUser)
+                    setValue('name', selectedUser?.name)
+                    setValue('email', selectedUser?.email)
+                    setValue('titles', selectedUser?.titles?.toString())
+                    setValue('picture', selectedUser?.picture ?? '')
+                    setValue('isBoardMember', selectedUser?.isBoardMember)
+                    setValue('isMember', selectedUser?.isMember)
+                    setValue('isAdmin', selectedUser?.isAdmin)
+                  }}
+                  value={user ? { label: `${user.name} -- ${user.email}`, value: user.id } : undefined}
+                />
+              </FormControl>
+              <FormControl mt={2} isInvalid={!!errors.name} isRequired>
                 <FormLabel>{t('editorship.name')}</FormLabel>
                 <Input
                   type="text"
@@ -164,6 +187,20 @@ export const EditorshipModalButton = ({ user }: Props) => {
                 <HStack mt={4}>
                   <Checkbox {...register('isBoardMember')}>
                     <Text fontWeight="semibold">{t('editorship.isLeadershipMember')}</Text>
+                  </Checkbox>
+                </HStack>
+              </FormControl>
+              <FormControl isInvalid={!!errors.picture}>
+                <HStack mt={4}>
+                  <Checkbox {...register('isMember')}>
+                    <Text fontWeight="semibold">{t('editorship.isMember')}</Text>
+                  </Checkbox>
+                </HStack>
+              </FormControl>
+              <FormControl isInvalid={!!errors.picture}>
+                <HStack mt={4}>
+                  <Checkbox {...register('isAdmin')}>
+                    <Text fontWeight="semibold">{t('editorship.isAdmin')}</Text>
                   </Checkbox>
                 </HStack>
               </FormControl>

@@ -25,6 +25,10 @@ export class UserEntity {
   picture: string | null
 
   titles?: string[]
+
+  @IsOptional()
+  @IsBoolean()
+  isMember: boolean
 }
 export class CreateUserDto {
   @IsNotEmpty()

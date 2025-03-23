@@ -4,7 +4,7 @@ CREATE TABLE "Post" (
     "title" TEXT NOT NULL,
     "previewContent" TEXT NOT NULL,
     "content" TEXT NOT NULL,
-    "type" TEXT[],
+    "categories" TEXT[],
     "tag" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" TEXT NOT NULL,
@@ -20,6 +20,7 @@ CREATE TABLE "Newspaper" (
     "ISSUU_Link" TEXT,
     "coverImage" TEXT,
     "grade" INTEGER NOT NULL,
+    "pdf" TEXT,
 
     CONSTRAINT "Newspaper_pkey" PRIMARY KEY ("id")
 );
@@ -46,9 +47,11 @@ CREATE TABLE "Comment" (
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "authSchId" TEXT,
-    "fullName" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "isAdmin" BOOLEAN NOT NULL DEFAULT false,
+    "isBoardMember" BOOLEAN NOT NULL DEFAULT false,
+    "isMember" BOOLEAN NOT NULL DEFAULT false,
     "emailVerified" TIMESTAMP(3),
     "titles" TEXT[],
     "picture" TEXT,
@@ -103,7 +106,7 @@ ALTER TABLE "Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFE
 ALTER TABLE "Comment" ADD CONSTRAINT "Comment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Comment" ADD CONSTRAINT "Comment_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Comment" ADD CONSTRAINT "Comment_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

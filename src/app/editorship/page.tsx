@@ -15,13 +15,14 @@ export default async function Editorship() {
   const isAdmin = session?.user?.isAdmin
 
   const impulzusUsers = users.filter((u) => u.titles && u.titles.length > 0)
+  console.log(users)
   return (
     <>
       <Title text={t('editorship.title')} />
       <PageHeading text={t('editorship.leadership')} />
       {isAdmin && (
         <Flex mb={4} justify="flex-end">
-          <EditorshipModalButton />
+          <EditorshipModalButton users={users} />
         </Flex>
       )}
       <UserGrid mb={8} users={impulzusUsers.filter((u) => u.isBoardMember)} />

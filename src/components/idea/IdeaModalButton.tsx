@@ -49,7 +49,7 @@ export const IdeaModalButton = () => {
               </FormControl>
             </ModalBody>
             <ModalFooter>
-              <Button onClick={close} mr={3}>
+              <Button onClick={onClose} mr={3}>
                 {t('common.cancel')}
               </Button>
               <Button colorScheme="blue" type="submit" onClick={(e) => submitData(e)}>
