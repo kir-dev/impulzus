@@ -14,7 +14,7 @@ export default async function Editorship() {
   const t = await getTranslations()
   const isAdmin = session?.user?.isAdmin
 
-  const impulzusUsers = users.filter((u) => u.titles && u.titles.length > 0)
+  const impulzusUsers = users.filter((u) => u.isMember)
   console.log(users)
   return (
     <>

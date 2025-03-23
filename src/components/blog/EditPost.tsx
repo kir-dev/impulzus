@@ -3,12 +3,12 @@ import { PostEntity } from '@/models/PostEntity'
 import { createPost, editPost } from '@/util/blog/actions'
 import { PATHS } from '@/util/paths'
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react'
+import { Select } from 'chakra-react-select'
 import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
-import ReactSelect from 'react-select'
 import { BackButton } from '../common/BackButton'
 import { PageHeading } from '../common/PageHeading'
 import { Title } from '../common/Title'
@@ -61,6 +61,7 @@ export const EditPost = ({ post }: Props) => {
     if (post) {
       editPost(post.id, { ...formData })
     } else {
+      // @ts-expect-error: Type mismatch due to incomplete type definitions
       createPost(formData)
     }
   })
@@ -108,7 +109,7 @@ export const EditPost = ({ post }: Props) => {
             control={control}
             name="categories"
             render={({ field: { onChange, onBlur, value, name, ref } }) => (
-              <ReactSelect
+              <Select
                 options={POST_CATEGORIS.map((c) => ({ label: c, value: c }))}
                 onChange={onChange}
                 isMulti={true}

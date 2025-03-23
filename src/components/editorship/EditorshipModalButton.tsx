@@ -20,12 +20,12 @@ import {
   Text,
   useDisclosure
 } from '@chakra-ui/react'
+import { Select } from 'chakra-react-select'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { ChangeEventHandler, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaPencilAlt } from 'react-icons/fa'
-import ReactSelect from 'react-select'
 import { getStatusString } from '../common/editor/editorUtils'
 
 type Props = {
@@ -69,7 +69,6 @@ export const EditorshipModalButton = ({ userProp, users }: Props) => {
       isMember: data.isMember,
       isAdmin: data.isAdmin
     }
-    console.log(formData)
     if (!user?.id) {
       return
     }
@@ -84,7 +83,17 @@ export const EditorshipModalButton = ({ userProp, users }: Props) => {
     router.refresh()
   }
   if (!users) return null
-
+  const selectUser: ChangeEventHandler<HTMLSelectElement> = (event) => {
+    const selectedUser = users.find((u) => u.id === event.target.value)
+    setUser(selectedUser)
+    setValue('name', selectedUser?.name)
+    setValue('email', selectedUser?.email)
+    setValue('titles', selectedUser?.titles?.toString())
+    setValue('picture', selectedUser?.picture ?? '')
+    setValue('isBoardMember', selectedUser?.isBoardMember)
+    setValue('isMember', selectedUser?.isMember)
+    setValue('isAdmin', selectedUser?.isAdmin)
+  }
   return (
     <>
       <IconButton colorScheme="yellow" aria-label="edit" onClick={() => onOpen()}>
@@ -99,22 +108,11 @@ export const EditorshipModalButton = ({ userProp, users }: Props) => {
             <ModalCloseButton onClick={() => reset()} />
             <ModalBody p={6}>
               <FormControl isInvalid={!!errors.name}>
-                <ReactSelect
-                  options={users.map((c) => ({ label: `${c.name} -- ${c.email}`, value: c.id }))}
-                  onChange={(event) => {
-                    const selectedUser = users.find((u) => u.id === event.value)
-                    console.log('selectedUser', selectedUser)
-                    setUser(selectedUser)
-                    setValue('name', selectedUser?.name)
-                    setValue('email', selectedUser?.email)
-                    setValue('titles', selectedUser?.titles?.toString())
-                    setValue('picture', selectedUser?.picture ?? '')
-                    setValue('isBoardMember', selectedUser?.isBoardMember)
-                    setValue('isMember', selectedUser?.isMember)
-                    setValue('isAdmin', selectedUser?.isAdmin)
-                  }}
-                  value={user ? { label: `${user.name} -- ${user.email}`, value: user.id } : undefined}
-                />
+                <Select
+                  placeholder="Select user"
+                  onChange={selectUser}
+                  options={users.map((c) => ({ value: c.id, label: c.name + ' -- ' + c.email }))}
+                ></Select>
               </FormControl>
               <FormControl mt={2} isInvalid={!!errors.name} isRequired>
                 <FormLabel>{t('editorship.name')}</FormLabel>
@@ -185,21 +183,21 @@ export const EditorshipModalButton = ({ userProp, users }: Props) => {
 
               <FormControl isInvalid={!!errors.picture}>
                 <HStack mt={4}>
-                  <Checkbox {...register('isBoardMember')}>
+                  <Checkbox {...register('isBoardMember')} isChecked={watch('isBoardMember')}>
                     <Text fontWeight="semibold">{t('editorship.isLeadershipMember')}</Text>
                   </Checkbox>
                 </HStack>
               </FormControl>
               <FormControl isInvalid={!!errors.picture}>
                 <HStack mt={4}>
-                  <Checkbox {...register('isMember')}>
+                  <Checkbox {...register('isMember')} isChecked={watch('isMember')}>
                     <Text fontWeight="semibold">{t('editorship.isMember')}</Text>
                   </Checkbox>
                 </HStack>
               </FormControl>
               <FormControl isInvalid={!!errors.picture}>
                 <HStack mt={4}>
-                  <Checkbox {...register('isAdmin')}>
+                  <Checkbox {...register('isAdmin')} isChecked={watch('isAdmin')}>
                     <Text fontWeight="semibold">{t('editorship.isAdmin')}</Text>
                   </Checkbox>
                 </HStack>

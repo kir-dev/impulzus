@@ -1,20 +1,16 @@
 'use client'
 import { UserEntity } from '@/models/UserEntity'
 import { deleteUser } from '@/util/users/actions'
-import { HStack, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
+import { HStack, IconButton, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
-import { useTranslations } from 'next-intl'
 import Image from 'next/image'
-import { FaRegEnvelope } from 'react-icons/fa'
-import { ConfirmDialogButton } from '../common/ConfirmDialogButton'
-import { EditorshipModalButton } from './EditorshipModalButton'
+import { FaRegEnvelope, FaTrash } from 'react-icons/fa'
 
 type Props = {
   user: UserEntity
 }
 
 export const UserCard = ({ user }: Props) => {
-  const t = useTranslations()
   const { data } = useSession()
   const isAdmin = data?.user?.isAdmin
 
@@ -42,14 +38,9 @@ export const UserCard = ({ user }: Props) => {
 
       {isAdmin && (
         <Stack direction={['row', 'column']} alignSelf={['center', 'flex-start']}>
-          <EditorshipModalButton user={user} />
-          <ConfirmDialogButton
-            bodyText={t('editorship.deleteUserQuestion')}
-            confirmAction={() => deleteUser(user.id)}
-            headerText={t('editorship.deleteUser')}
-            confirmButtonText={t('common.delete')}
-            refuseButtonText={t('common.cancel')}
-          />
+          <IconButton colorScheme="red" aria-label="delete" onClick={() => deleteUser(user.id)}>
+            <FaTrash />
+          </IconButton>
         </Stack>
       )}
     </Stack>

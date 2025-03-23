@@ -37,9 +37,12 @@ export async function deleteUser(id: string) {
   if (!user?.id || !user?.isAdmin) {
     return
   }
-  await prisma.user.delete({
+  await prisma.user.update({
     where: {
       id
+    },
+    data: {
+      isMember: false
     }
   })
   revalidatePath('/editorShip')
