@@ -1,4 +1,5 @@
 import { NewspaperEntity } from '@/models/NewspaperEntity'
+import { uploadToS3 } from '@/util/files/upload'
 import { createNewspaper, editNewspaper } from '@/util/newspapers/actions'
 import {
   Button,
@@ -75,19 +76,15 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
           headers: { 'content-type': file.type, 'file-name': file.name },
           body: file
         })
-        const data = await res.json()
-        pdfUrl = data.url
+        const response: { url: string; fileName: string } = await res.json()
+        await uploadToS3(response.url, file)
+        newspaper ? updateData(formData, response.fileName) : submitData(formData, response.fileName)
       } catch (e) {
         console.log(e)
       }
       formData.ISSUU_Link = file.name
     }
 
-    if (pdfUrl) {
-      formData.pdf = pdfUrl
-    }
-
-    newspaper ? updateData(formData) : submitData(formData)
     reset()
   })
 
@@ -101,11 +98,11 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
     }
   }
 
-  const updateData = async (formData: Partial<NewspaperEntity>) => {
+  const updateData = async (formData: Partial<NewspaperEntity>, fileName: string) => {
     if (!newspaper?.id) return
     const body = {
       data: formData,
-      oldURL: formData.pdf ? newspaper?.pdf : undefined
+      fileName
     }
 
     try {

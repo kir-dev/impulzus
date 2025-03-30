@@ -1,4 +1,5 @@
-import { put } from '@vercel/blob'
+import { createPresignedUrlToUpload } from '@/util/files/s3-file-management'
+import { nanoid } from 'nanoid'
 import { NextResponse } from 'next/server'
 
 export const config = {
@@ -6,15 +7,21 @@ export const config = {
 }
 
 export async function POST(req: Request): Promise<NextResponse> {
-  const file = req.body || ''
-  const fileName = req.headers.get('file-name') || 'fileName'
-  const contentType = req.headers.get('content-type') || 'text/plain'
+  const origFileName = req.headers.get('file-name') || 'fileName'
+  const bucketName = process.env.S3_BUCKET_NAME
 
-  const res = await put(fileName, file, {
-    contentType,
-    access: 'public',
-    token: process.env.BLOB_READ_WRITE_TOKEN
+  if (!bucketName) {
+    return NextResponse.json({ error: 'Bucket name is not defined' }, { status: 400 })
+  }
+
+  const fileName = `${nanoid(5)}-${origFileName}`
+  const url = await createPresignedUrlToUpload({
+    bucketName,
+    fileName
   })
 
-  return NextResponse.json(res)
+  return NextResponse.json({
+    url,
+    fileName
+  })
 }
