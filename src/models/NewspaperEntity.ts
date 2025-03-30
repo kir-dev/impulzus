@@ -11,8 +11,6 @@ export class NewspaperEntity {
   @IsNotEmpty()
   contents: string[]
 
-  ISSUU_Link: string | null
-
   coverImage: string
 
   @IsInt()
