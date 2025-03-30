@@ -19,10 +19,9 @@ export async function createPresignedUrlToUpload({
 }): Promise<string> {
   try {
     const res = await s3Client.presignedPutObject(bucketName, fileName, expiry)
-    console.log('res', res)
     return res
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
   return ''
 }

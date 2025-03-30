@@ -13,11 +13,24 @@ export class NewspaperEntity {
 
   ISSUU_Link: string | null
 
-  coverImage: string | null
+  coverImage: string
 
   @IsInt()
   @Min(1)
   grade: number
 
-  pdf: string | null
+  pdf: string
+}
+export class CreateNewsPaperDTO {
+  @IsNotEmpty()
+  title: string
+
+  @IsNotEmpty()
+  contents: string[]
+
+  coverImage: string
+
+  @IsInt()
+  @Min(1)
+  grade: number
 }

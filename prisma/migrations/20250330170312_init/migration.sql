@@ -17,10 +17,9 @@ CREATE TABLE "Newspaper" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
     "contents" TEXT[],
-    "ISSUU_Link" TEXT,
-    "coverImage" TEXT,
+    "coverImage" TEXT NOT NULL,
     "grade" INTEGER NOT NULL,
-    "pdf" TEXT,
+    "pdf" TEXT NOT NULL,
 
     CONSTRAINT "Newspaper_pkey" PRIMARY KEY ("id")
 );

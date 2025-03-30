@@ -1,4 +1,4 @@
-import { NewspaperEntity } from '@/models/NewspaperEntity'
+import { CreateNewsPaperDTO, NewspaperEntity } from '@/models/NewspaperEntity'
 import { uploadToS3 } from '@/util/files/upload'
 import { createNewspaper, editNewspaper } from '@/util/newspapers/actions'
 import {
@@ -36,9 +36,9 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
     files?: FileList
     title?: string
     grade?: number
-    coverImage?: string | null
+    coverImage?: string
     contents: string | undefined
-    pdf?: string | null
+    pdf?: string
   }>({
     defaultValues: {
       title: newspaper?.title,
@@ -61,14 +61,12 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
   const onSubmit = handleSubmit(async (data) => {
     const file = data.files?.[0]
 
-    const formData: Partial<NewspaperEntity> = {
+    const formData: Partial<CreateNewsPaperDTO> = {
       title: data.title,
       grade: Number(data.grade),
       coverImage: data.coverImage,
       contents: data.contents?.split(',')
     }
-
-    let pdfUrl
     if (file) {
       try {
         const res = await fetch('/api/upload', {
@@ -78,41 +76,22 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
         })
         const response: { url: string; fileName: string } = await res.json()
         await uploadToS3(response.url, file)
-        newspaper ? updateData(formData, response.fileName) : submitData(formData, response.fileName)
+        if (newspaper?.id) {
+          await editNewspaper(newspaper.id, formData, response.fileName)
+        } else {
+          if (formData.title && formData.grade && formData.coverImage) {
+            await createNewspaper(formData as CreateNewsPaperDTO, response.fileName)
+          }
+        }
+        await onClose()
+        router.refresh()
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
-      formData.ISSUU_Link = file.name
     }
 
     reset()
   })
-
-  const submitData = async (formData: Partial<NewspaperEntity>) => {
-    try {
-      await createNewspaper(formData)
-      onClose()
-      router.refresh()
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const updateData = async (formData: Partial<NewspaperEntity>, fileName: string) => {
-    if (!newspaper?.id) return
-    const body = {
-      data: formData,
-      fileName
-    }
-
-    try {
-      await editNewspaper(newspaper.id, body)
-      onClose()
-      router.refresh()
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   return (
     <>
@@ -205,8 +184,8 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
 
                 <FileUpload
                   fieldTitle="PDF"
-                  oldFileName={newspaper?.ISSUU_Link}
-                  required={!newspaper?.ISSUU_Link}
+                  oldFileName={newspaper?.pdf}
+                  required={!newspaper?.pdf}
                   fieldName="files"
                   buttonIcon={<FaFile />}
                   accept={'.pdf'}

@@ -4,7 +4,6 @@ import { ConfirmDialogButton } from '@/components/common/ConfirmDialogButton'
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import { NewspaperEntity } from '@/models/NewspaperEntity'
-import { PATHS } from '@/util/paths'
 import {
   Box,
   GridItem,
@@ -70,7 +69,7 @@ export default function ArchiveClient({
           {filteredNewspapers.map((n) => (
             <GridItem key={n.id} borderWidth={1} borderRadius={5} p={2}>
               <Stack justify="space-between" direction={['column', 'row']} alignItems={['center', 'flex-start']}>
-                <Link style={{ width: '100%' }} href={`${PATHS.ARCHIVE}/${n.id}`}>
+                <Link style={{ width: '100%' }} href={n.pdf} target="_blank" rel="noopener noreferrer">
                   <Stack minWidth="100%" align={{ base: 'center', md: 'flex-start' }} direction={{ base: 'column', md: 'row' }}>
                     <Image
                       src={!n.coverImage || n.coverImage === '' ? '/img/impulzus_logo_light.png' : n.coverImage}
