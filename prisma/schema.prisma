@@ -30,6 +30,7 @@ model Newspaper {
   coverImage String
   grade      Int
   pdf        String
+  isLatest   Boolean
 }
 
 model Idea {

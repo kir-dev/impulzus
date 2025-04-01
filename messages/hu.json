@@ -84,7 +84,8 @@
     "maxOneFile": "Csak egy fájl feltöltése lehetséges!",
     "noFileSelected": "Nincs fájl kiválasztva",
     "deletePaper": "Lap törlése",
-    "deletePaperQuestion": "Biztosan törlöd a lapot?"
+    "deletePaperQuestion": "Biztosan törlöd a lapot?",
+    "isLatest": "Legújabb lapként jelenjen meg"
   },
   "editorship": {
     "title": "Szerkesztőség",

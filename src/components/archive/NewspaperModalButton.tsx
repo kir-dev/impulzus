@@ -3,9 +3,11 @@ import { uploadToS3 } from '@/util/files/upload'
 import { createNewspaper, editNewspaper } from '@/util/newspapers/actions'
 import {
   Button,
+  Checkbox,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  HStack,
   IconButton,
   Input,
   Modal,
@@ -15,10 +17,12 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
   useDisclosure
 } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { FaFile, FaPencilAlt } from 'react-icons/fa'
 import { getStatusString } from '../common/editor/editorUtils'
@@ -30,6 +34,7 @@ export type Props = {
 
 export const NewspaperModalButton = ({ newspaper }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+
   const t = useTranslations()
   const router = useRouter()
   const methods = useForm<{
@@ -39,16 +44,8 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
     coverImage?: string
     contents: string | undefined
     pdf?: string
-  }>({
-    defaultValues: {
-      title: newspaper?.title,
-      grade: newspaper?.grade,
-      coverImage: newspaper?.coverImage,
-      contents: newspaper?.contents?.toString(),
-      pdf: newspaper?.pdf
-    },
-    mode: 'all'
-  })
+    isLatest: boolean
+  }>()
 
   const {
     register,
@@ -57,6 +54,18 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
     reset,
     formState: { errors }
   } = methods
+  useEffect(() => {
+    if (newspaper) {
+      reset({
+        title: newspaper.title,
+        grade: newspaper.grade,
+        coverImage: newspaper.coverImage,
+        contents: newspaper.contents?.toString(),
+        pdf: newspaper.pdf,
+        isLatest: newspaper.isLatest ?? false
+      })
+    }
+  }, [newspaper, reset])
 
   const onSubmit = handleSubmit(async (data) => {
     const file = data.files?.[0]
@@ -65,32 +74,32 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
       title: data.title,
       grade: Number(data.grade),
       coverImage: data.coverImage,
-      contents: data.contents?.split(',')
+      contents: data.contents?.split(','),
+      isLatest: data.isLatest ?? false
     }
-    if (file) {
-      try {
-        const res = await fetch('/api/upload', {
-          method: 'POST',
-          headers: { 'content-type': file.type, 'file-name': file.name },
-          body: file
+    let fileName: string | undefined = undefined
+    try {
+      if (file) {
+        const res = await fetch('/api/get-upload-url', {
+          method: 'GET'
         })
         const response: { url: string; fileName: string } = await res.json()
         await uploadToS3(response.url, file)
-        if (newspaper?.id) {
-          await editNewspaper(newspaper.id, formData, response.fileName)
-        } else {
-          if (formData.title && formData.grade && formData.coverImage) {
-            await createNewspaper(formData as CreateNewsPaperDTO, response.fileName)
-          }
-        }
-        await onClose()
-        router.refresh()
-      } catch (e) {
-        console.error(e)
+        fileName = response.fileName
       }
+      if (newspaper?.id) {
+        await editNewspaper(newspaper.id, formData, fileName)
+      } else {
+        if (formData.title && formData.grade && formData.coverImage && fileName) {
+          await createNewspaper(formData as CreateNewsPaperDTO, fileName)
+        }
+      }
+    } catch (e) {
+      console.error(e)
     }
-
+    onClose()
     reset()
+    router.refresh()
   })
 
   return (
@@ -191,6 +200,13 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
                   accept={'.pdf'}
                   uploadButtonText={t('archive.upload')}
                 />
+                <FormControl isInvalid={!!errors.isLatest}>
+                  <HStack mt={4}>
+                    <Checkbox {...register('isLatest')} isChecked={watch('isLatest')}>
+                      <Text fontWeight="semibold">{t('archive.isLatest')}</Text>
+                    </Checkbox>
+                  </HStack>
+                </FormControl>
               </FormProvider>
             </ModalBody>
             <ModalFooter>

@@ -18,6 +18,8 @@ export class NewspaperEntity {
   grade: number
 
   pdf: string
+
+  isLatest: boolean
 }
 export class CreateNewsPaperDTO {
   @IsNotEmpty()
@@ -31,4 +33,6 @@ export class CreateNewsPaperDTO {
   @IsInt()
   @Min(1)
   grade: number
+
+  isLatest: boolean
 }
