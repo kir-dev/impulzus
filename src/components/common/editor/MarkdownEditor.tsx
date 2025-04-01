@@ -13,7 +13,7 @@ import {
   Tabs,
   Textarea
 } from '@chakra-ui/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import { useFormContext } from 'react-hook-form'
 import Markdown from './Markdown'
 import { getStatusString } from './editorUtils'
@@ -35,7 +35,7 @@ export const MarkdownEditor = ({ textAreaHeight = '22rem', previewHeight = '26re
     watch,
     formState: { errors }
   } = useFormContext()
-  const { t } = useTranslation('common')
+  const t = useTranslations()
 
   return (
     <Tabs variant="enclosed">

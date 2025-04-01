@@ -1,3 +1,4 @@
+'use client'
 import { Link } from '@chakra-ui/react'
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer'
 import { ReactNode } from 'react'

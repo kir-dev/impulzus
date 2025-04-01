@@ -1,3 +1,4 @@
+'use client'
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 import { Box, Collapse, Flex, HStack, Heading, IconButton, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import Image from 'next/image'

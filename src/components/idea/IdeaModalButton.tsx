@@ -1,3 +1,5 @@
+'use client'
+import { createIdea } from '@/util/idea/actions'
 import {
   Button,
   FormControl,
@@ -12,32 +14,16 @@ import {
   Textarea,
   useDisclosure
 } from '@chakra-ui/react'
-import useTranslation from 'next-translate/useTranslation'
-import Router from 'next/router'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
 export const IdeaModalButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [description, setDescriptioon] = useState<string>()
-  const { t } = useTranslation('common')
-
+  const [description, setDescriptioon] = useState<string>('')
+  const t = useTranslations()
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault()
-    try {
-      const body = { description }
-      await fetch('/api/ideas', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      })
-      close()
-      Router.replace(Router.asPath)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const close = () => {
+    createIdea(description)
     onClose()
     setDescriptioon('')
   }
@@ -63,7 +49,7 @@ export const IdeaModalButton = () => {
               </FormControl>
             </ModalBody>
             <ModalFooter>
-              <Button onClick={close} mr={3}>
+              <Button onClick={onClose} mr={3}>
                 {t('common.cancel')}
               </Button>
               <Button colorScheme="blue" type="submit" onClick={(e) => submitData(e)}>

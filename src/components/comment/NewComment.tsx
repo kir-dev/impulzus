@@ -1,33 +1,26 @@
+'use client'
 import { Button, Flex, Text, Textarea } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
-import Router from 'next/router'
+import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 type Props = {
+  createComment: (content: string, postId: number) => void
   postId: number
 }
 
-export const NewComment = ({ postId }: Props) => {
-  const { t } = useTranslation('common')
+export const NewComment = ({ createComment, postId }: Props) => {
+  const t = useTranslations()
+  const router = useRouter()
   const [value, setValue] = useState<string>('')
-  const { data, status } = useSession()
+  const { status } = useSession()
   const isAuthenticated = status === 'authenticated'
-
-  const submitData = async () => {
-    try {
-      const body = { content: value, postId, userId: data?.user?.id }
-      await fetch('/api/comments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      })
-      Router.replace(Router.asPath)
-    } catch (error) {
-      console.error(error)
-    }
+  const onSubmit = () => {
+    createComment(value, postId)
+    setValue('')
+    router.refresh()
   }
-
   return (
     <>
       <Textarea
@@ -43,7 +36,7 @@ export const NewComment = ({ postId }: Props) => {
             {t('comments.loginToComment')}
           </Text>
         )}
-        <Button isDisabled={value === '' || !isAuthenticated} onClick={() => submitData()}>
+        <Button isDisabled={value === '' || !isAuthenticated} onClick={onSubmit}>
           {t('comments.newComment')}
         </Button>
       </Flex>

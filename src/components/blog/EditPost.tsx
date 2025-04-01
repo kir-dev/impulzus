@@ -1,12 +1,14 @@
+'use client'
 import { PostEntity } from '@/models/PostEntity'
+import { createPost, editPost } from '@/util/blog/actions'
 import { PATHS } from '@/util/paths'
 import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react'
+import { Select } from 'chakra-react-select'
 import { useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
-import Router from 'next/router'
+import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
-import ReactSelect from 'react-select'
 import { BackButton } from '../common/BackButton'
 import { PageHeading } from '../common/PageHeading'
 import { Title } from '../common/Title'
@@ -20,27 +22,14 @@ type Props = {
 
 export const EditPost = ({ post }: Props) => {
   const { data } = useSession()
-  const { t } = useTranslation('common')
+  const t = useTranslations()
   const userId = data?.user?.id
-
+  const router = useRouter()
   useEffect(() => {
     if (!userId) {
-      Router.push('/login')
+      router.push('/login')
     }
   }, [userId])
-
-  const submitData = async (body: Partial<PostEntity>) => {
-    try {
-      await fetch(post ? `/api/posts/${post.id}` : '/api/posts', {
-        method: post ? 'PATCH' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      })
-      Router.replace('/blog')
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   const form = useForm({
     defaultValues: {
@@ -62,7 +51,6 @@ export const EditPost = ({ post }: Props) => {
   } = form
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
     const formData = {
       title: data.title,
       previewContent: data.previewContent,
@@ -70,7 +58,12 @@ export const EditPost = ({ post }: Props) => {
       categories: data.categories?.map((c) => c.value),
       userId: userId
     }
-    submitData(formData)
+    if (post) {
+      editPost(post.id, { ...formData })
+    } else {
+      // @ts-expect-error: Type mismatch due to incomplete type definitions
+      createPost(formData)
+    }
   })
 
   return (
@@ -116,7 +109,7 @@ export const EditPost = ({ post }: Props) => {
             control={control}
             name="categories"
             render={({ field: { onChange, onBlur, value, name, ref } }) => (
-              <ReactSelect
+              <Select
                 options={POST_CATEGORIS.map((c) => ({ label: c, value: c }))}
                 onChange={onChange}
                 isMulti={true}
@@ -124,6 +117,7 @@ export const EditPost = ({ post }: Props) => {
                 value={value}
                 name={name}
                 ref={ref}
+                instanceId={name}
               />
             )}
           />

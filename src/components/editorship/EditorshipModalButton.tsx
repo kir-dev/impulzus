@@ -1,4 +1,6 @@
+'use client'
 import { UserEntity } from '@/models/UserEntity'
+import { updateUser } from '@/util/users/actions'
 import {
   Button,
   Checkbox,
@@ -18,25 +20,34 @@ import {
   Text,
   useDisclosure
 } from '@chakra-ui/react'
-import useTranslation from 'next-translate/useTranslation'
-import Router from 'next/router'
+import { Select } from 'chakra-react-select'
+import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaPencilAlt } from 'react-icons/fa'
 import { getStatusString } from '../common/editor/editorUtils'
 
 type Props = {
-  user?: UserEntity
+  userProp?: UserEntity
+  users: UserEntity[]
+}
+type SeletUserType = {
+  value: string
+  label: string
 }
 
-export const EditorshipModalButton = ({ user }: Props) => {
+export const EditorshipModalButton = ({ userProp, users }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { t } = useTranslation('common')
-
+  const t = useTranslations()
+  const router = useRouter()
+  const [user, setUser] = useState<UserEntity | undefined>(userProp)
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors }
   } = useForm({
     defaultValues: {
@@ -44,69 +55,70 @@ export const EditorshipModalButton = ({ user }: Props) => {
       email: user?.email,
       titles: user?.titles?.toString(),
       picture: user?.picture ?? '',
-      isBoardMember: user?.isBoardMember
+      isMember: user?.isMember,
+      isBoardMember: user?.isBoardMember,
+      isAdmin: user?.isAdmin
     },
     mode: 'all'
   })
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
     const formData = {
       name: data.name,
       email: data.email,
       titles: data.titles?.split(','),
       picture: data.picture === '' ? undefined : data.picture,
-      isBoardMember: data.isBoardMember
+      isBoardMember: data.isBoardMember,
+      isMember: data.isMember,
+      isAdmin: data.isAdmin
     }
-    user ? updateData(formData) : submitData(formData)
+    if (!user?.id) {
+      return
+    }
+    updateData(user?.id, formData)
+    setUser(undefined)
+    reset()
   })
 
-  const submitData = async (formData: Partial<UserEntity>) => {
-    try {
-      await fetch('/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
-      onClose()
-      Router.replace(Router.asPath)
-    } catch (error) {
-      console.error(error)
-    }
+  const updateData = async (id: string, formData: Partial<UserEntity>) => {
+    await updateUser(id, formData)
+    onClose()
+    router.refresh()
   }
-
-  const updateData = async (formData: Partial<UserEntity>) => {
-    try {
-      await fetch('/api/users/' + user?.id, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
-      onClose()
-      Router.replace(Router.asPath)
-    } catch (error) {
-      console.error(error)
-    }
+  if (!users) return null
+  const selectUser = (event: SeletUserType) => {
+    const selectedUser = users.find((u) => u.id === event.value)
+    setUser(selectedUser)
+    setValue('name', selectedUser?.name)
+    setValue('email', selectedUser?.email)
+    setValue('titles', selectedUser?.titles?.toString())
+    setValue('picture', selectedUser?.picture ?? '')
+    setValue('isBoardMember', selectedUser?.isBoardMember)
+    setValue('isMember', selectedUser?.isMember)
+    setValue('isAdmin', selectedUser?.isAdmin)
   }
-
   return (
     <>
-      {user ? (
-        <IconButton colorScheme="yellow" aria-label="edit" onClick={() => onOpen()}>
-          <FaPencilAlt />
-        </IconButton>
-      ) : (
-        <Button onClick={() => onOpen()}>{t('editorship.newMember')}</Button>
-      )}
+      <IconButton colorScheme="yellow" aria-label="edit" onClick={() => onOpen()}>
+        <FaPencilAlt />
+      </IconButton>
 
       <Modal motionPreset="slideInBottom" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <form>
-            <ModalHeader>{user ? user.name + ' ' + t('common.editOf') : t('editorship.newMember')}</ModalHeader>
+            <ModalHeader>{t('common.editMembers')}</ModalHeader>
             <ModalCloseButton onClick={() => reset()} />
-            <ModalBody pb={6}>
-              <FormControl isInvalid={!!errors.name} isRequired>
+            <ModalBody p={6}>
+              <FormControl isInvalid={!!errors.name}>
+                <Select
+                  placeholder={t('editorship.selectUser')}
+                  onChange={selectUser}
+                  options={users.map((c) => ({ value: c.id, label: c.name + ' -- ' + c.email }))}
+                  noOptions
+                ></Select>
+              </FormControl>
+              <FormControl mt={2} isInvalid={!!errors.name} isRequired>
                 <FormLabel>{t('editorship.name')}</FormLabel>
                 <Input
                   type="text"
@@ -175,8 +187,22 @@ export const EditorshipModalButton = ({ user }: Props) => {
 
               <FormControl isInvalid={!!errors.picture}>
                 <HStack mt={4}>
-                  <Checkbox {...register('isBoardMember')}>
+                  <Checkbox {...register('isBoardMember')} isChecked={watch('isBoardMember')}>
                     <Text fontWeight="semibold">{t('editorship.isLeadershipMember')}</Text>
+                  </Checkbox>
+                </HStack>
+              </FormControl>
+              <FormControl isInvalid={!!errors.picture}>
+                <HStack mt={4}>
+                  <Checkbox {...register('isMember')} isChecked={watch('isMember')}>
+                    <Text fontWeight="semibold">{t('editorship.isMember')}</Text>
+                  </Checkbox>
+                </HStack>
+              </FormControl>
+              <FormControl isInvalid={!!errors.picture}>
+                <HStack mt={4}>
+                  <Checkbox {...register('isAdmin')} isChecked={watch('isAdmin')}>
+                    <Text fontWeight="semibold">{t('editorship.isAdmin')}</Text>
                   </Checkbox>
                 </HStack>
               </FormControl>
@@ -192,7 +218,7 @@ export const EditorshipModalButton = ({ user }: Props) => {
               >
                 {t('common.cancel')}
               </Button>
-              <Button colorScheme="blue" type="submit" onClick={() => onSubmit()}>
+              <Button colorScheme="blue" type="submit" onClick={onSubmit}>
                 {t('common.save')}
               </Button>
             </ModalFooter>

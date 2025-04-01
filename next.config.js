@@ -4,6 +4,9 @@ const nextConfig = {
   eslint: {
     dirs: ['src'] // Only run ESLint in src during production builds (next build)
   },
+  experimental: {
+    forceSwcTransforms: true
+  },
   images: {
     remotePatterns: [
       {
@@ -14,8 +17,8 @@ const nextConfig = {
     ]
   }
 }
+const createNextIntlPlugin = require('next-intl/plugin')
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const nextTranslate = require('next-translate-plugin')
+const withNextIntl = createNextIntlPlugin()
 
-module.exports = nextTranslate(nextConfig)
+module.exports = withNextIntl(nextConfig)

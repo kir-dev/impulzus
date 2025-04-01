@@ -10,7 +10,7 @@ import {
   InputLeftAddon,
   InputRightAddon
 } from '@chakra-ui/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import { ReactElement, useRef, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { FaTimes } from 'react-icons/fa'
@@ -47,7 +47,7 @@ export const FileUpload = ({
   } = useFormContext()
   const [oldFile, setOldFile] = useState<string>(oldFileName ?? '')
   const [isReuired, setIsRequired] = useState(required)
-  const { t } = useTranslation('common')
+  const t = useTranslations()
 
   const validateFiles = (value: FileList | undefined) => {
     if (!isReuired) {

@@ -1,12 +1,13 @@
 import { Button, HStack } from '@chakra-ui/react'
 import { signIn, useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { NAV_ITEMS } from './navitems'
 
 export const DesktopNav = () => {
-  const { status } = useSession()
-  const { t } = useTranslation('common')
+  const session = useSession()
+  const { status } = session
+  const t = useTranslations()
 
   return (
     <HStack spacing={8}>

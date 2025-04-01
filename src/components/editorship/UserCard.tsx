@@ -1,33 +1,18 @@
+'use client'
 import { UserEntity } from '@/models/UserEntity'
-import { HStack, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
+import { deleteUser } from '@/util/users/actions'
+import { HStack, IconButton, Stack, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
-import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
-import Router from 'next/router'
-import { FaRegEnvelope } from 'react-icons/fa'
-import { ConfirmDialogButton } from '../common/ConfirmDialogButton'
-import { EditorshipModalButton } from './EditorshipModalButton'
+import { FaRegEnvelope, FaTrash } from 'react-icons/fa'
 
 type Props = {
   user: UserEntity
 }
 
 export const UserCard = ({ user }: Props) => {
-  const { t } = useTranslation('common')
   const { data } = useSession()
   const isAdmin = data?.user?.isAdmin
-
-  const deleteData = async (id: string) => {
-    try {
-      await fetch('/api/users/' + id, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
-      })
-      Router.replace(Router.asPath)
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   return (
     <Stack justify="space-between" direction={['column', 'row']}>
@@ -53,14 +38,9 @@ export const UserCard = ({ user }: Props) => {
 
       {isAdmin && (
         <Stack direction={['row', 'column']} alignSelf={['center', 'flex-start']}>
-          <EditorshipModalButton user={user} />
-          <ConfirmDialogButton
-            bodyText={t('editorship.deleteUserQuestion')}
-            confirmAction={() => deleteData(user.id)}
-            headerText={t('editorship.deleteUser')}
-            confirmButtonText={t('common.delete')}
-            refuseButtonText={t('common.cancel')}
-          />
+          <IconButton colorScheme="red" aria-label="delete" onClick={() => deleteUser(user.id)}>
+            <FaTrash />
+          </IconButton>
         </Stack>
       )}
     </Stack>

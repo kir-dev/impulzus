@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState } from 'react'
 import { Document, Page as ReactPdfPage, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'

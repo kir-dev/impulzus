@@ -1,21 +1,29 @@
+'use client'
+import { getUserLocale, setUserLocale } from '@/services/locale'
 import { Button, useColorModeValue } from '@chakra-ui/react'
-import setLanguage from 'next-translate/setLanguage'
-import useTranslation from 'next-translate/useTranslation'
+import { useLocale } from 'next-intl'
+import { startTransition } from 'react'
 
 export const LanguageSwitcher = () => {
-  const { lang } = useTranslation()
-  const nextLang = lang === 'hu' ? 'en' : 'hu'
+  const locale = useLocale()
+  const switchLocale = async () => {
+    const locale = (await getUserLocale()) === 'en' ? 'hu' : 'en'
+    startTransition(() => {
+      setUserLocale(locale)
+    })
+  }
+  const nextLocale = locale === 'hu' ? 'en' : 'hu'
   return (
     <Button
       size="md"
       p={0}
       fontSize={{ base: 'lg', md: 'xl' }}
       variant="ghost"
-      onClick={async () => await setLanguage(nextLang)}
-      aria-label={`Switch to ${lang}`}
+      onClick={switchLocale}
+      aria-label={`Switch to ${locale}`}
       color={useColorModeValue('black', 'white')}
     >
-      {nextLang}
+      {nextLocale}
     </Button>
   )
 }

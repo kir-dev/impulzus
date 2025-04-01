@@ -1,4 +1,6 @@
-import { NewspaperEntity } from '@/models/NewspaperEntity'
+import { CreateNewsPaperDTO, NewspaperEntity } from '@/models/NewspaperEntity'
+import { uploadToS3 } from '@/util/files/upload'
+import { createNewspaper, editNewspaper } from '@/util/newspapers/actions'
 import {
   Button,
   FormControl,
@@ -15,8 +17,8 @@ import {
   ModalOverlay,
   useDisclosure
 } from '@chakra-ui/react'
-import useTranslation from 'next-translate/useTranslation'
-import Router from 'next/router'
+import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 import { FormProvider, useForm } from 'react-hook-form'
 import { FaFile, FaPencilAlt } from 'react-icons/fa'
 import { getStatusString } from '../common/editor/editorUtils'
@@ -28,15 +30,15 @@ export type Props = {
 
 export const NewspaperModalButton = ({ newspaper }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { t } = useTranslation('common')
-
+  const t = useTranslations()
+  const router = useRouter()
   const methods = useForm<{
     files?: FileList
     title?: string
     grade?: number
-    coverImage?: string | null
+    coverImage?: string
     contents: string | undefined
-    pdf?: string | null
+    pdf?: string
   }>({
     defaultValues: {
       title: newspaper?.title,
@@ -59,14 +61,12 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
   const onSubmit = handleSubmit(async (data) => {
     const file = data.files?.[0]
 
-    const formData: Partial<NewspaperEntity> = {
+    const formData: Partial<CreateNewsPaperDTO> = {
       title: data.title,
       grade: Number(data.grade),
       coverImage: data.coverImage,
       contents: data.contents?.split(',')
     }
-
-    let pdfUrl
     if (file) {
       try {
         const res = await fetch('/api/upload', {
@@ -74,54 +74,24 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
           headers: { 'content-type': file.type, 'file-name': file.name },
           body: file
         })
-        const data = await res.json()
-        pdfUrl = data.url
+        const response: { url: string; fileName: string } = await res.json()
+        await uploadToS3(response.url, file)
+        if (newspaper?.id) {
+          await editNewspaper(newspaper.id, formData, response.fileName)
+        } else {
+          if (formData.title && formData.grade && formData.coverImage) {
+            await createNewspaper(formData as CreateNewsPaperDTO, response.fileName)
+          }
+        }
+        await onClose()
+        router.refresh()
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
-      formData.ISSUU_Link = file.name
     }
 
-    if (pdfUrl) {
-      formData.pdf = pdfUrl
-    }
-
-    newspaper ? updateData(formData) : submitData(formData)
     reset()
   })
-
-  const submitData = async (formData: Partial<NewspaperEntity>) => {
-    try {
-      await fetch('/api/newspapers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
-      onClose()
-      Router.replace(Router.asPath)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  const updateData = async (formData: Partial<NewspaperEntity>) => {
-    const body = {
-      data: formData,
-      oldURL: formData.pdf ? newspaper?.pdf : undefined
-    }
-
-    try {
-      await fetch('/api/newspapers/' + newspaper?.id, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      })
-      onClose()
-      Router.replace(Router.asPath)
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   return (
     <>
@@ -214,8 +184,8 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
 
                 <FileUpload
                   fieldTitle="PDF"
-                  oldFileName={newspaper?.ISSUU_Link}
-                  required={!newspaper?.ISSUU_Link}
+                  oldFileName={newspaper?.pdf}
+                  required={!newspaper?.pdf}
                   fieldName="files"
                   buttonIcon={<FaFile />}
                   accept={'.pdf'}
