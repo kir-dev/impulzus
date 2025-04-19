@@ -40,7 +40,7 @@ export default async function Blog() {
                 <Text as="i">
                   {p.user.name} - {new Date(p.createdAt).toLocaleDateString()}
                 </Text>
-                <Text>&ldquo;{p.previewContent}&rdquo;</Text>
+                <Text>{p.previewContent}</Text>
                 <Wrap>
                   {p.categories.map((t) => (
                     <Tag key={t}>{t}</Tag>

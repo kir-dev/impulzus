@@ -37,6 +37,7 @@
     "aboutUs": "Rólunk"
   },
   "blog": {
+    "latestPosts": "Legfrisebb bejegyzések",
     "title": "Blog",
     "newPost": "Új poszt",
     "postTitle": "Poszt címe",
@@ -84,7 +85,10 @@
     "maxOneFile": "Csak egy fájl feltöltése lehetséges!",
     "noFileSelected": "Nincs fájl kiválasztva",
     "deletePaper": "Lap törlése",
-    "deletePaperQuestion": "Biztosan törlöd a lapot?"
+    "deletePaperQuestion": "Biztosan törlöd a lapot?",
+    "isLatest": "Legújabb lapként jelenjen meg",
+    "latestPaper": "Legfrissebb szám",
+    "openPdf": "Nyisd meg PDF-ben"
   },
   "editorship": {
     "title": "Szerkesztőség",
@@ -115,6 +119,8 @@
     "newIdea": "Új ötlet",
     "ideaOrSuggestion": "Ötlet, gondolat....",
     "deleteIdea": "Ötlet törlése",
-    "deleteIdeaQuestion": "Biztosan törlöd az ötletet?"
+    "deleteIdeaQuestion": "Biztosan törlöd az ötletet?",
+    "createdIdea": "Ötlet létrehozva!",
+    "createdIdeaDescription": "Köszönjük, hogy megosztottad velünk az ötletedet!"
   }
 }
