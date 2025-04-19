@@ -18,6 +18,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  Textarea,
   useDisclosure
 } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
@@ -74,7 +75,7 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
       title: data.title,
       grade: Number(data.grade),
       coverImage: data.coverImage,
-      contents: data.contents?.split(','),
+      contents: data.contents?.split('\n'),
       isLatest: data.isLatest ?? false
     }
     let fileName: string | undefined = undefined
@@ -158,15 +159,17 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
 
                 <FormControl mt={2} isInvalid={!!errors.contents}>
                   <FormLabel>{t('archive.content')}</FormLabel>
-                  <Input
-                    type="text"
+                  <Textarea
+                    whiteSpace={'pre-wrap'}
+                    resize="none"
+                    rows={4}
                     {...register('contents', {
                       maxLength: {
                         value: 400,
                         message: t('archive.contentTooLong') + ' ' + getStatusString(watch('contents'), 200)
                       }
                     })}
-                    placeholder="Tartalom, tartalom2..."
+                    placeholder="A tartalomjegyzék"
                   />
                   {errors.contents && <FormErrorMessage>{errors.contents.message?.toString()}</FormErrorMessage>}
                 </FormControl>

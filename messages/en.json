@@ -37,6 +37,7 @@
     "aboutUs": "About us"
   },
   "blog": {
+    "latestPosts": "Latest posts",
     "title": "Blog",
     "newPost": "New post",
     "postTitle": "Post title",
@@ -85,7 +86,9 @@
     "noFileSelected": "No file selected",
     "deletePaper": "Delete paper",
     "deletePaperQuestion": "Do you want to delete this paper?",
-    "isLatest": "Show as latest paper"
+    "isLatest": "Show as latest paper",
+    "latestPaper": "Current issue",
+    "openPdf": "Open as PDF"
   },
   "editorship": {
     "title": "Editorship",
@@ -116,6 +119,8 @@
     "newIdea": "New idea",
     "ideaOrSuggestion": "Idea, suggestion....",
     "deleteIdea": "Delete idea",
-    "deleteIdeaQuestion": "Do you want to delete this idea?"
+    "deleteIdeaQuestion": "Do you want to delete this idea?",
+    "createdIdea": "Idea created!",
+    "createdIdeaDescription": "Thank you for sharing your idea with us!"
   }
 }

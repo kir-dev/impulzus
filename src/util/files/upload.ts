@@ -4,7 +4,7 @@ export const uploadToS3 = async (presignedUrl: string, file: File) => {
     body: file,
     headers: {
       'Content-Type': file.type,
-      'Access-Control-Allow-Origin': '*'
+      'Access-Control-Allow-Origin': process.env.S3_ENDPOINT || ''
     }
   })
   return response
