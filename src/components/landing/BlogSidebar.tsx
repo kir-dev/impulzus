@@ -24,22 +24,27 @@ export const BlogSidebar = ({ posts }: BlogSidebarProps) => {
   }
   return (
     <Box w="fit-content" maxW="400px" p={4}>
-      <Heading size="md" mb={4}>
+      <Heading size="lg" mb={4}>
         {t('blog.latestPosts')}
       </Heading>
 
       <VStack spacing={6} align="start">
         {posts.slice(0, 4).map((post) => (
-          <Box key={post.id} w="100%">
-            <Link href={`/blog/${post.id}`}>{post.title}</Link>
-            <Text fontSize="sm" color="gray.600" mt={1}>
-              {new Date(post.createdAt).toLocaleDateString()}
-            </Text>
-            <Text fontSize="sm" mt={1} color="gray.700" noOfLines={3}>
-              {post.previewContent}
-            </Text>
-            <Divider mt={3} />
-          </Box>
+          <Link href={`/blog/${post.id}`} key={post.id} style={{ width: '100%' }}>
+            <Box>
+              <Text fontSize="md" mt={1} as="b">
+                {post.title}
+              </Text>
+              <br />
+              <Text fontSize="xs" mt={1} as="i">
+                {new Date(post.createdAt).toLocaleDateString()}
+              </Text>
+              <Text fontSize="md" mt={1} noOfLines={3}>
+                {post.previewContent}
+              </Text>
+              <Divider mt={3} />
+            </Box>
+          </Link>
         ))}
       </VStack>
     </Box>
