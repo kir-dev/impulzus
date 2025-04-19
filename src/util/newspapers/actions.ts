@@ -88,12 +88,19 @@ export async function deleteFileFromBucket(url: string) {
   return true
 }
 export async function getLatestNewspaper(): Promise<NewspaperEntity | null> {
-  const newspapers = await prisma.newspaper.findFirst({
+  const newspaper = await prisma.newspaper.findFirst({
     where: {
       isLatest: true
     }
   })
-  return newspapers
+  if (!newspaper) {
+    return await prisma.newspaper.findFirst({
+      orderBy: {
+        grade: 'desc'
+      }
+    })
+  }
+  return newspaper
 }
 export async function removeIsLatestFromAllNewspapers() {
   await prisma.newspaper.updateMany({
