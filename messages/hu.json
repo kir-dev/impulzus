@@ -21,7 +21,6 @@
     "blog": "Blog",
     "archive": "Archívum",
     "editorship": "Szerkesztőség",
-    "ideas": "Ötletdoboz",
     "login": "Belépés",
     "profile": "Profil"
   },
@@ -114,13 +113,15 @@
     "deleteUser": "Felhasználó törlése",
     "deleteUserQuestion": "Biztosan törlöd a felhasználót?"
   },
-  "idea": {
-    "title": "Ötletdoboz",
-    "newIdea": "Új ötlet",
-    "ideaOrSuggestion": "Ötlet, gondolat....",
-    "deleteIdea": "Ötlet törlése",
-    "deleteIdeaQuestion": "Biztosan törlöd az ötletet?",
-    "createdIdea": "Ötlet létrehozva!",
-    "createdIdeaDescription": "Köszönjük, hogy megosztottad velünk az ötletedet!"
+  "meeting": {
+    "edit": "Szerkesztés",
+    "nextMeeting": "Következő szerkesztőségi ülés",
+    "editMeeting": "Szerkesztőségi ülés szerkesztése",
+    "date": "Dátum",
+    "time": "Időpont",
+    "location": "Helyszín",
+    "cancel": "Mégse",
+    "save": "Mentés",
+    "saved": "Mentve"
   }
 }

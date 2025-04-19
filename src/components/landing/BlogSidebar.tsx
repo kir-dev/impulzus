@@ -23,7 +23,7 @@ export const BlogSidebar = ({ posts }: BlogSidebarProps) => {
     return null
   }
   return (
-    <Box w="fit-content" maxW="400px" p={4}>
+    <Box w="fit-content" p={4}>
       <Heading size="lg" mb={4}>
         {t('blog.latestPosts')}
       </Heading>

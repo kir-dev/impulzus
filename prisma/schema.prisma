@@ -33,9 +33,11 @@ model Newspaper {
   isLatest   Boolean
 }
 
-model Idea {
-  id          Int    @id @default(autoincrement())
-  description String
+model Meeting {
+  id        Int      @id @default(1)
+  date      DateTime
+  location  String
+  updatedAt DateTime @updatedAt
 }
 
 model Comment {

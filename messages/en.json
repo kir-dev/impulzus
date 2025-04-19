@@ -1,7 +1,7 @@
 {
   "title": "Welcome to Impulzus",
   "newImpulzus": "The new Impulzus page!",
-  "description": "Discover our history, get to know our members and read our published articles. You can find interesting posts on the blog, and if you have any ideas that you would like us to write about in our next paper, share them with us in the Ideas section!",
+  "description": "Discover our history, get to know our members and read our published articles. You can find interesting posts on the blog, and if you have any ideas that you would like us to write about in our next paper, you can reach us via email!",
   "contacts": "Contacts",
   "notFound": "Page not found!",
   "common": {
@@ -21,7 +21,6 @@
     "blog": "Blog",
     "archive": "Archive",
     "editorship": "Editorship",
-    "ideas": "Ideas",
     "login": "Login",
     "profile": "Profile"
   },
@@ -114,13 +113,15 @@
     "deleteUser": "Delete user",
     "deleteUserQuestion": "Do you want to delete this user?"
   },
-  "idea": {
-    "title": "Ideas",
-    "newIdea": "New idea",
-    "ideaOrSuggestion": "Idea, suggestion....",
-    "deleteIdea": "Delete idea",
-    "deleteIdeaQuestion": "Do you want to delete this idea?",
-    "createdIdea": "Idea created!",
-    "createdIdeaDescription": "Thank you for sharing your idea with us!"
+  "meeting": {
+    "edit": "Edit",
+    "editMeeting": "Edit Editorial Meeting",
+    "date": "Date",
+    "time": "Time",
+    "location": "Location",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saved": "Saved",
+    "nextMeeting": "Next editorial meeting"
   }
 }
