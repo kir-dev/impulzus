@@ -88,25 +88,6 @@ export async function deleteFileFromBucket(url: string) {
   return true
 }
 export async function getLatestNewspaper(): Promise<NewspaperEntity | null> {
-  //returning a dummy newspaper for now
-  return {
-    id: 1,
-    title: 'Dummy Newspaper',
-    contents: [
-      'Már a huszadik?',
-      'A MEMS, a világmindenség, meg minden',
-      'Ugródeszka a Schönherzből a saját céged vezetéséhez',
-      'A Konferencia támogatói',
-      'A MESZ-I titkai',
-      'Világ történései 2022-ben',
-      'Információs Ellenforradalom'
-    ],
-    coverImage: 'https://warp.sch.bme.hu/images/202503301604492.jpg',
-    grade: 1,
-    pdf: 'dummy.pdf',
-    isLatest: true
-  }
-
   const newspapers = await prisma.newspaper.findFirst({
     where: {
       isLatest: true
