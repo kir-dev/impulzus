@@ -14,7 +14,7 @@ model Post {
   id             Int       @id @default(autoincrement())
   title          String
   previewContent String
-  thumbnail      String?
+  thumbnail      String
   content        String
   categories     String[]
   tag            String[]

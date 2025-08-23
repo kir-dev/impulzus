@@ -36,7 +36,8 @@ export const EditPost = ({ post }: Props) => {
       title: post?.title,
       previewContent: post?.previewContent,
       content: post?.content,
-      categories: post?.categories.map((t) => ({ label: t, value: t }))
+      categories: post?.categories.map((t) => ({ label: t, value: t })),
+      thumbnail: post?.thumbnail
     },
 
     mode: 'all'
@@ -56,7 +57,8 @@ export const EditPost = ({ post }: Props) => {
       previewContent: data.previewContent,
       content: data.content,
       categories: data.categories?.map((c) => c.value),
-      userId: userId
+      userId: userId,
+      thumbnail: data.thumbnail
     }
     if (post) {
       editPost(post.id, { ...formData })
