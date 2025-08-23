@@ -32,6 +32,8 @@ export class CreatePostDto {
   @IsNotEmpty()
   previewContent: string
 
+  thumbnail: string
+
   @IsNotEmpty()
   content: string
 
