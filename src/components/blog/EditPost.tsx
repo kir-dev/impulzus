@@ -36,7 +36,8 @@ export const EditPost = ({ post }: Props) => {
       title: post?.title,
       previewContent: post?.previewContent,
       content: post?.content,
-      categories: post?.categories.map((t) => ({ label: t, value: t }))
+      categories: post?.categories.map((t) => ({ label: t, value: t })),
+      thumbnail: post?.thumbnail
     },
 
     mode: 'all'
@@ -56,7 +57,8 @@ export const EditPost = ({ post }: Props) => {
       previewContent: data.previewContent,
       content: data.content,
       categories: data.categories?.map((c) => c.value),
-      userId: userId
+      userId: userId,
+      thumbnail: data.thumbnail
     }
     if (post) {
       editPost(post.id, { ...formData })
@@ -85,6 +87,21 @@ export const EditPost = ({ post }: Props) => {
             placeholder={t('blog.postTitle')}
           />
           {errors.title && <FormErrorMessage>{errors.title.message?.toString()}</FormErrorMessage>}
+        </FormControl>
+        <FormControl>
+          <FormLabel>{t('blog.thumbnail')}</FormLabel>
+          <Input
+            type="text"
+            {...register('thumbnail', {
+              required: { value: true, message: t('blog.thumbnailRequired') },
+              maxLength: {
+                value: 200,
+                message: t('blog.thumbnailTooLong') + ' ' + getStatusString(watch('thumbnail'), 200)
+              }
+            })}
+            placeholder={t('blog.thumbnailPlaceholder')}
+          />
+          {errors.thumbnail && <FormErrorMessage>{errors.thumbnail.message?.toString()}</FormErrorMessage>}
         </FormControl>
 
         <FormControl isInvalid={!!errors.previewContent} isRequired>

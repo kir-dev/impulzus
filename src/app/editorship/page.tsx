@@ -12,7 +12,7 @@ export default async function Editorship() {
   const users = await prisma.user.findMany()
   const session = await getServerSession(authOptions)
   const t = await getTranslations()
-  const isAdmin = session?.user?.isAdmin
+  const isAdmin = session?.user?.isAdmin ?? false
 
   const impulzusUsers = users.filter((u) => u.isMember)
   return (

@@ -11,6 +11,8 @@ export class PostEntity {
   @IsNotEmpty()
   previewContent: string
 
+  thumbnail: string
+
   @IsNotEmpty()
   content: string
 

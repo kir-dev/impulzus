@@ -2,7 +2,7 @@ import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
-import { Button, Flex, GridItem, SimpleGrid, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
+import { AspectRatio, Button, Flex, GridItem, HStack, Image, SimpleGrid, Tag, Text, VStack, Wrap } from '@chakra-ui/react'
 import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
@@ -33,20 +33,25 @@ export default async function Blog() {
         {posts.map((p) => (
           <GridItem key={p.id} borderWidth={1} borderRadius={5} p={2}>
             <Link href={PATHS.BLOG + '/' + p.id} key={p.id}>
-              <VStack align="flex-start">
-                <Text fontSize="2xl" as="b">
-                  {p.title}
-                </Text>
-                <Text as="i">
-                  {p.user.name} - {new Date(p.createdAt).toLocaleDateString()}
-                </Text>
-                <Text>{p.previewContent}</Text>
-                <Wrap>
-                  {p.categories.map((t) => (
-                    <Tag key={t}>{t}</Tag>
-                  ))}
-                </Wrap>
-              </VStack>
+              <HStack>
+                <AspectRatio minW="200px" ratio={1} marginRight={4}>
+                  <Image src={p.thumbnail} alt={p.title} objectFit="cover" />
+                </AspectRatio>
+                <VStack align="flex-start">
+                  <Text fontSize="2xl" as="b">
+                    {p.title}
+                  </Text>
+                  <Text as="i">
+                    {p.user.name} - {new Date(p.createdAt).toLocaleDateString()}
+                  </Text>
+                  <Text>{p.previewContent}</Text>
+                  <Wrap>
+                    {p.categories.map((t) => (
+                      <Tag key={t}>{t}</Tag>
+                    ))}
+                  </Wrap>
+                </VStack>
+              </HStack>
             </Link>
           </GridItem>
         ))}

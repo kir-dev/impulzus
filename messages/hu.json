@@ -14,7 +14,8 @@
     "edit": "Szerkesztés",
     "delete": "Törlés",
     "back": "Vissza",
-    "create": "Létrehozás"
+    "create": "Létrehozás",
+    "updated": "Frissítve"
   },
   "navitems": {
     "about": "Rólunk",
@@ -111,12 +112,13 @@
     "rolesTooLong": "Posztok túl hosszú!",
     "pictureTooLong": "Kép link túl hosszú!",
     "deleteUser": "Felhasználó törlése",
-    "deleteUserQuestion": "Biztosan törlöd a felhasználót?"
+    "deleteUserQuestion": "Biztosan törlöd a felhasználót?",
+    "impressum": "Impresszum"
   },
   "meeting": {
     "edit": "Szerkesztés",
-    "nextMeeting": "Következő szerkesztőségi ülés",
-    "editMeeting": "Szerkesztőségi ülés szerkesztése",
+    "nextMeeting": "Következő szerkesztőségi gyűlés",
+    "editMeeting": "Szerkesztőségi gyűlés szerkesztése",
     "date": "Dátum",
     "time": "Időpont",
     "location": "Helyszín",
