@@ -88,7 +88,7 @@ export const EditPost = ({ post }: Props) => {
           />
           {errors.title && <FormErrorMessage>{errors.title.message?.toString()}</FormErrorMessage>}
         </FormControl>
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel>{t('blog.thumbnail')}</FormLabel>
           <Input
             type="text"
