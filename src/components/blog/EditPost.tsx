@@ -86,6 +86,21 @@ export const EditPost = ({ post }: Props) => {
           />
           {errors.title && <FormErrorMessage>{errors.title.message?.toString()}</FormErrorMessage>}
         </FormControl>
+        <FormControl>
+          <FormLabel>{t('blog.thumbnail')}</FormLabel>
+          <Input
+            type="text"
+            {...register('thumbnail', {
+              required: { value: true, message: t('blog.thumbnailRequired') },
+              maxLength: {
+                value: 200,
+                message: t('blog.thumbnailTooLong') + ' ' + getStatusString(watch('thumbnail'), 200)
+              }
+            })}
+            placeholder={t('blog.thumbnailPlaceholder')}
+          />
+          {errors.thumbnail && <FormErrorMessage>{errors.thumbnail.message?.toString()}</FormErrorMessage>}
+        </FormControl>
 
         <FormControl isInvalid={!!errors.previewContent} isRequired>
           <FormLabel>{t('blog.smallDescription')}</FormLabel>

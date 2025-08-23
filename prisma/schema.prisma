@@ -14,6 +14,7 @@ model Post {
   id             Int       @id @default(autoincrement())
   title          String
   previewContent String
+  thumbnail      String?
   content        String
   categories     String[]
   tag            String[]
@@ -83,6 +84,12 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model Impressum {
+  id        Int      @id @default(0)
+  updatedAt DateTime @default(now()) @updatedAt
+  details   String   @db.Text
 }
 
 model Session {
