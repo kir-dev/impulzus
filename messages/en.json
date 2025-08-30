@@ -52,6 +52,17 @@
     "thumbnailTooLong": "Thumbnail URL is too long!",
     "thumbnailPlaceholder": "https://example.com/thumbnail.jpg",
     "category": "Category",
+    "categories": {
+      "uni": "University",
+      "profession": "Profession",
+      "culture": "Culture",
+      "publicLife": "Public Life",
+      "tech": "Tech",
+      "gaming": "Gaming",
+      "retro": "Retro",
+      "other": "Other",
+      "all": "All"
+    },
     "description": "Description",
     "preview": "Preview",
     "markdownGuide": "Markdown guide",
@@ -95,7 +106,7 @@
     "openPdf": "Open as PDF"
   },
   "editorship": {
-    "title": "Editorship",
+    "title": "Editorial board",
     "leadership": "Leadership",
     "newMember": "New member",
     "name": "Name",

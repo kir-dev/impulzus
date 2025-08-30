@@ -2,7 +2,7 @@
 import { Flex, HStack, Image, Link, Stack, Text, VStack, useColorModeValue } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
 import NextLink from 'next/link'
-import { FaEnvelope, FaFacebook, FaGithub, FaGlobe, FaHeart, FaInstagram } from 'react-icons/fa'
+import { FaEnvelope, FaFacebook, FaGithub, FaGlobe, FaHeart, FaInfoCircle, FaInstagram } from 'react-icons/fa'
 
 export const Footer = () => {
   const t = useTranslations()
@@ -15,9 +15,9 @@ export const Footer = () => {
         <NextLink href="/">
           <Image alt="impulzus logo" src={impulzusLogo} width={100} height={100} />
         </NextLink>
-        <VStack ml={1}>
+        <VStack ml={3}>
           <Text>{t('contacts')}</Text>
-          <HStack>
+          <HStack alignItems="center">
             <Link isExternal href="mailto:impulzus@impulzus.bme.hu">
               <FaEnvelope />
             </Link>
@@ -26,6 +26,9 @@ export const Footer = () => {
             </Link>
             <Link isExternal href="https://www.instagram.com/impulzus_vik">
               <FaInstagram />
+            </Link>
+            <Link href="/impressum">
+              <FaInfoCircle />
             </Link>
           </HStack>
         </VStack>

@@ -52,6 +52,17 @@
     "thumbnailTooLong": "Borítókép URL túl hosszú!",
     "thumbnailPlaceholder": "https://example.com/thumbnail.jpg",
     "category": "Kategória",
+    "categories": {
+      "uni": "Egyetem",
+      "profession": "Szakma",
+      "culture": "Kultúra",
+      "publicLife": "Közélet",
+      "tech": "Tech",
+      "gaming": "Gaming",
+      "retro": "Retró",
+      "other": "Egyéb",
+      "all": "Összes"
+    },
     "description": "Leírás",
     "preview": "Előnézet",
     "markdownGuide": "Markdown útmutató",

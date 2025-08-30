@@ -1,1 +1,1 @@
-export const POST_CATEGORIS = ['Egyetem', 'Szakma', 'Kultúra', 'Közélet', 'Tech', 'Gaming', 'Retró', 'Egyéd']
+export const POST_CATEGORIES = ['uni', 'profession', 'culture', 'publicLife', 'tech', 'gaming', 'retro', 'other']

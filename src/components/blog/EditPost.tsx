@@ -14,7 +14,7 @@ import { PageHeading } from '../common/PageHeading'
 import { Title } from '../common/Title'
 import { MarkdownEditor } from '../common/editor/MarkdownEditor'
 import { getStatusString } from '../common/editor/editorUtils'
-import { POST_CATEGORIS } from './postCategories'
+import { POST_CATEGORIES } from './postCategories'
 
 type Props = {
   post?: PostEntity
@@ -127,7 +127,7 @@ export const EditPost = ({ post }: Props) => {
             name="categories"
             render={({ field: { onChange, onBlur, value, name, ref } }) => (
               <Select
-                options={POST_CATEGORIS.map((c) => ({ label: c, value: c }))}
+                options={POST_CATEGORIES.map((c) => ({ label: t(`blog.categories.${c}`), value: c }))}
                 onChange={onChange}
                 isMulti={true}
                 onBlur={onBlur}
