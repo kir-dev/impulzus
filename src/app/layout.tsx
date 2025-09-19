@@ -15,6 +15,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const messages = await getMessages()
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        <script defer data-domain="impulzus.vercel.app" src="https://visit.kir-dev.hu/js/script.js" />
+      </head>
       <body>
         <NextIntlClientProvider messages={messages}>
           <ClientLayout>{children}</ClientLayout>
