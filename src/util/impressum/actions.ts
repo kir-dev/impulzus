@@ -21,3 +21,20 @@ export const editImpressum = async (details: string) => {
   })
   revalidatePath('/editorship/')
 }
+
+export const editDescription = async (details: string) => {
+  const session = await getServerSession(authOptions)
+  const user = session?.user
+  if (!user?.id || !user?.isAdmin) {
+    return
+  }
+  await prisma.impressum.update({
+    where: {
+      id: 1
+    },
+    data: {
+      details
+    }
+  })
+  revalidatePath('/')
+}
