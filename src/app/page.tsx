@@ -7,13 +7,17 @@ import { getLatestBlogPosts } from '@/util/blog/actions' // you'll create this
 import { getMeeting } from '@/util/meeting/actions'
 import { getLatestNewspaper } from '@/util/newspapers/actions'
 import { Grid, GridItem, Heading, Text } from '@chakra-ui/react'
+import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
+import { authOptions } from './api/auth/[...nextauth]/authOptions'
 
 const Page = async () => {
   const t = await getTranslations()
   const latestNewspaper = await getLatestNewspaper()
   const latestPosts = await getLatestBlogPosts()
   const meeting = await getMeeting()
+  const session = await getServerSession(authOptions)
+  const isAdmin = !!session?.user?.isAdmin
   return (
     <>
       <Title />
@@ -29,7 +33,7 @@ const Page = async () => {
 
         {/* Right Column: Meeting box */}
         <GridItem alignSelf={'center'}>
-          <NextMeetingBox meeting={meeting} />
+          <NextMeetingBox meeting={meeting} isAdmin={isAdmin} />
         </GridItem>
       </Grid>
 

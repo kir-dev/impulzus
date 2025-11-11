@@ -16,7 +16,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        <script defer data-domain="impulzus.vercel.app" src="https://visit.kir-dev.hu/js/script.js" />
+        <script defer data-domain="impulzus.com" src="https://visit.kir-dev.hu/js/script.js" />
       </head>
       <body>
         <NextIntlClientProvider messages={messages}>

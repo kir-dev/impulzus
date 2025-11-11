@@ -8,9 +8,10 @@ import { EditMeetingModal } from './EditMeetingModal'
 
 type Props = {
   meeting?: MeetingData
+  isAdmin: boolean
 }
 
-export const NextMeetingBox = ({ meeting }: Props) => {
+export const NextMeetingBox = ({ meeting, isAdmin }: Props) => {
   const bg = useColorModeValue('gray.100', 'gray.700')
   const t = useTranslations('meeting')
   const locale = useLocale()
@@ -49,7 +50,7 @@ export const NextMeetingBox = ({ meeting }: Props) => {
           <Text>{meeting.location}</Text>
         </HStack>
       </VStack>
-      <EditMeetingModal meeting={meeting} />
+      {isAdmin && <EditMeetingModal meeting={meeting} />}
     </Box>
   )
 }
