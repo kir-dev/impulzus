@@ -5,6 +5,6 @@ export const NAV_ITEMS = [
   { text: 'blog', href: PATHS.BLOG },
   { text: 'archive', href: PATHS.ARCHIVE },
   { text: 'editorship', href: PATHS.EDITORSHIP },
-  { text: 'login', href: PATHS.LOGIN },
-  { text: 'authors', href: PATHS.AUTHORS }
+  { text: 'authors', href: PATHS.AUTHORS },
+  { text: 'login', href: PATHS.LOGIN }
 ]
