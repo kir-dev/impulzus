@@ -4,10 +4,9 @@ import Link from 'next/link'
 
 type Props = {
   link: string
-  onClick?: () => void
 }
 
-export const BackButton = ({ link, onClick }: Props) => {
+export const BackButton = ({ link }: Props) => {
   const t = useTranslations()
 
   return (

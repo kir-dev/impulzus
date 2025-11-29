@@ -9,8 +9,8 @@ import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { redirect } from 'next/navigation'
 
-export async function generateMetadata({ locale }: { locale?: string }): Promise<Metadata> {
-  const t = await getTranslations(locale)
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations()
 
   return {
     title: `Impulzus | ${t('archive.archive')}`

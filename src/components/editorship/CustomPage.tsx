@@ -41,7 +41,7 @@ export default function CustomPage({ text, isAdmin, locale }: { text: Texts; isA
           </FormControl>
         </FormProvider>
         <Flex justify="space-between">
-          <BackButton link={PATHS.EDITORSHIP} onClick={() => setIsEditing(false)} />
+          <BackButton link={PATHS.EDITORSHIP} />
           <Button onClick={onSubmit}>{t('common.save')}</Button>
         </Flex>
       </>

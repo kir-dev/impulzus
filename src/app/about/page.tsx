@@ -8,8 +8,8 @@ import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
 import { authOptions } from '../api/auth/[...nextauth]/authOptions'
 
-export async function generateMetadata({ locale }: { locale?: string }): Promise<Metadata> {
-  const t = await getTranslations(locale)
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations()
 
   return {
     title: `Impulzus | ${t('about.aboutUs')}`
