@@ -5,7 +5,8 @@ const nextConfig = {
     dirs: ['src'] // Only run ESLint in src during production builds (next build)
   },
   experimental: {
-    forceSwcTransforms: true
+    forceSwcTransforms: true,
+    useCache: true
   },
   images: {
     remotePatterns: [

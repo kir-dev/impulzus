@@ -1,7 +1,17 @@
 import ArchiveClient from '@/components/archive/ArchiveClient'
 import prisma from '@/lib/prisma'
+import { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
+import { getTranslations } from 'next-intl/server'
 import { authOptions } from '../api/auth/[...nextauth]/authOptions'
+
+export async function generateMetadata({ locale }: { locale?: string }): Promise<Metadata> {
+  const t = await getTranslations(locale)
+
+  return {
+    title: `Impulzus | ${t('archive.archive')}`
+  }
+}
 
 export default async function Archive() {
   const newspapers = await prisma.newspaper.findMany()

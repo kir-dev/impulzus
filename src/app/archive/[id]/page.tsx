@@ -5,7 +5,17 @@ import { Title } from '@/components/common/Title'
 import prisma from '@/lib/prisma'
 import { PATHS } from '@/util/paths'
 import { Flex } from '@chakra-ui/react'
+import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import { redirect } from 'next/navigation'
+
+export async function generateMetadata({ locale }: { locale?: string }): Promise<Metadata> {
+  const t = await getTranslations(locale)
+
+  return {
+    title: `Impulzus | ${t('archive.archive')}`
+  }
+}
 
 export default async function NewsPaperPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

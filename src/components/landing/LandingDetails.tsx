@@ -1,5 +1,6 @@
 'use client'
-import { editDescription } from '@/util/impressum/actions'
+import { Locale, TextType } from '@/models/GenericTypes'
+import { editText } from '@/util/texts/actions'
 import {
   Button,
   FormControl,
@@ -12,6 +13,7 @@ import {
   ModalOverlay,
   useDisclosure
 } from '@chakra-ui/react'
+import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { FaPencilAlt } from 'react-icons/fa'
 import { useTranslations } from 'use-intl'
@@ -19,7 +21,7 @@ import { PageHeading } from '../common/PageHeading'
 import Markdown from '../common/editor/Markdown'
 import { MarkdownEditor } from '../common/editor/MarkdownEditor'
 
-export default function LandingDetails({ content, isAdmin }: { content: string; isAdmin: boolean }) {
+export default function LandingDetails({ content, isAdmin, locale }: { content: string; isAdmin: boolean; locale: Locale }) {
   const t = useTranslations()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const form = useForm({
@@ -29,11 +31,14 @@ export default function LandingDetails({ content, isAdmin }: { content: string; 
 
     mode: 'all'
   })
+  useEffect(() => {
+    form.reset({ content: content })
+  }, [content])
 
   const { handleSubmit } = form
   const onSubmit = handleSubmit((data) => {
     if (data.content !== content) {
-      editDescription(data.content)
+      editText(data.content, locale, TextType.WelcomeDescription)
     }
     onClose()
   })

@@ -23,7 +23,8 @@
     "archive": "Archive",
     "editorship": "Editorial board",
     "login": "Login",
-    "profile": "Profile"
+    "profile": "Profile",
+    "authors": "For Authors"
   },
   "login": {
     "title": "Login",

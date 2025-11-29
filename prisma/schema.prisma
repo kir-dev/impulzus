@@ -86,10 +86,11 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model Impressum {
+model Texts {
   id        Int      @id @default(0)
   updatedAt DateTime @default(now()) @updatedAt
-  details   String   @db.Text
+  contentHu String   @db.Text
+  contentEn String   @db.Text
 }
 
 model Session {

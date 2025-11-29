@@ -5,5 +5,6 @@ export enum PATHS {
   ARCHIVE = '/archive',
   EDITORSHIP = '/editorship',
   LOGIN = '/login',
-  ERROR = '/error'
+  ERROR = '/error',
+  AUTHORS = '/authors'
 }

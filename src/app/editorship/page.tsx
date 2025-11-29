@@ -4,9 +4,18 @@ import { EditorshipModalButton } from '@/components/editorship/EditorshipModalBu
 import { UserGrid } from '@/components/editorship/UserGrid'
 import prisma from '@/lib/prisma'
 import { Flex } from '@chakra-ui/react'
+import { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
 import { authOptions } from '../api/auth/[...nextauth]/authOptions'
+
+export async function generateMetadata({ locale }: { locale?: string }): Promise<Metadata> {
+  const t = await getTranslations(locale)
+
+  return {
+    title: `Impulzus | ${t('editorship.title')}`
+  }
+}
 
 export default async function Editorship() {
   const users = await prisma.user.findMany()

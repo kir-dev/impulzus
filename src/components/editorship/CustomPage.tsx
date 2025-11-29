@@ -1,8 +1,9 @@
 'use client'
-import { editImpressum } from '@/util/impressum/actions'
+import { Locale } from '@/models/GenericTypes'
 import { PATHS } from '@/util/paths'
+import { editText } from '@/util/texts/actions'
 import { Button, Flex, FormControl, IconButton, Text } from '@chakra-ui/react'
-import { Impressum as ImpressumEntity } from '@prisma/client'
+import { Texts } from '@prisma/client'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -11,17 +12,18 @@ import { BackButton } from '../common/BackButton'
 import Markdown from '../common/editor/Markdown'
 import { MarkdownEditor } from '../common/editor/MarkdownEditor'
 
-export default function Impressum({ impressum, isAdmin }: { impressum: ImpressumEntity; isAdmin: boolean }) {
+export default function CustomPage({ text, isAdmin, locale }: { text: Texts; isAdmin: boolean; locale: Locale }) {
   const [isEditing, setIsEditing] = useState(false)
   const t = useTranslations()
+  const textContent = locale === 'hu' ? text.contentHu || '' : text.contentEn || ''
   const form = useForm<{ content: string }>({
     defaultValues: {
-      content: impressum.details
+      content: textContent
     }
   })
   const { handleSubmit } = form
   const onSubmit = handleSubmit((data) => {
-    editImpressum(data.content)
+    editText(data.content, locale, text.id)
     setIsEditing(false)
   })
   if (isEditing) {
@@ -53,9 +55,9 @@ export default function Impressum({ impressum, isAdmin }: { impressum: Impressum
         </IconButton>
       )}
       <Text mb={4} size="md" fontStyle="italic">
-        {t('common.updated')}: {impressum.updatedAt.toLocaleDateString('hu-HU')}
+        {t('common.updated')}: {text.updatedAt.toLocaleDateString('hu-HU')}
       </Text>
-      <Markdown markdown={impressum.details} />
+      <Markdown markdown={textContent} />
     </div>
   )
 }

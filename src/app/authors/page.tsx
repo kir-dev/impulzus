@@ -1,4 +1,5 @@
 import { PageHeading } from '@/components/common/PageHeading'
+import { Title } from '@/components/common/Title'
 import CustomPage from '@/components/editorship/CustomPage'
 import { TextType } from '@/models/GenericTypes'
 import { getUserLocale } from '@/services/locale'
@@ -12,14 +13,14 @@ export async function generateMetadata({ locale }: { locale?: string }): Promise
   const t = await getTranslations(locale)
 
   return {
-    title: `Impulzus | ${t('about.aboutUs')}`
+    title: `Impulzus | ${t('authors.authors')}`
   }
 }
 
 export default async function AuthorsPage() {
   const t = await getTranslations()
   const locale = (await getUserLocale()) === 'en' ? 'hu' : 'en'
-  const text = await getText(TextType.AboutUs)
+  const text = await getText(TextType.Authors)
   const session = await getServerSession(authOptions)
   const isAdmin = session?.user?.isAdmin ?? false
   if (!text) {
@@ -27,9 +28,10 @@ export default async function AuthorsPage() {
   }
 
   return (
-    <div>
-      <PageHeading text={t('about.aboutUs')} />
+    <>
+      <Title text={t('navitems.authors')} />
+      <PageHeading text={t('navitems.authors')} />
       <CustomPage text={text} isAdmin={isAdmin} locale={locale} />
-    </div>
+    </>
   )
 }
