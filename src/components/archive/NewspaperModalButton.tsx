@@ -1,6 +1,6 @@
-import { CreateNewsPaperDTO, NewspaperEntity } from '@/models/NewspaperEntity'
+import { CreateNewsPaperDTO } from '@/models/NewspaperEntity'
 import { uploadToS3 } from '@/util/files/upload'
-import { createNewspaper, editNewspaper } from '@/util/newspapers/actions'
+import { createNewspaper } from '@/util/newspapers/actions'
 import {
   Button,
   Checkbox,
@@ -8,7 +8,6 @@ import {
   FormErrorMessage,
   FormLabel,
   HStack,
-  IconButton,
   Input,
   Modal,
   ModalBody,
@@ -23,28 +22,35 @@ import {
 } from '@chakra-ui/react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { FaFile, FaPencilAlt } from 'react-icons/fa'
+import { FaFile } from 'react-icons/fa'
 import { getStatusString } from '../common/editor/editorUtils'
 import { FileUpload } from './FileUpload'
 
-export type Props = {
-  newspaper?: NewspaperEntity
+async function uploadFile(file: File | undefined): Promise<string> {
+  if (file) {
+    const res = await fetch('/api/get-upload-url', {
+      method: 'POST',
+      body: JSON.stringify({ type: file.type.split('/')[1] })
+    })
+    const response: { url: string; fileName: string } = await res.json()
+    await uploadToS3(response.url, file)
+    return response.fileName
+  }
+  throw new Error('No file provided for upload')
 }
 
-export const NewspaperModalButton = ({ newspaper }: Props) => {
+export const NewspaperModalButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const t = useTranslations()
   const router = useRouter()
   const methods = useForm<{
-    files?: FileList
+    pdf?: FileList
+    coverImage?: FileList
     title?: string
     grade?: number
-    coverImage?: string
     contents: string | undefined
-    pdf?: string
     isLatest: boolean
   }>()
 
@@ -55,45 +61,22 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
     reset,
     formState: { errors }
   } = methods
-  useEffect(() => {
-    if (newspaper) {
-      reset({
-        title: newspaper.title,
-        grade: newspaper.grade,
-        coverImage: newspaper.coverImage,
-        contents: newspaper.contents?.toString(),
-        pdf: newspaper.pdf,
-        isLatest: newspaper.isLatest ?? false
-      })
-    }
-  }, [newspaper, reset])
 
   const onSubmit = handleSubmit(async (data) => {
-    const file = data.files?.[0]
+    const pdf = data.pdf?.[0]
+    const coverImage = data.coverImage?.[0]
 
     const formData: Partial<CreateNewsPaperDTO> = {
       title: data.title,
       grade: Number(data.grade),
-      coverImage: data.coverImage,
       contents: data.contents?.split('\n'),
       isLatest: data.isLatest ?? false
     }
-    let fileName: string | undefined = undefined
     try {
-      if (file) {
-        const res = await fetch('/api/get-upload-url', {
-          method: 'GET'
-        })
-        const response: { url: string; fileName: string } = await res.json()
-        await uploadToS3(response.url, file)
-        fileName = response.fileName
-      }
-      if (newspaper?.id) {
-        await editNewspaper(newspaper.id, formData, fileName)
-      } else {
-        if (formData.title && formData.grade && formData.coverImage && fileName) {
-          await createNewspaper(formData as CreateNewsPaperDTO, fileName)
-        }
+      formData.coverImage = await uploadFile(coverImage)
+      formData.pdf = await uploadFile(pdf)
+      if (formData.title && formData.grade && formData.coverImage && formData.pdf) {
+        await createNewspaper(formData as CreateNewsPaperDTO)
       }
     } catch (e) {
       console.error(e)
@@ -105,21 +88,15 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
 
   return (
     <>
-      {newspaper ? (
-        <IconButton colorScheme="yellow" aria-label="edit" onClick={() => onOpen()}>
-          <FaPencilAlt />
-        </IconButton>
-      ) : (
-        <Button width="min-content" onClick={() => onOpen()}>
-          {t('archive.newPaper')}
-        </Button>
-      )}
+      <Button width="min-content" onClick={() => onOpen()}>
+        {t('archive.newPaper')}
+      </Button>
 
       <Modal motionPreset="slideInBottom" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={onSubmit}>
-            <ModalHeader>{newspaper ? newspaper.title + ' ' + t('common.editOf') : t('archive.newPaper')}</ModalHeader>
+            <ModalHeader>{t('archive.newPaper')}</ModalHeader>
             <ModalCloseButton onClick={() => reset()} />
             <ModalBody pb={6}>
               <FormProvider {...methods}>
@@ -174,31 +151,18 @@ export const NewspaperModalButton = ({ newspaper }: Props) => {
                   {errors.contents && <FormErrorMessage>{errors.contents.message?.toString()}</FormErrorMessage>}
                 </FormControl>
 
-                <FormControl mt={2} isInvalid={!!errors.coverImage}>
-                  <FormLabel>{t('archive.coverUrl')}</FormLabel>
-                  <Input
-                    type="text"
-                    {...register('coverImage', {
-                      pattern: {
-                        value:
-                          /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/,
-                        message: t('archive.badCoverUrl')
-                      },
-                      maxLength: {
-                        value: 200,
-                        message: t('archive.coverUrlTooLong') + ' ' + getStatusString(watch('coverImage') ?? '', 200)
-                      }
-                    })}
-                    placeholder="https://image"
-                  />
-                  {errors.coverImage && <FormErrorMessage>{errors.coverImage.message?.toString()}</FormErrorMessage>}
-                </FormControl>
-
+                <FileUpload
+                  fieldTitle={t('archive.coverImage')}
+                  required={true}
+                  fieldName="coverImage"
+                  buttonIcon={<FaFile />}
+                  accept={'.jpg,.jpeg,.png,.webp'}
+                  uploadButtonText={t('archive.upload')}
+                />
                 <FileUpload
                   fieldTitle="PDF"
-                  oldFileName={newspaper?.pdf}
-                  required={!newspaper?.pdf}
-                  fieldName="files"
+                  required={true}
+                  fieldName="pdf"
                   buttonIcon={<FaFile />}
                   accept={'.pdf'}
                   uploadButtonText={t('archive.upload')}

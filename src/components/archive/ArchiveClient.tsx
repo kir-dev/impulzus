@@ -96,7 +96,6 @@ export default function ArchiveClient({
                 </Link>
                 {isAdmin && (
                   <Stack justifySelf="flex-start" direction={['row', 'column']}>
-                    <NewspaperModalButton newspaper={n} />
                     <ConfirmDialogButton
                       bodyText={t('archive.deletePaperQuestion')}
                       confirmAction={() => deleteData(n.id)}

@@ -7,7 +7,7 @@ import { getServerSession } from 'next-auth'
 import { revalidatePath } from 'next/cache'
 import { s3Client } from '../files/s3-file-management'
 
-export const createNewspaper = async (newspaper: CreateNewsPaperDTO, fileName: string) => {
+export const createNewspaper = async (newspaper: CreateNewsPaperDTO) => {
   const session = await getServerSession(authOptions)
   const user = session?.user
   if (!user?.id || !user?.isAdmin) {
@@ -19,34 +19,9 @@ export const createNewspaper = async (newspaper: CreateNewsPaperDTO, fileName: s
   await prisma.newspaper.create({
     data: {
       ...newspaper,
-      pdf: await getUrlFromFileName(fileName),
+      pdf: await getUrlFromFileName(newspaper.pdf),
+      coverImage: await getUrlFromFileName(newspaper.coverImage),
       isLatest: newspaper.isLatest
-    }
-  })
-  revalidatePath('/archive/')
-}
-export const editNewspaper = async (id: number, data: Partial<CreateNewsPaperDTO>, filename?: string) => {
-  const session = await getServerSession(authOptions)
-  const user = session?.user
-  if (!user?.id || !user?.isAdmin) {
-    return
-  }
-  if (filename) {
-    const oldPaper = await prisma.newspaper.findUnique({
-      where: { id }
-    })
-    if (oldPaper) {
-      deleteFileFromBucket(oldPaper.pdf)
-    }
-  }
-  if (data.isLatest) {
-    await removeIsLatestFromAllNewspapers()
-  }
-  await prisma.newspaper.update({
-    where: { id },
-    data: {
-      ...data,
-      pdf: filename ? await getUrlFromFileName(filename) : undefined
     }
   })
   revalidatePath('/archive/')
@@ -67,6 +42,7 @@ export const deleteNewspaper = async (id: number) => {
   }
   revalidatePath('/archive/')
 }
+
 export const getUrlFromFileName = async (fileName: string) => {
   return `https://${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET_NAME}/${fileName}`
 }

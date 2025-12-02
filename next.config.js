@@ -14,6 +14,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'warp.sch.bme.hu',
         pathname: '/images/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'impulzus-web.bercsenyi.bme.hu',
+        pathname: '/impulzus-archive/**'
       }
     ]
   }

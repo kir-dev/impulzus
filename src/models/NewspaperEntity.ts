@@ -35,4 +35,6 @@ export class CreateNewsPaperDTO {
   grade: number
 
   isLatest: boolean
+
+  pdf: string
 }

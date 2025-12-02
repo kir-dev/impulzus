@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations()
 
   return {
-    title: `Impulzus | ${t('archive.archive')}`
+    title: `Impulzus | ${t('navitems.archive')}`
   }
 }
 

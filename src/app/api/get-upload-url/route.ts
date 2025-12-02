@@ -8,7 +8,12 @@ export const config = {
   runtime: 'edge'
 }
 
-export async function GET(req: Request): Promise<NextResponse> {
+export async function POST(req: Request): Promise<NextResponse> {
+  const body = await req.json()
+  const { type } = body
+  if (type !== 'pdf' && type !== 'jpg' && type !== 'png' && type !== 'jpeg' && type !== 'webp') {
+    return NextResponse.json({ error: 'Invalid file type' }, { status: 400 })
+  }
   const session = await getServerSession(authOptions)
   if (!session?.user?.isAdmin) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -19,7 +24,7 @@ export async function GET(req: Request): Promise<NextResponse> {
     return NextResponse.json({ error: 'Bucket name is not defined' }, { status: 400 })
   }
 
-  const fileName = nanoid(16).concat('.pdf')
+  const fileName = nanoid(16).concat('.' + type)
   const url = await createPresignedUrlToUpload({
     bucketName,
     fileName
