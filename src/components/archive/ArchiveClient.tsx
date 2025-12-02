@@ -4,6 +4,7 @@ import { ConfirmDialogButton } from '@/components/common/ConfirmDialogButton'
 import { PageHeading } from '@/components/common/PageHeading'
 import { Title } from '@/components/common/Title'
 import { NewspaperEntity } from '@/models/NewspaperEntity'
+import { deleteNewspaper } from '@/util/newspapers/actions'
 import {
   Box,
   GridItem,
@@ -24,15 +25,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 
-export default function ArchiveClient({
-  newspapers,
-  isAdmin,
-  deleteData
-}: {
-  newspapers: NewspaperEntity[]
-  isAdmin: boolean
-  deleteData: (id: number) => void
-}) {
+export default function ArchiveClient({ newspapers, isAdmin }: { newspapers: NewspaperEntity[]; isAdmin: boolean }) {
   const latestGrade = Math.max(...newspapers.map((n) => n.grade))
   const [grade, setGrade] = useState<number>(latestGrade)
   const [filteredNewspapers, setFilteredNewspapers] = useState<NewspaperEntity[]>(newspapers)
@@ -98,7 +91,7 @@ export default function ArchiveClient({
                   <Stack justifySelf="flex-start" direction={['row', 'column']}>
                     <ConfirmDialogButton
                       bodyText={t('archive.deletePaperQuestion')}
-                      confirmAction={() => deleteData(n.id)}
+                      confirmAction={() => deleteNewspaper(n.id)}
                       headerText={t('archive.deletePaper')}
                       confirmButtonText={t('common.delete')}
                       refuseButtonText={t('common.cancel')}

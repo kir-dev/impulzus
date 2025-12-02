@@ -17,9 +17,5 @@ export default async function Archive() {
   const newspapers = await prisma.newspaper.findMany()
   const session = await getServerSession(authOptions)
   const isAdmin = !!session?.user?.isAdmin
-  const deleteData = async (id: number) => {
-    'use server'
-    prisma.newspaper.delete({ where: { id } })
-  }
-  return <ArchiveClient newspapers={newspapers} isAdmin={isAdmin} deleteData={deleteData} />
+  return <ArchiveClient newspapers={newspapers} isAdmin={isAdmin} />
 }

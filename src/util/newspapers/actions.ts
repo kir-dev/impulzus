@@ -40,6 +40,9 @@ export const deleteNewspaper = async (id: number) => {
   if (newsPaper.pdf) {
     deleteFileFromBucket(newsPaper.pdf)
   }
+  if (newsPaper.coverImage) {
+    deleteFileFromBucket(newsPaper.coverImage)
+  }
   revalidatePath('/archive/')
 }
 
