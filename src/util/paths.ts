@@ -6,5 +6,6 @@ export enum PATHS {
   EDITORSHIP = '/editorship',
   LOGIN = '/login',
   ERROR = '/error',
-  AUTHORS = '/authors'
+  AUTHORS = '/authors',
+  KWC = '/kwc'
 }

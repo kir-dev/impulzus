@@ -24,7 +24,8 @@
     "editorship": "Szerkesztőség",
     "login": "Belépés",
     "profile": "Profil",
-    "authors": "Szerzőinknek"
+    "authors": "Szerzőinknek",
+    "kwc": "Kwc"
   },
   "login": {
     "title": "Belépés",
@@ -103,6 +104,21 @@
     "isLatest": "Legújabb lapként jelenjen meg",
     "latestPaper": "Legfrissebb szám",
     "openPdf": "Nyisd meg PDF-ben"
+  },
+  "kwc": {
+    "title": "KWC megfejtések",
+    "newSolution": "Új megfejtés",
+    "solutionTitle": "Megfejtés címe",
+    "content": "Megfejtés",
+    "image": "Megfejtés képe",
+    "upload": "Feltöltés",
+    "titleRequired": "A cím kötelező!",
+    "contentRequired": "A megfejtés kötelező!",
+    "imageRequired": "A kép kötelező!",
+    "tooLong": "Ez a mező túl hosszú!",
+    "empty": "Nem található megfejtés",
+    "delete": "Megfejtés törlése",
+    "deleteQuestion": "Biztosan törlöd ezt a megfejtést?"
   },
   "editorship": {
     "title": "Szerkesztőség",
