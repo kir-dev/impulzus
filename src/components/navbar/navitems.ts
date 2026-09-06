@@ -6,5 +6,6 @@ export const NAV_ITEMS = [
   { text: 'archive', href: PATHS.ARCHIVE },
   { text: 'editorship', href: PATHS.EDITORSHIP },
   { text: 'authors', href: PATHS.AUTHORS },
+  { text: 'kwc', href: PATHS.KWC },
   { text: 'login', href: PATHS.LOGIN }
 ]

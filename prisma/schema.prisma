@@ -34,6 +34,14 @@ model Newspaper {
   isLatest   Boolean
 }
 
+model Solution {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?  @db.Text
+  image     String?
+  createdAt DateTime @default(now())
+}
+
 model Meeting {
   id        Int      @id @default(1)
   date      DateTime
